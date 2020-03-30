@@ -9,26 +9,39 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#Set Lib install location
-```{r}
+#Set Lib install location for Desktop
+```{r, eval = TRUE}
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRatLibLocations"))
 PackRatLibLocations <- file.path("L:/RStudios/RPackRatLibLocations")
 ```
 
+#Set Lib install location for Laptop
+```{r, eval = FALSE}
+.libPaths("") 
+PackRatLibLocations <- file.path("")
+```
+
+#Package loadng
+```{r}
+library("yaml", lib.loc = PackRatLibLocations)
+```
 
 ```{r}
 #Installation of CRAN Packages
+install.packages("devtools")
 library(devtools)
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("foreach", version = "1.4.4", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("bit64", version = "0.9-7", upgrade = "never"))
-#withr::with_libpaths(new = PackRatLibLocations, code = install_version("splines", version = "3.5.1", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("Formula", version = "1.2-3", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("assertthat", version = "0.2.0", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("mixsqp", version = "0.1-97", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("latticeExtra", version = "0.6-28", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("blob", version = "1.1.1", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("yaml", version = "2.2.0", upgrade = "never"))
+
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("numDeriv", version = "2016.8-1", upgrade = "never"))
-withr::with_libpaths(new = PackRatLibLocations, code = install_version("pillar", version = "1.3.1",  upgrade = "never"))
+
+install_version("pillar", version = "1.3.1",  upgrade = "never")
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("RSQLite", version = "2.1.1",  upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("backports", version = "1.1.3",  upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("lattice", version = "0.20-38",  upgrade = "never"))
@@ -40,7 +53,7 @@ withr::with_libpaths(new = PackRatLibLocations, code = install_version("colorspa
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("htmltools", version = "0.3.6",  upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("Matrix", version = "1.2-16",  upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("plyr", version = "1.8.4",  upgrade = "never"))
-withr::with_libpaths(new = PackRatLibLocations, code = install_version("XML", version = "3.98-1.19",  upgrade = "never"))
+install_version("XML", version = "3.98-1.19",  upgrade = "never")
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("pkgconfig", version = "2.0.2",  upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("emdbook", version = "1.3.11",  upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("xtable", version = "1.8-3",  upgrade = "never"))
@@ -87,16 +100,14 @@ withr::with_libpaths(new = PackRatLibLocations, code = install_version("xfun", v
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("coda", version = "0.19-2", upgrade = "never"))
 ```
 
-#Package loadng
-```{r}
-library("pillar", lib.loc = PackRatLibLocations)
-```
+
 
 #Packages that appear to already be installed directly through R
 ```{r}
 #install_version("grid", version = "3.5.1") #Preinstalled.... System Tool?
 #install_version("compiler", version = "3.5.1")  #Preinstalled.... System Tool?
 #install_version("tools", version = "3.5.1") #Preinstalled.... System Tool?
+#withr::with_libpaths(new = PackRatLibLocations, code = install_version("splines", version = "3.5.1", upgrade = "never"))
 ```
 
 #Packages that do not appear to be in the Cran DB
