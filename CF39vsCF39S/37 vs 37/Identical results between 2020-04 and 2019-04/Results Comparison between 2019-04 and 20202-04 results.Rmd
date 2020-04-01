@@ -1,0 +1,88 @@
+---
+title: "Comparison Script to detect differences between days"
+author: "Trevor Randall"
+date: "31/03/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Set working directory and Library Directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/37 vs 37/Identical results between 2020-04 and 2019-04")
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRatLibLocations"))
+
+
+```
+
+```{r}
+library("readr")
+```
+
+
+#Opening Data sets to compare
+```{r}
+TDESEQList_37vs37OLD <- read_delim("./2019-04_37vs37_DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(TDESEQList_37vs37OLD) <- c("ID_37_Old", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+
+TDESEQList_37vs37New <- read_delim("./2020-04_37vs37_DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(TDESEQList_37vs37New) <- c("ID_37_New", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+```
+
+
+```{r}
+write.table(x = TDESEQList_37vs37OLD, file="./TDESEQList_37vs37OLD.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQList_37vs37OLD), quote=F)
+
+write.table(x = TDESEQList_37vs37New, file="./TDESEQList_37vs37New.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQList_37vs37New), quote=F)
+```
+
+##Identify trends from the 2 files
+```{r}
+OldAnalysis <- read_delim("./TDESEQList_37vs37OLD.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+NewAnalysis <- read_delim("./TDESEQList_37vs37New.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+Analysis_SameGenes <- OldAnalysis[(OldAnalysis$baseMean %in% NewAnalysis$baseMean), ]
+
+OldAnalysis_DiffGenesToNewAnalysis <- OldAnalysis[!((OldAnalysis$baseMean %in% NewAnalysis$baseMean)& (!is.na(OldAnalysis$padj))), ]
+
+NewAnalysis_DiffGenesToOldAnalysis <- NewAnalysis[!((NewAnalysis$baseMean %in% OldAnalysis$baseMean)& (!is.na(NewAnalysis$padj))),]
+
+write.table(x = Analysis_SameGenes, file="./Analysis_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(Analysis_SameGenes), quote=F)
+
+write.table(x = OldAnalysis_DiffGenesToNewAnalysis, file="./OldAnalysis_DiffGenesToNewAnalysis.txt", sep="\t", row.names=FALSE, col.names=colnames(OldAnalysis_DiffGenesToNewAnalysis), quote=F)
+
+write.table(x = NewAnalysis_DiffGenesToOldAnalysis, file="./NewAnalysis_DiffGenesToOldAnalysis.txt", sep="\t", row.names=FALSE, col.names=colnames(NewAnalysis_DiffGenesToOldAnalysis), quote=F)
+
+Difference <- OldAnalysis_DiffGenesToNewAnalysis[(((NewAnalysis_DiffGenesToOldAnalysis$baseMean %in% OldAnalysis_DiffGenesToNewAnalysis$baseMean))|| ((OldAnalysis_DiffGenesToNewAnalysis$baseMean %in% NewAnalysis_DiffGenesToOldAnalysis$baseMean))),] #TODO Remove once troubleshooting done
+
+```
+
+Obtain Numbers for compairisons
+```{r}
+Number_OldAnalysis <- nrow(OldAnalysis)
+Number_NewAnalysis <- nrow(NewAnalysis)
+```
+
+
+```{r}
+library(VennDiagram)
+NumberAnalysis_SameGenes <- nrow(Analysis_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD3 <- draw.pairwise.venn(area1 = Number_OldAnalysis, area2 = Number_NewAnalysis,cross.area = NumberAnalysis_SameGenes, category = c("TDESEQ37vs37", "TEdgeR_37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD3), top="TDESEQ to TEdgeR VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennTDESEQvsTEdgeR.png', width=8, height=8, units="in",res=300)
+dev.off()
+```

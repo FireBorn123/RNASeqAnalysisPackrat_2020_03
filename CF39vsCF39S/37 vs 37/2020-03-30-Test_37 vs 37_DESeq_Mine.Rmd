@@ -30,6 +30,8 @@ biocLite("lazyeval")
 Since the remainder of the analysis does not differ in between Linux and Windows, the rest of the analysis was done in Windows. The first part of the actual analysis is to set the working directory. This can be done using the commands below:
 
 ```{r, include=TRUE}
+#Set Library Directory
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRatLibLocations"))
 #Set working directory
 #PC Path
 setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/37 vs 37/My DESEQ Script")
