@@ -15,6 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/37 vs 37/Identical results between 2020-04 and 2019-04")
 .libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRatLibLocations"))
 
+#PAdjusted value to subset from data set
+PAdjValue = 0.05
 
 ```
 
@@ -27,9 +29,11 @@ library("readr")
 ```{r}
 TDESEQList_37vs37OLD <- read_delim("./2019-04_37vs37_DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 colnames(TDESEQList_37vs37OLD) <- c("ID_37_Old", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+TDESEQList_37vs37OLD <- TDESEQList_37vs37OLD[((TDESEQList_37vs37OLD$padj <PAdjValue)& (!is.na(TDESEQList_37vs37OLD$padj))), ]
 
 TDESEQList_37vs37New <- read_delim("./2020-04_37vs37_DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 colnames(TDESEQList_37vs37New) <- c("ID_37_New", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+TDESEQList_37vs37New <- TDESEQList_37vs37New[((TDESEQList_37vs37New$padj <PAdjValue)& (!is.na(TDESEQList_37vs37New$padj))), ]
 ```
 
 
@@ -49,9 +53,9 @@ NewAnalysis <- read_delim("./TDESEQList_37vs37New.txt",
 
 Analysis_SameGenes <- OldAnalysis[(OldAnalysis$baseMean %in% NewAnalysis$baseMean), ]
 
-OldAnalysis_DiffGenesToNewAnalysis <- OldAnalysis[!((OldAnalysis$baseMean %in% NewAnalysis$baseMean)& (!is.na(OldAnalysis$padj))), ]
+OldAnalysis_DiffGenesToNewAnalysis <- OldAnalysis[!((OldAnalysis$baseMean %in% NewAnalysis$baseMean) & (!is.na(OldAnalysis$padj))), ]
 
-NewAnalysis_DiffGenesToOldAnalysis <- NewAnalysis[!((NewAnalysis$baseMean %in% OldAnalysis$baseMean)& (!is.na(NewAnalysis$padj))),]
+NewAnalysis_DiffGenesToOldAnalysis <- NewAnalysis[!((NewAnalysis$baseMean %in% OldAnalysis$baseMean) & (!is.na(NewAnalysis$padj))),]
 
 write.table(x = Analysis_SameGenes, file="./Analysis_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(Analysis_SameGenes), quote=F)
 
@@ -83,6 +87,6 @@ VD3 <- draw.pairwise.venn(area1 = Number_OldAnalysis, area2 = Number_NewAnalysis
 require(gridExtra)
 grid.arrange(gTree(children=VD3), top="TDESEQ to TEdgeR VennDiagram 37 vs 37")
 
-dev.copy(png, filename = './VennDiagram/VennTDESEQvsTEdgeR.png', width=8, height=8, units="in",res=300)
+dev.copy(png, filename = './VennTDESEQvsTEdgeR.png', width=8, height=8, units="in",res=300)
 dev.off()
 ```

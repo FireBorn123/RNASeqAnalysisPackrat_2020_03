@@ -26,6 +26,8 @@ PackRatLibLocations <- file.path("")
 library("yaml", lib.loc = PackRatLibLocations)
 ```
 
+#Note that R version = 3.5.1
+
 ```{r}
 #Installation of CRAN Packages
 install.packages("devtools")
