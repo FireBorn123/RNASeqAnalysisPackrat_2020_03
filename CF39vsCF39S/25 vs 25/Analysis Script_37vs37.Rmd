@@ -1,0 +1,410 @@
+---
+title: "Isolating DE Genes from Expression analysis"
+author: "Trevor Randall"
+date: "February 27, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries to install:
+```{r, eval=FALSE}
+install.packages('VennDiagram')
+```
+
+
+Libraries to open:
+```{r}
+library(readr)
+library(VennDiagram)
+```
+
+```{r}
+setwd("C:/Users/Trevor/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeq Expression Profiles 1/RNASeq Data Files Analysis/CF39 vs CF39S/37 vs 37/DE_Reg_Genes_Analysis/")
+ColNameLablesDESeqJoe <- c("locus", "baseMean", "baseMeanA", "baseMeanB", "foldChange", "log2FoldChange", "pval", "padj")
+ColNameLablesEdgeR <- c("locus", "LogFC", "unshrunk.logFC", "LogCPM", "PValue", "FDR")
+ColNameLablesDESeqTrevor <- c("locus", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+ColNameLablesLVoom <- c("locus", "logFC", "AveExpr", "t_(logFold_Div_SE)", "PValue", "adj.P.Val", "B" )
+
+```
+
+Opening Datasets
+
+```{r}
+JDESeq_37vs37 <- read.delim("../My DESEQ Script (JOE)/DESeq_resultsSHOCKED.txt") 
+colnames(JDESeq_37vs37) <- ColNameLablesDESeqJoe
+
+TEdgeR_DA2_37vs37 <- read.csv("../My EdgeR Script/DA2_tr_differentially_regulated_genes.csv")
+colnames(TEdgeR_DA2_37vs37) <- ColNameLablesEdgeR
+
+TDESeq_37vs37 <- read_delim("../My DESEQ Script/DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(TDESeq_37vs37) <- ColNameLablesDESeqTrevor
+
+TLVoom_37vs37 <- read_delim("../My LimmaVoom Analysis/TLVoom_37vs37.txt", "\t", escape_double = FALSE, trim_ws = TRUE) 
+colnames(TLVoom_37vs37) <- ColNameLablesLVoom
+
+LocusGeneAssociation <- read_csv("../Locus_GeneNamesAndPredictedFunction.csv")
+```
+
+#Add Gene info to the files based on locus:
+```{r}
+JDESeq_37vs37 <-merge(JDESeq_37vs37, LocusGeneAssociation, by  = c("locus"))
+
+TEdgeR_DA2_37vs37 <- merge(TEdgeR_DA2_37vs37, LocusGeneAssociation, by  = c("locus"))
+
+TDESeq_37vs37 <-merge(TDESeq_37vs37, LocusGeneAssociation, by ="locus")
+
+TLVoom_37vs37 <- merge(TLVoom_37vs37, LocusGeneAssociation, by = "locus")
+```
+
+Parapemers for Screening:
+```{r}
+#PAdjusted value to subset from data set
+PAdjValue = 0.05
+
+#False discovery rate to screen for
+FDRValue = 0.05
+```
+
+#Data Screening
+
+Obtain DE Genes from the DESeq data that was parsed using the algorithem that Joe set up:
+
+```{r}
+JDESEQ37vs37 <- JDESeq_37vs37[((JDESeq_37vs37$padj <PAdjValue)& (!is.na(JDESeq_37vs37$padj))), ]
+
+write.table(x = JDESEQ37vs37, file="./JoeDESEQ37vs37.txt", sep="\t", row.names=FALSE, col.names=colnames(JDESEQ37vs37), quote=F)
+```
+
+Obtain DE Genes from the DESeq data that was parsed using the algorithem that Trevor set up:
+
+```{r}
+TDESEQ37vs37 <- TDESeq_37vs37[((TDESeq_37vs37$padj <PAdjValue)& (!is.na(TDESeq_37vs37$padj))), ]
+
+write.table(x = TDESEQ37vs37, file="./TDESEQ37vs37.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQ37vs37), quote=F)
+```
+
+
+Obtain DE Gene list from the EdgeR analysis file "DA2_tr_differentially_regulated_genes_all.csv" that I set up using the online protocol:
+```{r}
+TDA2_EdgeR_37vs37 <- TEdgeR_DA2_37vs37[(TEdgeR_DA2_37vs37$FDR <FDRValue), ]
+
+write.table(x = TDA2_EdgeR_37vs37, file="./TrevorEdgeRDA2_37vs37.txt", sep="\t", row.names=FALSE, col.names=colnames(TDA2_EdgeR_37vs37), quote=F)
+```
+
+Obtain DE Genes list from the Limma-Voom analysis file "TLVoom_37vs37.txt" that I set up using the online protocol:
+```{r}
+TLVoom37vs37_DE <- TLVoom_37vs37[((TLVoom_37vs37$adj.P.Val <PAdjValue)& (!is.na(TLVoom_37vs37$adj.P.Val))), ]
+
+write.table(x = TLVoom37vs37_DE, file="./TLVoom37vs37_DE.txt", sep="\t", row.names=FALSE, col.names=colnames(TLVoom37vs37_DE), quote=F)
+```
+
+#Data Compairisons
+
+Comparison between Joe's DESeq and my EdgeR analysis:
+
+```{r}
+J37vs37DESeq <- read_delim("./JoeDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+DA2Trevor37vs37EdgeR <- read_delim("./TrevorEdgeRDA2_37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+TEdgeRvsJDESeq_SameGenes <- J37vs37DESeq[(J37vs37DESeq$locus %in% DA2Trevor37vs37EdgeR$locus), ]
+
+JDESEQ_DiffGenesToTEdgeR <- J37vs37DESeq[!((J37vs37DESeq$locus %in% DA2Trevor37vs37EdgeR$locus)& (!is.na(J37vs37DESeq$padj))), ]
+
+TEdgeR_DiffGenesToJDESEQ <- DA2Trevor37vs37EdgeR[!((DA2Trevor37vs37EdgeR$locus %in% J37vs37DESeq$locus)& (!is.na(DA2Trevor37vs37EdgeR$FDR))),]
+
+write.table(x = TEdgeRvsJDESeq_SameGenes, file="./Compairison/TEdgeRvsJDESeq_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(TEdgeRvsJDESeq_SameGenes), quote=F)
+
+write.table(x = JDESEQ_DiffGenesToTEdgeR, file="./Compairison/JDESEQ_DiffGenesToTEdgeR.txt", sep="\t", row.names=FALSE, col.names=colnames(JDESEQ_DiffGenesToTEdgeR), quote=F)
+
+write.table(x = TEdgeR_DiffGenesToJDESEQ, file="./Compairison/TEdgeR_DiffGenesToJDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(TEdgeR_DiffGenesToJDESEQ), quote=F)
+
+#Difference <- JDESEQ_DiffGenesToTEdgeR[(((TEdgeR_DiffGenesToJDESEQ$locus %in% JDESEQ_DiffGenesToTEdgeR$locus))|| ((JDESEQ_DiffGenesToTEdgeR$locus %in% TEdgeR_DiffGenesToJDESEQ$locus))),] #TODO Remove once troubleshooting done
+```
+
+Compairison between Joe's DESeq and my DESeq Data
+
+```{r}
+T37vs37DESeq <- read_delim("./TDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+if(!exists("J37vs37DESeq")){
+  J37vs37DESeq <- read_delim("./JoeDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+TDESEQvsJDESEQ_SameGenes <- J37vs37DESeq[(J37vs37DESeq$locus %in% T37vs37DESeq$locus), ]
+
+TDESEQ_DiffGenesToJDESEQ <- T37vs37DESeq[!((T37vs37DESeq$locus %in% J37vs37DESeq$locus)& (!is.na(T37vs37DESeq$padj))),]
+
+JDESEQ_DiffGenesToTDESEQ <- J37vs37DESeq[!((J37vs37DESeq$locus %in% T37vs37DESeq$locus)& (!is.na(J37vs37DESeq$padj))),]
+
+write.table(x = TDESEQvsJDESEQ_SameGenes, file="./Compairison/TDESEQvsJDESEQ_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQvsJDESEQ_SameGenes), quote=F)
+
+write.table(x = TDESEQ_DiffGenesToJDESEQ, file="./Compairison/TDESEQ_DiffGenesToJDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQ_DiffGenesToJDESEQ), quote=F)
+
+write.table(x = JDESEQ_DiffGenesToTDESEQ, file="./Compairison/JDESEQ_DiffGenesToTDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(JDESEQ_DiffGenesToTDESEQ), quote=F)
+```
+
+Comparison of my DESeq data and my edgeR analysis
+
+```{r}
+if(!exists("DA2Trevor37vs37EdgeR")){
+  DA2Trevor37vs37EdgeR <- read_delim("./TrevorEdgeRDA2_37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+if(!exists("T37vs37DESeq")){
+  T37vs37DESeq <- read_delim("./TDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE) #TODO Look into read error
+}
+
+
+TDESEQvsTEdgeR_SameGenes <- T37vs37DESeq[(T37vs37DESeq$locus %in% DA2Trevor37vs37EdgeR$locus), ]
+
+TDESEQ_DiffGenesToTEdgeR <- T37vs37DESeq[!((T37vs37DESeq$locus %in% DA2Trevor37vs37EdgeR$locus)& (!is.na(T37vs37DESeq$padj))),]
+
+TEdgeR_DiffGenesToTDESEQ <- DA2Trevor37vs37EdgeR[!((DA2Trevor37vs37EdgeR$locus %in% T37vs37DESeq$locus)& (!is.na(DA2Trevor37vs37EdgeR$FDR))),]
+
+write.table(x = TDESEQvsTEdgeR_SameGenes, file="./Compairison/TDESEQvsTEdgeR_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQvsTEdgeR_SameGenes), quote=F)
+
+write.table(x = TDESEQ_DiffGenesToTEdgeR, file="./Compairison/TDESEQ_DiffGenesToTEdgeR.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQ_DiffGenesToTEdgeR), quote=F)
+
+write.table(x = TEdgeR_DiffGenesToTDESEQ, file="./Compairison/TEdgeR_DiffGenesToTDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(TEdgeR_DiffGenesToTDESEQ), quote=F)
+```
+
+
+Comparison of TDESEQ to TLVoom
+```{r}
+T37vs37LVoom <- read_delim("./TLVoom37vs37_DE.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+if(!exists("T37vs37DESeq")){
+  T37vs37DESeq <- read_delim("./TDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE) #TODO Look into read error
+}
+
+TDESEQvsTLVoom_SameGenes <- T37vs37LVoom[(T37vs37LVoom$locus %in% T37vs37DESeq$locus), ]
+
+TDESEQ_DiffGenesToTLVoom <- T37vs37DESeq[!((T37vs37DESeq$locus %in% T37vs37LVoom$locus)& (!is.na(T37vs37DESeq$padj))),]
+
+TLVoom_DiffGenesToTDESEQ <- T37vs37LVoom[!((T37vs37LVoom$locus %in% T37vs37DESeq$locus)& (!is.na(T37vs37LVoom$adj.P.Val))),]
+
+write.table(x = TDESEQvsTLVoom_SameGenes, file="./Compairison/TDESEQvsTLVoom_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQvsTLVoom_SameGenes), quote=F)
+
+write.table(x = TDESEQ_DiffGenesToTLVoom, file="./Compairison/TDESEQ_DiffGenesToTLVoom.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQ_DiffGenesToTLVoom), quote=F)
+
+write.table(x = TLVoom_DiffGenesToTDESEQ, file="./Compairison/TLVoom_DiffGenesToTDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(TLVoom_DiffGenesToTDESEQ), quote=F)
+```
+
+
+Compairison of TEdgeR to TLVoom
+```{r}
+if(!exists("T37vs37LVoom")){
+  T37vs37LVoom <- read_delim("./TLVoom37vs37_DE.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+if(!exists("DA2Trevor37vs37EdgeR")){
+  DA2Trevor37vs37EdgeR <- read_delim("./TrevorEdgeRDA2_37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+TEdgeRvsTLVoom_SameGenes <- T37vs37LVoom[(T37vs37LVoom$locus %in% DA2Trevor37vs37EdgeR$locus), ]
+
+TEdgeR_DiffGenesToTLVoom <- DA2Trevor37vs37EdgeR[!((DA2Trevor37vs37EdgeR$locus %in% T37vs37LVoom$locus)& (!is.na(DA2Trevor37vs37EdgeR$FDR))),]
+
+TLVoom_DiffGenesToTEdgeR <- T37vs37LVoom[!((T37vs37LVoom$locus %in% DA2Trevor37vs37EdgeR$locus)& (!is.na(T37vs37LVoom$adj.P.Val))),]
+
+write.table(x = TEdgeRvsTLVoom_SameGenes, file="./Compairison/TEdgeRvsTLVoom_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(TEdgeRvsTLVoom_SameGenes), quote=F)
+
+write.table(x = TEdgeR_DiffGenesToTLVoom, file="./Compairison/TEdgeR_DiffGenesToTLVoom.txt", sep="\t", row.names=FALSE, col.names=colnames(TEdgeR_DiffGenesToTLVoom), quote=F)
+
+write.table(x = TLVoom_DiffGenesToTEdgeR, file="./Compairison/TLVoom_DiffGenesToTEdgeR.txt", sep="\t", row.names=FALSE, col.names=colnames(TLVoom_DiffGenesToTEdgeR), quote=F)
+```
+
+Compairison of JDESeq to TLVoom
+```{r}
+if(!exists("T37vs37LVoom")){
+  T37vs37LVoom <- read_delim("./TLVoom37vs37_DE.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+if(!exists("J37vs37DESeq")){
+  J37vs37DESeq <- read_delim("./JoeDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+JDESEQvsTLVoom_SameGenes <- T37vs37LVoom[(T37vs37LVoom$locus %in% J37vs37DESeq$locus), ]
+
+JDESEQ_DiffGenesToTLVoom <- J37vs37DESeq[!((J37vs37DESeq$locus %in% T37vs37LVoom$locus)& (!is.na(J37vs37DESeq$padj))),]
+
+TLVoom_DiffGenesToJDESEQ <- T37vs37LVoom[!((T37vs37LVoom$locus %in% J37vs37DESeq$locus)& (!is.na(T37vs37LVoom$adj.P.Val))),]
+
+write.table(x = JDESEQvsTLVoom_SameGenes, file="./Compairison/JDESEQvsTLVoom_SameGenes.txt", sep="\t", row.names=FALSE, col.names=colnames(JDESEQvsTLVoom_SameGenes), quote=F)
+
+write.table(x = JDESEQ_DiffGenesToTLVoom, file="./Compairison/JDESEQ_DiffGenesToTLVoom.txt", sep="\t", row.names=FALSE, col.names=colnames(JDESEQ_DiffGenesToTLVoom), quote=F)
+
+write.table(x = TLVoom_DiffGenesToJDESEQ, file="./Compairison/TLVoom_DiffGenesToJDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(TLVoom_DiffGenesToJDESEQ), quote=F)
+```
+
+#Create Venn Diagrams
+Ensure required variables in the environment
+```{r}
+if(!exists("DA2Trevor37vs37EdgeR")){
+  DA2Trevor37vs37EdgeR <- read_delim("./TrevorEdgeRDA2_37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+if(!exists("T37vs37DESeq")){
+  T37vs37DESeq <- read_delim("./TDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE) #TODO Look into read error
+}
+
+if(!exists("J37vs37DESeq")){
+  J37vs37DESeq <- read_delim("./JoeDESEQ37vs37.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+
+if(!exists("T37vs37LVoom")){
+  T37vs37LVoom <- read_delim("./TLVoom37vs37_DE.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+}
+```
+
+Obtain Numbers for compairisons
+```{r}
+Number_TEdgeR <- nrow(DA2Trevor37vs37EdgeR)
+Number_JDESeq <- nrow(J37vs37DESeq)
+Number_TDESEQ <- nrow(T37vs37DESeq)
+Number_TLVoom <- nrow(T37vs37LVoom)
+```
+
+Compairison of TEdgeR to JDESeq (Venn Diagram)
+```{r}
+Number_TEdgeRJDESeq_SameGene <- nrow(TEdgeRvsJDESeq_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD1 <- draw.pairwise.venn(area1 = Number_TEdgeR, area2 = Number_JDESeq,cross.area = Number_TEdgeRJDESeq_SameGene, category = c("TEdgeR37vs37", "JDESEQ37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD1), top="TEdgeR to JDESeq VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennTEdgeRvsJDESeq.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+Comparison of TDESEQ to JDESEQ
+```{r}
+NumberTDESEQJDESEQ_SameGenes <- nrow(TDESEQvsJDESEQ_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD2 <- draw.pairwise.venn(area1 = Number_TDESEQ, area2 = Number_JDESeq,cross.area = NumberTDESEQJDESEQ_SameGenes, category = c("TDESEQ37vs37", "JDESEQ37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD2), top="TDESEQ to JDESEQ VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennTDESEQvsJDESEQ.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+Comparison of TDESEQ to TEdgeR
+```{r}
+NumberTDESEQvsTEdgeR_SameGenes <- nrow(TDESEQvsTEdgeR_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD3 <- draw.pairwise.venn(area1 = Number_TDESEQ, area2 = Number_TEdgeR,cross.area = NumberTDESEQvsTEdgeR_SameGenes, category = c("TDESEQ37vs37", "TEdgeR_37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD3), top="TDESEQ to TEdgeR VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennTDESEQvsTEdgeR.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+Comparison of TLVoom to TDESEQ
+```{r}
+NumberTDESEQvsTLVoom_SameGenes <- nrow(TDESEQvsTLVoom_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD4 <- draw.pairwise.venn(area1 = Number_TLVoom, area2 = Number_TDESEQ, cross.area = NumberTDESEQvsTLVoom_SameGenes, category = c("TLVoom37vs37", "TDESEQ_37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-45, 45), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD4), top="TLVoom to TDESEQ VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennTDESEQvsTLVoom.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+Comparison of TLVoom to TEdgeR
+```{r}
+NumberTEdgeRvsTLVoom_SameGenes <- nrow(TEdgeRvsTLVoom_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD5 <- draw.pairwise.venn(area1 = Number_TLVoom, area2 = Number_TEdgeR, cross.area = NumberTEdgeRvsTLVoom_SameGenes, category = c("TLVoom37vs37", "TEdgeR_37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD5), top="TLVoom to TEdgeR VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennTEdgeRvsTLVoom.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+Comparison of TLVoom to JDESEQ
+
+```{r}
+NumberJDESEQvsTLVoom_SameGenes <- nrow(JDESEQvsTLVoom_SameGenes)
+
+dev.off()
+
+grid.newpage()
+VD6 <- draw.pairwise.venn(area1 = Number_TLVoom, area2 = Number_JDESeq, cross.area = NumberJDESEQvsTLVoom_SameGenes, category = c("TLVoom37vs37", "JDESEQ_37vs37"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD6), top="TLVoom to JDESEQ VennDiagram 37 vs 37")
+
+dev.copy(png, filename = './VennDiagram/VennJDESEQvsTLVoom.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+#Session Info
+```{r}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+#Citations
+```{r}
+sink(file = "./SessionCitations.txt")
+
+citation("VennDiagram")
+citation("readr")
+citation("gridExtra")
+
+sink(file = NULL)
+```
+
+Venn Diagram Page: https://rstudio-pubs-static.s3.amazonaws.com/13301_6641d73cfac741a59c0a851feb99e98b.html?fbclid=IwAR1h2pL9V1tblTk4z9E1JX9udrel2ILE_WKKp2M8Kjd6HB0ZC6wwctFu61Y

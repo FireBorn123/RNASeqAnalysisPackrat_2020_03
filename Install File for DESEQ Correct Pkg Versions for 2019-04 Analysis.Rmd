@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Set Lib install location for Desktop
 ```{r, eval = TRUE}
-.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRatLibLocations"))
-PackRatLibLocations <- file.path("L:/RStudios/RPackRatLibLocations")
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+PackRatLibLocations <- file.path("L:/RStudios/RPackRat_2019_04_DESEQLibs")
 ```
 
 #Set Lib install location for Laptop
