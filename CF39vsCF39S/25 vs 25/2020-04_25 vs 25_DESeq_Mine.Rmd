@@ -32,9 +32,15 @@ Since the remainder of the analysis does not differ in between Linux and Windows
 ```{r, include=TRUE}
 #Set working directory
 #PC Path
-#setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeq Expression Profiles 1/RNASeq Data Files Analysis/CF39 vs CF39S/25 vs 25/My DESEQ Script")
+#Set Library Directory
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/25 vs 25/My DESEQ Script")
 #Laptop Path
-setwd("C:/Users/Trevor/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeq Expression Profiles 1/RNASeq Data Files Analysis/CF39 vs CF39S/25 vs 25/My DESEQ Script")
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
 #sink(file = "./RSessionRawRun.txt") 
 ```
 
