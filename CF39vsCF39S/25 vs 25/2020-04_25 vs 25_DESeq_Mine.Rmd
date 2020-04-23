@@ -30,10 +30,10 @@ biocLite("lazyeval")
 Since the remainder of the analysis does not differ in between Linux and Windows, the rest of the analysis was done in Windows. The first part of the actual analysis is to set the working directory. This can be done using the commands below:
 
 ```{r, include=TRUE}
-#Set working directory
-#PC Path
 #Set Library Directory
+#PC Path
 .libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
 #Set working directory
 #PC Path
 setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/25 vs 25/My DESEQ Script")
@@ -55,7 +55,7 @@ Load in the data from the file called SilverShockedReadCountsTable.csv. This fil
 
 ```{r}
 #Load data data from my computer
-Exp25_vs_25 <- read.csv("../25 vs 25 Counts Table.csv")
+Exp25_vs_25 <- read.csv("../../SourceRNASEQCountsForDESEQ/25 vs 25 Counts Table.csv")
 TestSet <- Exp25_vs_25
 
 #Variables

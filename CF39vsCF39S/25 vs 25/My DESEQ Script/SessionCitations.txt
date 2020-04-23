@@ -1,0 +1,92 @@
+
+  Love, M.I., Huber, W., Anders, S. Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2 Genome Biology 15(12):550
+  (2014)
+
+A BibTeX entry for LaTeX users is
+
+  @Article{,
+    title = {Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2},
+    author = {Michael I. Love and Wolfgang Huber and Simon Anders},
+    year = {2014},
+    journal = {Genome Biology},
+    doi = {10.1186/s13059-014-0550-8},
+    volume = {15},
+    issue = {12},
+    pages = {550},
+  }
+
+
+  Zhu, A., Ibrahim, J.G., Love, M.I. Heavy-tailed prior distributions for sequence count data: removing the noise and preserving large differences
+  bioRxiv (2018)
+
+A BibTeX entry for LaTeX users is
+
+  @Article{,
+    title = {Heavy-tailed prior distributions for sequence count data: removing the noise and preserving large differences},
+    author = {Anqi Zhu and Joseph G. Ibrahim and Michael I. Love},
+    year = {2018},
+    journal = {bioRxiv},
+    doi = {10.1101/303255},
+  }
+
+
+To cite the lattice package in publications use:
+
+  Sarkar, Deepayan (2008) Lattice: Multivariate Data Visualization with R. Springer, New York. ISBN 978-0-387-75968-5
+
+A BibTeX entry for LaTeX users is
+
+  @Book{,
+    title = {Lattice: Multivariate Data Visualization with R},
+    author = {Deepayan Sarkar},
+    publisher = {Springer},
+    address = {New York},
+    year = {2008},
+    note = {ISBN 978-0-387-75968-5},
+    url = {http://lmdvr.r-forge.r-project.org},
+  }
+
+
+To cite package 'stringi' in publications use:
+
+  Gagolewski M. and others (2019). R package stringi: Character string processing facilities. http://www.gagolewski.com/software/stringi/.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {R package stringi: Character string processing facilities},
+    author = {Marek Gagolewski},
+    year = {2019},
+    url = {http://www.gagolewski.com/software/stringi/},
+  }
+
+
+To cite package ‘ashr’ in publications use:
+
+  Matthew Stephens, Peter Carbonetto, David Gerard, Mengyin Lu, Lei Sun, Jason Willwerscheid and Nan Xiao (2019). ashr: Methods for Adaptive
+  Shrinkage, using Empirical Bayes. R package version 2.2-32. https://CRAN.R-project.org/package=ashr
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {ashr: Methods for Adaptive Shrinkage, using Empirical Bayes},
+    author = {Matthew Stephens and Peter Carbonetto and David Gerard and Mengyin Lu and Lei Sun and Jason Willwerscheid and Nan Xiao},
+    year = {2019},
+    note = {R package version 2.2-32},
+    url = {https://CRAN.R-project.org/package=ashr},
+  }
+
+
+  Zhu, A., Ibrahim, J.G., Love, M.I. Heavy-tailed prior distributions for sequence count data: removing the noise and preserving large differences
+  bioRxiv (2018)
+
+A BibTeX entry for LaTeX users is
+
+  @Article{,
+    title = {Heavy-tailed prior distributions for sequence count data: removing the noise and preserving large differences},
+    author = {Anqi Zhu and Joseph G. Ibrahim and Michael I. Love},
+    year = {2018},
+    journal = {bioRxiv},
+    doi = {10.1101/303255},
+  }
+

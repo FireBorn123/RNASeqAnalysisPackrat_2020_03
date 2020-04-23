@@ -1,0 +1,103 @@
+---
+title: "Isolating DE Genes from Expression analysis"
+author: "Trevor Randall"
+date: "February 27, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries to install:
+```{r, eval=FALSE}
+install.packages('VennDiagram')
+```
+
+# Accessing the Library and loading the read count table into the local environment
+
+Since the remainder of the analysis does not differ in between Linux and Windows, the rest of the analysis was done in Windows. The first part of the actual analysis is to set the working directory. This can be done using the commands below:
+
+```{r, include=TRUE}
+#Set working directory
+#PC Path
+#Set Library Directory
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/37 vs 37/DE_Reg_Genes_Analysis/")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+```
+
+
+Libraries to open:
+```{r}
+library(readr)
+library(VennDiagram)
+```
+
+
+```{r}
+ColNameLablesDESeqTrevor <- c("locus", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+```
+
+
+Opening Datasets
+
+```{r}
+TDESeq_37vs37 <- read_delim("../My DESEQ Script/DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(TDESeq_37vs37) <- ColNameLablesDESeqTrevor
+
+LocusGeneAssociation <- read_csv("../../SourceRNASEQCountsForDESEQ/Locus_GeneNamesAndPredictedFunction.csv")
+```
+
+#Add Gene info to the files based on locus:
+```{r}
+TDESeq_37vs37 <-merge(TDESeq_37vs37, LocusGeneAssociation, by ="locus")
+
+```
+
+Parapemers for Screening:
+```{r}
+#PAdjusted value to subset from data set
+PAdjValue = 0.05
+
+#False discovery rate to screen for
+FDRValue = 0.05
+```
+
+#Data Screening
+
+Obtain DE Genes from the DESeq data that was parsed using the algorithem that Trevor set up:
+
+```{r}
+TDESEQ37vs37 <- TDESeq_37vs37[((TDESeq_37vs37$padj <PAdjValue)& (!is.na(TDESeq_37vs37$padj))), ]
+
+write.table(x = TDESEQ37vs37, file="./TDESEQ37vs37.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQ37vs37), quote=F)
+```
+
+
+#Session Info
+```{r}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+#Citations
+```{r}
+sink(file = "./SessionCitations.txt")
+
+citation("VennDiagram")
+citation("readr")
+citation("gridExtra")
+
+sink(file = NULL)
+```
+
+Venn Diagram Page: https://rstudio-pubs-static.s3.amazonaws.com/13301_6641d73cfac741a59c0a851feb99e98b.html?fbclid=IwAR1h2pL9V1tblTk4z9E1JX9udrel2ILE_WKKp2M8Kjd6HB0ZC6wwctFu61Y
