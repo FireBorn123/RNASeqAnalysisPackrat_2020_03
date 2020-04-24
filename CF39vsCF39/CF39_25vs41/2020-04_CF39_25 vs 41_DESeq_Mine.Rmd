@@ -9,11 +9,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
 # Setup and Installation
 The first thing you need to do is install all of the packages necessary for the analysis. The following chunk of code is for installing the edgeR package and dependencies in a Windows environment. Unfortunatly when I tried installing all of the below packages on a MacBook Air, it did not work.
 
 The first portion of the install was done using the CRAN database.
 ```{r, eval=FALSE}
+```{r, include=TRUE}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
 source("http://www.bioconductor.org/biocLite.R")
 biocLite("DESeq")
 biocLite("DESeq2", dependencies=TRUE)

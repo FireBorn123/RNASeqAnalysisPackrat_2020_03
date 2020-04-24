@@ -1,0 +1,153 @@
+---
+title: "Isolating DE Genes from Expression analysis"
+author: "Trevor Randall"
+date: "February 27, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+
+```{r, include=TRUE}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Analysis Temp X vs X/25vs41")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+```
+
+
+Libraries to open:
+```{r}
+library(readr)
+library(VennDiagram)
+```
+
+Parapemers and Variables for Screening:
+```{r}
+#PAdjusted value to subset from data set
+PAdjValue = 0.05
+
+ColNameLablesDESeqTrevor <- c("locus", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+```
+
+Opening Datasets
+
+```{r}
+CF39_TDESeq_25vs41 <- read_delim("../../CF39vsCF39/CF39_25vs41/DESEQ Results/DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(CF39_TDESeq_25vs41) <- ColNameLablesDESeqTrevor
+
+CF39S_TDESeq_25vs41 <- read_delim("../../CF39SvsCF39S/CF39S_25vs41/DESEQ Results/DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(CF39S_TDESeq_25vs41) <- ColNameLablesDESeqTrevor
+
+LocusGeneAssociation <- read_csv("../Locus_GeneNamesAndPredictedFunction.csv")
+```
+
+#Add Gene info to the files based on locus:
+```{r}
+CF39_TDESeq_25vs41 <- merge(CF39_TDESeq_25vs41, LocusGeneAssociation, by = "locus")
+
+CF39S_TDESeq_25vs41 <- merge(CF39S_TDESeq_25vs41, LocusGeneAssociation, by = "locus")
+
+```
+
+#Data Screening
+
+Obtain DE Genes from the DESeq CF39_25vs41_TDESEQ Data
+
+```{r}
+CF39_25vs41_TDESEQ <- CF39_TDESeq_25vs41[((CF39_TDESeq_25vs41$padj <PAdjValue)& (!is.na(CF39_TDESeq_25vs41$padj))), ]
+
+write.table(x = CF39_25vs41_TDESEQ, file="./CF39_25vs41_TDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(CF39_25vs41_TDESEQ), quote=F)
+```
+
+Obtain DE Genes from the DESeq CF39S_25vs41 Data
+
+```{r}
+CF39S_25vs41_TDESEQ <- CF39S_TDESeq_25vs41[((CF39S_TDESeq_25vs41$padj <PAdjValue)& (!is.na(CF39S_TDESeq_25vs41$padj))), ]
+
+write.table(x = CF39S_25vs41_TDESEQ, file="./CF39S_25vs41_TDESEQ.txt", sep="\t", row.names=FALSE, col.names=colnames(CF39S_25vs41_TDESEQ), quote=F)
+```
+
+#Data Comparisons
+
+Comparison between CF39 and CF39S for the 25vs41 comparisons
+
+```{r}
+CF39_25vs41_Aly_TDES <- read_delim("./CF39_25vs41_TDESEQ.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+CF39S_25vs41_Aly_TDES <- read_delim("./CF39S_25vs41_TDESEQ.txt", 
+    "\t", escape_double = FALSE, trim_ws = TRUE)
+
+CF39_25vs41_SameGenes_TDE <- CF39_25vs41_Aly_TDES[(CF39_25vs41_Aly_TDES$locus %in% CF39S_25vs41_Aly_TDES$locus), ]
+
+CF39_25vs41_DiffGenesToCF39S_TDE <- CF39_25vs41_Aly_TDES[!((CF39_25vs41_Aly_TDES$locus %in% CF39S_25vs41_Aly_TDES$locus)& (!is.na(CF39_25vs41_Aly_TDES$padj))), ]
+
+CF39S_25vs41_DiffGenesToCF39_TDE <- CF39S_25vs41_Aly_TDES[!((CF39S_25vs41_Aly_TDES$locus %in% CF39_25vs41_Aly_TDES$locus)& (!is.na(CF39S_25vs41_Aly_TDES$padj))),]
+
+write.table(x = CF39_25vs41_SameGenes_TDE, file="./Comparison/CF39_25vs41_SameGenes_TDE.txt", sep="\t", row.names=FALSE, col.names=colnames(CF39_25vs41_SameGenes_TDE), quote=F)
+
+write.table(x = CF39_25vs41_DiffGenesToCF39S_TDE, file="./Comparison/CF39_25vs41_DiffGenesToCF39S_TDE.txt", sep="\t", row.names=FALSE, col.names=colnames(CF39_25vs41_DiffGenesToCF39S_TDE), quote=F)
+
+write.table(x = CF39S_25vs41_DiffGenesToCF39_TDE, file="./Comparison/CF39S_25vs41_DiffGenesToCF39_TDE.txt", sep="\t", row.names=FALSE, col.names=colnames(CF39S_25vs41_DiffGenesToCF39_TDE), quote=F)
+
+```
+
+#Venn Comparison for the TDESeq comparison between CF39_25vs41 and CF39S_25vs41
+```{r}
+Number_25vs41_CF39 <- nrow(CF39_25vs41_Aly_TDES)
+Number_25vs41_CF39S <- nrow(CF39S_25vs41_Aly_TDES)
+CF39vsCF39S_Same <- nrow(CF39_25vs41_SameGenes_TDE)
+```
+
+```{r}
+dev.off()
+
+grid.newpage()
+VD1 <- draw.pairwise.venn(area1 = Number_25vs41_CF39, area2 = Number_25vs41_CF39S,cross.area = CF39vsCF39S_Same, category = c("25vs41_CF39", "25vs41_CF39S"), lty = rep("blank", 2), fill = c("light blue", "pink"), alpha = rep(0.5, 2), cat.pos = c(-160, 160), cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD1), top="CF39_TDESeq to CF39S_TDESeq VennDiagram 25vs41")
+
+dev.copy(png, filename = './VennDiagram/Venn25vs41_CF39vsCF39S.png', width=8, height=8, units="in",res=300)
+dev.off()
+```
+
+
+#Session Info
+```{r}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+#Citations
+```{r}
+sink(file = "./SessionCitations.txt")
+
+citation("VennDiagram")
+citation("readr")
+citation("gridExtra")
+
+sink(file = NULL)
+```
+
+Venn Diagram Page: https://rstudio-pubs-static.s3.amazonaws.com/13301_6641d73cfac741a59c0a851feb99e98b.html?fbclid=IwAR1h2pL9V1tblTk4z9E1JX9udrel2ILE_WKKp2M8Kjd6HB0ZC6wwctFu61Y

@@ -1,4 +1,4 @@
-locus	baseMean	log2FoldChange_25C	lfcSE	stat	pvalue_25C	padj_25C	gene_name	gene_discription	raw_locus
+locus	baseMean	log2FoldChange_25C	lfcSE	stat	pvalue_25C	padj_Temp	gene_name	gene_discription	raw_locus
 PROKKA_02566_antis	79.2792268147471	-2.73676584761413	0.44050032931213	-6.21285766548182	5.2029575506171e-10	5.01773226181513e-06	n/a	transcriptional regulator LysR family	PROKKA_02566
 PROKKA_02569_igtop	19.7851466684192	-3.09265112550224	0.599431992122505	-5.15930275017786	2.47871213068882e-07	0.00119523498941815	hpd_2	4-hydroxyphenylpyruvate dioxygenase	PROKKA_02569
 PROKKA_02612_antis	15.5823364013939	-3.08079054656543	0.667323685597527	-4.61663599398074	3.90010478607587e-06	0.00940315263922893	n/a	putative integral membrane protein	PROKKA_02612

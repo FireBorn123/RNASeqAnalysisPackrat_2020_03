@@ -1,0 +1,253 @@
+---
+title: "29 vs 33_DESeq_Mine"
+author: "Trevor Randall"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup and Installation
+The first thing you need to do is install all of the packages necessary for the analysis. The following chunk of code is for installing the edgeR package and dependencies in a Windows environment. Unfortunatly when I tried installing all of the below packages on a MacBook Air, it did not work.
+
+The first portion of the install was done using the CRAN database.
+```{r, eval=FALSE}
+source("http://www.bioconductor.org/biocLite.R")
+biocLite("DESeq")
+biocLite("DESeq2", dependencies=TRUE)
+#biocLite("pasilla")
+#biocLite("IHC")
+biocLite("GenomeInfoDb")
+biocLite("SummarizedExperiment")
+biocLite("colorspace")
+biocLite("lazyeval")
+```
+
+# Accessing the Library and loading the read count table into the local environment
+
+Since the remainder of the analysis does not differ in between Linux and Windows, the rest of the analysis was done in Windows. The first part of the actual analysis is to set the working directory. This can be done using the commands below:
+
+```{r, include=TRUE}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39SvsCF39S/CF39S_29vs33/DESEQ Results")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+```
+
+#Libraries needed
+```{r}
+library("DESeq2")
+```
+
+#Actual Dataset
+## Loading and formatting the Silver Dataset
+Load in the data from the file called SilverShockedReadCountsTable.csv. This file should be located in the working directory.
+
+```{r}
+#Load data data from my computer
+Exp29_vs_33 <- read.csv("../../SourceDataTablesCF39SvsCF39S/CF39S 29vs33 Counts Table.csv")
+TestSet <- Exp29_vs_33
+
+#Variables
+ColNameLables <- c("CF39SC29-1","CF39C29-2", "CF39SC29-3", "CF39ST33-1","CF39ST33-2", "CF39ST33-3")
+```
+
+```{r, eval=FALSE}
+# The dim command tells the dimensions of the dataframe.
+dim(TestSet) 
+
+# The head command displays the first 6 lines of an R object in the console, unless the n parameter is used to specify the number to display.
+head(TestSet) 
+
+# Another way of viewing the data. Note that the diminsions of the dataframe can also be seen here.
+str(TestSet) 
+```
+
+Note that the data object Exp29_vs_33 has 7 columns. Further note that the first of the 7 columns is the locus. The locus contains 4 repeating loci before moving on to the next set of loci (so four PA14_00010, then four PA14_00020, ect...). This is not good as it indicates that the 4 designations for each of the tags was lost when the read counts table were extracted. However, because Xpression does not reorder the counts, this is easily fixed, as the 4 missing tags to differentiate each locus are "Intergenic_sense", "Intergenic_antisense", "Genic_sense", and "Genic_antisense". These were re added in excel prior to exporting as a csv file to get the source file for R.
+
+Finally, remove the unwanted Designation column, and replace the column numbers with the locus names. 
+
+```{r}
+# The following command is used to label all of the rows using the gene/locus names. Essentially you are overwriting the column names with the locus names, and then deleting the column that contained the locus names.
+TestSet <- data.frame(TestSet[,-1], row.names=TestSet[,1]) 
+head(TestSet)
+dim(TestSet) 
+```
+
+```{r}
+# How to rename table columns, using the ColNamesLable string Variable
+colnames(TestSet) <- ColNameLables 
+
+head(TestSet)#TODO Should you have a DGEList going into a DESeq analysis?
+```
+
+This should leave a read count table in the correct format to be read into a R list called a DGEList. 
+
+```{r}
+# A method of using equal length names to name the groups in the treatment. Essentially the colnames command is extracting the pre-exsisting column names from the Shocked_silver dataframe, substring is extracting the first 2 characters of the column names, as specified by the characters inclusive between character 1 and 2 (so SC and ST), and finally these characters are being turned into factors.
+TreatmentNames <- substring(colnames(x = TestSet), first =  1, last = 5)
+TreatmentNames <- unique(TreatmentNames)
+Treatment <- factor(substring(colnames(x = TestSet), first =  1, last = 5)) 
+
+Treatment # This tells you that you have a factor of 6 with 2 levels.
+```
+
+
+```{r}
+expt_design <- data.frame(row.names = colnames(Treatment), condition = c("CF39ST","CF39ST","CF39ST","CF39SC","CF39SC","CF39SC"))
+expt_design
+
+Check1 <- TestSet
+names <- colnames(Check1)
+dataCheck <- cbind(names, expt_design)
+head(dataCheck)
+
+if((all(rownames(dataCheck$names) %in% colnames(TestSet)))==(all(rownames(dataCheck$names) == colnames(TestSet))))
+{
+  TestSetCkd <- TestSet
+} else {
+  FailedMessage <- "The order of the file is not correct"
+  FailedMessage
+}
+
+conditions = expt_design$condition
+conditions
+
+DataDFDESeq <- 
+  DESeqDataSetFromMatrix(countData = TestSetCkd, colData = expt_design, design = ~condition) 
+
+```
+
+# Prefiltering Data and cahnge reference levels
+We want to keep rows that have 10 or more reads in them
+
+```{r}
+keep <- rowSums(counts(DataDFDESeq)) >= 10
+DataDFDESeq <- DataDFDESeq[keep,]
+
+#DataDFDESeq$condition <- factor(DataDFDESeq$condition, levels = c(TreatmentNames)) #TODO Do I need this step?
+
+DataDFDESeq$condition <- relevel(DataDFDESeq$condition, ref = "CF39SC")
+
+DataDFDESeq$condition <- droplevels(DataDFDESeq$condition) #TODO Do I need this?
+
+```
+
+#Differential Expression Analysis and File Output
+```{r}
+DataDFDESeqRes <- DESeq(DataDFDESeq)
+Res <- results(DataDFDESeqRes)
+Res
+
+d2 <- Res
+ID <- rownames(Res)
+rownames(d2) <- NULL
+Res2 <- cbind(ID, d2)
+
+ResDataTable = as.data.frame(Res2)
+ResDataTable
+
+
+write.table(ResDataTable,file = "DESeqNew_results.txt", sep = "\t", row.names = F)
+```
+
+#Log Fold change shrinkage for visualization and ranking
+```{r}
+resultsNames(DataDFDESeqRes)
+
+ResLFC <- lfcShrink(DataDFDESeqRes, coef = "condition_CF39ST_vs_CF39SC", type = "apeglm")
+ResLFC
+
+ResNorm <- lfcShrink(DataDFDESeqRes, coef = "condition_CF39ST_vs_CF39SC", type = "normal")
+ResNorm
+
+#If you use this data cite ashy package
+ResAsh <- lfcShrink(DataDFDESeqRes, coef = "condition_CF39ST_vs_CF39SC", type = "ashr")
+ResAsh
+
+
+```
+
+#Figure Generation
+## MA plot
+```{r}
+dev.off() # Turns off any previously on graphical devices
+png(filename = "MyDESeq MA plot.png",width = 11, height = 9, res = 300, units = "in")
+plotMA(DataDFDESeqRes, ylim=c(-4,4)) #TODO Fix
+dev.off()
+```
+
+###Plot other shrinkage plots
+```{r}
+dev.off() # Turns off any previously on graphical devices
+png(filename = "MyDESeq ResLFC MA plot.png",width = 11, height = 9, res = 300, units = "in")
+
+plotMA(ResLFC, ylim=c(-4,3))
+#idx <- identify(Res$baseMean, Res$log2FoldChange)
+#rownames(Res)[idx] #Allows you to lable (and identify) certain points on the graph
+
+par(mfrow=c(1,3), mar=c(4,4,2,1))
+xlim <- c(1,1e5); ylim <- c(-3,3)
+plotMA(ResLFC, xlim=xlim, ylim=ylim, main="apeglm")
+plotMA(ResNorm, xlim=xlim, ylim=ylim, main="normal")
+plotMA(ResAsh, xlim=xlim, ylim=ylim, main="ashr")
+
+par(mfrow = c(1,1)) # Good practice to immediatly reset plot sizing
+
+dev.off()
+```
+
+##Plot Counts (for looking at individual genes)
+```{r}
+#par(mfrow=c(1,1))
+#plotCounts(DataDFDESeqRes, gene = which.min(Res$padj), intgroup = "condition")
+```
+
+#Session Info
+```{r}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+
+#References
+
+The citation function can be used to  who you should be citing.
+
+```{r, collapse=FALSE}
+sink(file = "./SessionCitations.txt")
+
+citation("DESeq2")
+citation("apeglm")
+citation("lattice")
+citation("stringi")
+
+# Cite if ResAsh plot was used
+citation("ashr")
+
+# Cite if apeglm plot was used
+citation("apeglm")
+
+sink(file = NULL)
+```
+
+Love, M.I., Huber, W., Anders, S. (2014) Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15:550. 10.1186/s13059-014-0550-8
+
+Modelled from the following page (dated 2019/01/04):
+https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
+
+#Used for Venn Diagrams in analysis file
+https://rstudio-pubs-static.s3.amazonaws.com/13301_6641d73cfac741a59c0a851feb99e98b.html?fbclid=IwAR1h2pL9V1tblTk4z9E1JX9udrel2ILE_WKKp2M8Kjd6HB0ZC6wwctFu61Y
+
