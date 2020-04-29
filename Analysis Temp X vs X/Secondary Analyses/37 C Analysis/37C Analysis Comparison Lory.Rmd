@@ -1,0 +1,66 @@
+---
+title: "37 Analysis"
+author: "Trevor Randall"
+date: "29/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+```{r}
+library(readr)
+```
+
+```{r}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Analysis Temp X vs X/Secondary Analyses/37 C Analysis")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+```
+
+#Open Wanted files for analysis
+```{r}
+CF39S_25vs37_TDESEQ <- read_delim("../../25vs37/CF39S_25vs37_TDESEQ.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+CF39_29vs37_TDESEQ <- read_delim("../../25vs37/CF39_25vs37_TDESEQ.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+```
+
+#Remove Unwanted Columns
+```{r}
+ColToRemove <- c("baseMean", "lfcSE", "stat", "padj_Temp", "gene_name", "gene_discription", "raw_locus", "gene", "product", "locusNumber")
+
+TDESEQList_25vs37_Shrunk <- CF39S_25vs37_TDESEQ[, !names(CF39S_25vs37_TDESEQ) %in% ColToRemove, drop = F]
+TDESEQList_29vs37_Shrunk <- CF39_29vs37_TDESEQ[, !names(CF39_29vs37_TDESEQ) %in% ColToRemove, drop = F]
+```
+
+
+#Combine shrunk files
+```{r}
+LocusGeneAssociation <- read_csv("../../Locus_GeneNamesAndPredictedFunction.csv")
+
+
+Combined_List_Shrunk <- 0
+Combined_List_Shrunk <- merge(TDESEQList_25vs37_Shrunk, y = TDESEQList_29vs37_Shrunk, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk <- merge(Combined_List_Shrunk, LocusGeneAssociation, by = "locus")
+
+colnames(Combined_List_Shrunk) <- c("locus", "baseMean", "log2FoldChange_41C", "lfcSE", "stat", "pvalue_41C", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+
+write.table(x = Combined_List_Shrunk, file="./Combined List 25-25vs 37 Analysis Shrunk.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk), quote=F)
+```
+

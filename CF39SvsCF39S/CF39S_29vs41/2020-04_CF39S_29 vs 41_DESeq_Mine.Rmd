@@ -104,7 +104,7 @@ Treatment # This tells you that you have a factor of 6 with 2 levels.
 
 
 ```{r}
-expt_design <- data.frame(row.names = colnames(Treatment), condition = c("CF39ST","CF39ST","CF39ST","CF39SC","CF39SC","CF39SC"))
+expt_design <- data.frame(row.names = colnames(Treatment), condition = c("CF39SC","CF39SC","CF39SC","CF39ST","CF39ST","CF39ST"))
 expt_design
 
 Check1 <- TestSet
