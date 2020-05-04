@@ -14,14 +14,13 @@ A BibTeX entry for LaTeX users is
     url = {https://CRAN.R-project.org/package=VennDiagram},
   }
 
-ATTENTION: This citation information has been auto-generated from the package DESCRIPTION file and may need
-manual editing, see ‘help("citation")’.
+ATTENTION: This citation information has been auto-generated from the package DESCRIPTION file and may need manual editing, see ‘help("citation")’.
 
 
 To cite package ‘readr’ in publications use:
 
-  Hadley Wickham, Jim Hester and Romain Francois (2018). readr: Read Rectangular Text Data. R package
-  version 1.3.1. https://CRAN.R-project.org/package=readr
+  Hadley Wickham, Jim Hester and Romain Francois (2018). readr: Read Rectangular Text Data. R package version 1.3.1.
+  https://CRAN.R-project.org/package=readr
 
 A BibTeX entry for LaTeX users is
 

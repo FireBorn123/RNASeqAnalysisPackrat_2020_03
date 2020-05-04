@@ -9,6 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+
 Libraries to install:
 ```{r, eval=FALSE}
 install.packages('VennDiagram')
@@ -70,8 +77,6 @@ write.table(x = TDESEQList_41vs41, file="./OriginalFiles/TDESEQList_41vs41_Origi
 ```
 
 
-
-
 #Parcing patterns from files
 P designation is temperature pure (so for instance CF3925vsCF39S25 is P25 or CF3929vsCF39S29 is P29)
 
@@ -82,8 +87,6 @@ P25vsP29_SameGenes<- TDESEQList_25vs25[(TDESEQList_25vs25$locus %in% TDESEQList_
 P25_DiffGenesToP29 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_25vs25$padj))), ]
 
 P29_DiffGenesToP25 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_29vs29$padj))),]
-
-
 ```
 
 ##Identify trends from P25 to P33

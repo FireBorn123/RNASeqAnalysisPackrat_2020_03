@@ -8,23 +8,12 @@ locale:
 [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252    LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                    LC_TIME=English_Canada.1252    
 
 attached base packages:
- [1] grid      parallel  stats4    stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] gridExtra_2.3               VennDiagram_1.6.20          futile.logger_1.4.3         readr_1.3.1                 DESeq2_1.20.0               SummarizedExperiment_1.10.1
- [7] DelayedArray_0.6.6          BiocParallel_1.14.2         matrixStats_0.56.0          Biobase_2.40.0              GenomicRanges_1.32.7        GenomeInfoDb_1.16.0        
-[13] IRanges_2.14.12             S4Vectors_0.18.3            BiocGenerics_0.26.0        
+[1] gridExtra_2.3       VennDiagram_1.6.20  futile.logger_1.4.3 readr_1.3.1        
 
 loaded via a namespace (and not attached):
- [1] bitops_1.0-6           bit64_0.9-7            doParallel_1.0.14      RColorBrewer_1.1-2     numDeriv_2016.8-1      tools_3.5.1            backports_1.1.3       
- [8] R6_2.4.0               rpart_4.1-13           Hmisc_4.2-0            DBI_1.0.0              lazyeval_0.2.2         colorspace_1.4-0       nnet_7.3-12           
-[15] apeglm_1.2.1           bit_1.1-14             compiler_3.5.1         formatR_1.7            htmlTable_1.13.1       scales_1.0.0           checkmate_1.9.1       
-[22] SQUAREM_2017.10-1      genefilter_1.62.0      mixsqp_0.1-97          stringr_1.4.0          digest_0.6.18          foreign_0.8-71         XVector_0.20.0        
-[29] pscl_1.5.2             base64enc_0.1-3        pkgconfig_2.0.2        htmltools_0.3.6        bbmle_1.0.20           htmlwidgets_1.3        rlang_0.4.5           
-[36] rstudioapi_0.10        RSQLite_2.1.1          acepack_1.4.1          RCurl_1.98-1.1         magrittr_1.5           GenomeInfoDbData_1.2.0 Formula_1.2-3         
-[43] Matrix_1.2-16          Rcpp_1.0.1             munsell_0.5.0          stringi_1.4.3          MASS_7.3-51.1          zlibbioc_1.26.0        plyr_1.8.4            
-[50] blob_1.1.1             crayon_1.3.4           lattice_0.20-38        splines_3.5.1          annotate_1.58.0        hms_0.5.3              locfit_1.5-9.1        
-[57] knitr_1.22             pillar_1.3.1           geneplotter_1.58.0     codetools_0.2-16       futile.options_1.0.1   XML_3.99-0.3           packrat_0.5.0         
-[64] latticeExtra_0.6-28    lambda.r_1.2.4         data.table_1.12.0      vctrs_0.2.4            foreach_1.4.4          gtable_0.2.0           ashr_2.2-32           
-[71] ggplot2_3.1.0          emdbook_1.3.11         xfun_0.5               xtable_1.8-3           coda_0.19-2            survival_2.43-3        truncnorm_1.0-8       
-[78] tibble_2.1.1           iterators_1.0.10       AnnotationDbi_1.42.1   memoise_1.1.0          cluster_2.0.7-1       
+ [1] Rcpp_1.0.1           crayon_1.3.4         R6_2.4.0             gtable_0.2.0         futile.options_1.0.1 formatR_1.7          pillar_1.3.1        
+ [8] rlang_0.4.5          rstudioapi_0.10      vctrs_0.2.4          lambda.r_1.2.4       tools_3.5.1          hms_0.5.3            xfun_0.12           
+[15] compiler_3.5.1       pkgconfig_2.0.2      knitr_1.28           tibble_2.1.1        

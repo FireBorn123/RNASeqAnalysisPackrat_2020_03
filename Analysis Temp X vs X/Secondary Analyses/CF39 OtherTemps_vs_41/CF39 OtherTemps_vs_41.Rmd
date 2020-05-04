@@ -1,0 +1,129 @@
+---
+title: "CF39 OtherTemps_vs_41"
+author: "Trevor Randall"
+date: "30/04/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+
+```{r}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Analysis Temp X vs X/Secondary Analyses/CF39 OtherTemps_vs_41")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+```
+
+Libraries to open:
+```{r}
+library(readr)
+library(VennDiagram)
+```
+
+
+#Open Wanted files for analysis
+```{r}
+CF39_25vs41_TDESEQ <- read_delim("../../25vs41/CF39_25vs41_TDESEQ.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+CF39_29vs41_TDESEQ <- read_delim("../../29vs41/CF39_29vs41_TDESEQ.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+CF39_33vs41_TDESEQ <- read_delim("../../33vs41/CF39_33vs41_TDESEQ.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+CF39_37vs41_TDESEQ <- read_delim("../../37vs41/CF39_37vs41_TDESEQ.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+```
+
+#Remove Unwanted Columns
+```{r}
+ColToRemove <- c("baseMean", "lfcSE", "stat", "pvalue", "gene", "product", "locusNumber")
+
+TDESEQList_25vs41_Shrunk <- CF39_25vs41_TDESEQ[, !names(CF39_25vs41_TDESEQ) %in% ColToRemove, drop = F]
+colnames(TDESEQList_25vs41_Shrunk) <- c("locus", "CF39 Log2FoldChange_25vs41",  "CF39 padj_25vs41")
+
+TDESEQList_29vs41_Shrunk <- CF39_29vs41_TDESEQ[, !names(CF39_29vs41_TDESEQ) %in% ColToRemove, drop = F]
+colnames(TDESEQList_29vs41_Shrunk) <- c("locus", "CF39 Log2FoldChange_29vs41",  "CF39 padj_29vs41")
+
+TDESEQList_33vs41_Shrunk <- CF39_33vs41_TDESEQ[, !names(CF39_33vs41_TDESEQ) %in% ColToRemove, drop = F]
+colnames(TDESEQList_33vs41_Shrunk) <- c("locus", "CF39 Log2FoldChange_33vs41",  "CF39 padj_33vs41")
+
+TDESEQList_37vs41_Shrunk <- CF39_37vs41_TDESEQ[, !names(CF39_37vs41_TDESEQ) %in% ColToRemove, drop = F]
+colnames(TDESEQList_37vs41_Shrunk) <- c("locus", "CF39 Log2FoldChange_37vs41",  "CF39 padj_37vs41")
+```
+
+#Combine shrunk files
+```{r}
+LocusGeneAssociation <- read_csv("../../Locus_GeneNamesAndPredictedFunction.csv")
+
+Combined_List_Shrunk <- 0
+Combined_List_Shrunk <- merge(TDESEQList_25vs41_Shrunk, y = TDESEQList_29vs41_Shrunk, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk <- merge(Combined_List_Shrunk, y = TDESEQList_33vs41_Shrunk, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk <- merge(Combined_List_Shrunk, y = TDESEQList_37vs41_Shrunk, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk <- merge(Combined_List_Shrunk, LocusGeneAssociation, by = "locus")
+
+write.table(x = Combined_List_Shrunk, file="./Combined List 25vsOtherTemps Analysis Shrunk.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk), quote=F)
+```
+
+#Remove igtop/igbot from analysis
+#Remove Unwanted Columns
+```{r}
+ColToRemove <- c("baseMean", "lfcSE", "stat", "pvalue", "gene", "product", "locusNumber")
+
+TDESEQList_25vs41_Shrunk2_Full <- CF39_25vs41_TDESEQ[, !names(CF39_25vs41_TDESEQ) %in% ColToRemove, drop = F]
+TDESEQList_25vs41_Shrunk2TailListSense <- TDESEQList_25vs41_Shrunk2_Full[((grep((glob2rx('*_sense')), TDESEQList_25vs41_Shrunk2_Full$locus))), ]
+TDESEQList_25vs41_Shrunk2TailListAntiSense <- TDESEQList_25vs41_Shrunk2_Full[((grep((glob2rx('*_antis')), TDESEQList_25vs41_Shrunk2_Full$locus))), ]
+TDESEQList_25vs41_Shrunk2TailListMerged <- rbind(TDESEQList_25vs41_Shrunk2TailListSense, TDESEQList_25vs41_Shrunk2TailListAntiSense)
+TDESEQList_25vs41_Shrunk2 <- TDESEQList_25vs41_Shrunk2TailListMerged[order(TDESEQList_25vs41_Shrunk2TailListMerged$locus), ]
+colnames(TDESEQList_25vs41_Shrunk2) <- c("locus", "CF39 Log2FoldChange_25vs41",  "CF39 padj_25vs41")
+
+
+
+TDESEQList_29vs41_Shrunk2_Full <- CF39_29vs41_TDESEQ[, !names(CF39_29vs41_TDESEQ) %in% ColToRemove, drop = F]
+TDESEQList_29vs41_Shrunk2TailListSense <- TDESEQList_29vs41_Shrunk2_Full[((grep((glob2rx('*_sense')), TDESEQList_29vs41_Shrunk2_Full$locus))), ]
+TDESEQList_29vs41_Shrunk2TailListAntiSense <- TDESEQList_29vs41_Shrunk2_Full[((grep((glob2rx('*_antis')), TDESEQList_29vs41_Shrunk2_Full$locus))), ]
+TDESEQList_29vs41_Shrunk2TailListMerged <- rbind(TDESEQList_29vs41_Shrunk2TailListSense, TDESEQList_29vs41_Shrunk2TailListAntiSense)
+TDESEQList_29vs41_Shrunk2 <- TDESEQList_29vs41_Shrunk2TailListMerged[order(TDESEQList_29vs41_Shrunk2TailListMerged$locus), ]
+colnames(TDESEQList_29vs41_Shrunk2) <- c("locus", "CF39 Log2FoldChange_29vs41",  "CF39 padj_29vs41")
+
+TDESEQList_33vs41_Shrunk2_Full <- CF39_33vs41_TDESEQ[, !names(CF39_33vs41_TDESEQ) %in% ColToRemove, drop = F]
+TDESEQList_33vs41_Shrunk2TailListSense <- TDESEQList_33vs41_Shrunk2_Full[((grep((glob2rx('*_sense')), TDESEQList_33vs41_Shrunk2_Full$locus))), ]
+TDESEQList_33vs41_Shrunk2TailListAntiSense <- TDESEQList_33vs41_Shrunk2_Full[((grep((glob2rx('*_antis')), TDESEQList_33vs41_Shrunk2_Full$locus))), ]
+TDESEQList_33vs41_Shrunk2TailListMerged <- rbind(TDESEQList_33vs41_Shrunk2TailListSense, TDESEQList_33vs41_Shrunk2TailListAntiSense)
+TDESEQList_33vs41_Shrunk2 <- TDESEQList_33vs41_Shrunk2TailListMerged[order(TDESEQList_33vs41_Shrunk2TailListMerged$locus), ]
+colnames(TDESEQList_33vs41_Shrunk2) <- c("locus", "CF39 Log2FoldChange_33vs41",  "CF39 padj_33vs41")
+
+TDESEQList_37vs41_Shrunk2_Full <- CF39_37vs41_TDESEQ[, !names(CF39_37vs41_TDESEQ) %in% ColToRemove, drop = F]
+TDESEQList_37vs41_Shrunk2TailListSense <- TDESEQList_37vs41_Shrunk2_Full[((grep((glob2rx('*_sense')), TDESEQList_37vs41_Shrunk2_Full$locus))), ]
+TDESEQList_37vs41_Shrunk2TailListAntiSense <- TDESEQList_37vs41_Shrunk2_Full[((grep((glob2rx('*_antis')), TDESEQList_37vs41_Shrunk2_Full$locus))), ]
+TDESEQList_37vs41_Shrunk2TailListMerged <- rbind(TDESEQList_37vs41_Shrunk2TailListSense, TDESEQList_37vs41_Shrunk2TailListAntiSense)
+TDESEQList_37vs41_Shrunk2 <- TDESEQList_37vs41_Shrunk2TailListMerged[order(TDESEQList_37vs41_Shrunk2TailListMerged$locus), ]
+colnames(TDESEQList_37vs41_Shrunk2) <- c("locus", "CF39 Log2FoldChange_37vs41",  "CF39 padj_37vs41")
+```
+
+
+#Combine shrunk files
+```{r}
+LocusGeneAssociation <- read_csv("../../Locus_GeneNamesAndPredictedFunction.csv")
+
+Combined_List_Shrunk2 <- 0
+Combined_List_Shrunk2 <- merge(TDESEQList_25vs41_Shrunk2, y = TDESEQList_29vs41_Shrunk2, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, y = TDESEQList_33vs41_Shrunk2, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, y = TDESEQList_37vs41_Shrunk2, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
+Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, LocusGeneAssociation, by = "locus")
+
+write.table(x = Combined_List_Shrunk2, file="./Combined List 25vsOtherTemps Analysis Shrunk2.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk2), quote=F)
+```
