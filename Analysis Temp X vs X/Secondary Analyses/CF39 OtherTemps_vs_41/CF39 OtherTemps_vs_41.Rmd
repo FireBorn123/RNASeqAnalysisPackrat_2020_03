@@ -75,7 +75,7 @@ Combined_List_Shrunk <- merge(Combined_List_Shrunk, y = TDESEQList_33vs41_Shrunk
 Combined_List_Shrunk <- merge(Combined_List_Shrunk, y = TDESEQList_37vs41_Shrunk, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
 Combined_List_Shrunk <- merge(Combined_List_Shrunk, LocusGeneAssociation, by = "locus")
 
-write.table(x = Combined_List_Shrunk, file="./Combined List 25vsOtherTemps Analysis Shrunk.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk), quote=F)
+write.table(x = Combined_List_Shrunk, file="./Combined List OtherTempsvs41 Analysis Shrunk.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk), quote=F)
 ```
 
 #Remove igtop/igbot from analysis
@@ -89,8 +89,6 @@ TDESEQList_25vs41_Shrunk2TailListAntiSense <- TDESEQList_25vs41_Shrunk2_Full[((g
 TDESEQList_25vs41_Shrunk2TailListMerged <- rbind(TDESEQList_25vs41_Shrunk2TailListSense, TDESEQList_25vs41_Shrunk2TailListAntiSense)
 TDESEQList_25vs41_Shrunk2 <- TDESEQList_25vs41_Shrunk2TailListMerged[order(TDESEQList_25vs41_Shrunk2TailListMerged$locus), ]
 colnames(TDESEQList_25vs41_Shrunk2) <- c("locus", "CF39 Log2FoldChange_25vs41",  "CF39 padj_25vs41")
-
-
 
 TDESEQList_29vs41_Shrunk2_Full <- CF39_29vs41_TDESEQ[, !names(CF39_29vs41_TDESEQ) %in% ColToRemove, drop = F]
 TDESEQList_29vs41_Shrunk2TailListSense <- TDESEQList_29vs41_Shrunk2_Full[((grep((glob2rx('*_sense')), TDESEQList_29vs41_Shrunk2_Full$locus))), ]
@@ -125,5 +123,5 @@ Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, y = TDESEQList_33vs41_Shru
 Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, y = TDESEQList_37vs41_Shrunk2, by.x= "locus", by.y = "locus", all.x = T, all.y = T)
 Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, LocusGeneAssociation, by = "locus")
 
-write.table(x = Combined_List_Shrunk2, file="./Combined List 25vsOtherTemps Analysis Shrunk2.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk2), quote=F)
+write.table(x = Combined_List_Shrunk2, file="./Combined List OtherTempsvs41 Analysis Shrunk2.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk2), quote=F)
 ```

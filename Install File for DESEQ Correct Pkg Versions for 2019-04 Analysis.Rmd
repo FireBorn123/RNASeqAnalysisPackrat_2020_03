@@ -21,6 +21,7 @@ PackRatLibLocations <- file.path("L:/RStudios/RPackRat_2019_04_DESEQLibs")
 PackRatLibLocations <- file.path("")
 ```
 
+
 #Package loadng
 ```{r}
 library("yaml", lib.loc = PackRatLibLocations)
@@ -163,9 +164,19 @@ biocLite("BiocGenerics", version = "0.26.0", suppressUpdates = TRUE)
 
 ```
 
+
+#Installation of packages for Volcano plot analysis
+```{r}
+library(devtools)
+withr::with_libpaths(new = PackRatLibLocations, code = install_version("ggrepel", upgrade = "never"))
+```
+
+
 #Install GenomeInfoDbData from source Package
 ```{r}
 install.packages("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Source Packages/GenomeInfoDbData_1.2.0.tar.gz", repos = NULL, type="source")
+
+install.packages('E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Source Packages/EnhancedVolcano_1.6.0.zip', repos = NULL)
 ```
 
 
