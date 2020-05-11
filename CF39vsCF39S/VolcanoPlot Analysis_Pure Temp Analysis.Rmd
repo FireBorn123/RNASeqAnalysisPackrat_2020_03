@@ -16,9 +16,25 @@ remove(list = ls())
 ```
 
 
+```{r}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/VolcanoPlots/")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+```
+
+
 Libraries to install:
 ```{r, eval=FALSE}
-install.packages('VennDiagram')
+install.packages('E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Source Packages/EnhancedVolcano_1.6.0.zip', repos = NULL)
 ```
 
 
@@ -30,40 +46,396 @@ library(EnhancedVolcano)
 ```
 
 
-```{r}
-#Set Library Directory
-#PC Path
-.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
-
-#Set working directory
-#PC Path
-setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/")
-#Laptop Path
-#Set Library Directory
-#.libPaths(c(""))
-#setwd("")
-#sink(file = "./RSessionRawRun.txt") 
-```
-
 #Opening Preprocessed Datasets
 ```{r}
-LCFShrinkResults_apeglm <- read_delim("../25 vs 25/My DESEQ Script/DESeq_results_LCFShrinkResults-apeglm.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+LCFShrinkResults25vs25_apeglm <- read_delim("../../25 vs 25/My DESEQ Script/DESeq_results_LCFShrinkResults-apeglm.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
-#rownames(LCFShrinkResults_apeglm)<- LCFShrinkResults_apeglm[,1]
-#LCFShrinkResults_apeglm <- LCFShrinkResults_apeglm[,-1]
+LCFShrinkResults25vs25_normal <- read_delim("../../25 vs 25/My DESEQ Script/DESeq_results_LCFShrinkResults-normal.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
-LCFShrinkResults_normal <- read_delim("../25 vs 25/My DESEQ Script/DESeq_results_LCFShrinkResults-normal.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+LCFShrinkResults25vs25_ashr <- read_delim("../../25 vs 25/My DESEQ Script/DESeq_results_LCFShrinkResults-ashr.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
-LCFShrinkResults_ashr <- read_delim("../25 vs 25/My DESEQ Script/DESeq_results_LCFShrinkResults-ashr.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+LCFShrinkResults29vs29_apeglm <- read_delim("../../29 vs 29/My DESEQ Script/DESeq_results_LCFShrinkResults-apeglm.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults29vs29_normal <- read_delim("../../29 vs 29/My DESEQ Script/DESeq_results_LCFShrinkResults-normal.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults29vs29_ashr <- read_delim("../../29 vs 29/My DESEQ Script/DESeq_results_LCFShrinkResults-ashr.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults33vs33_apeglm <- read_delim("../../33 vs 33/My DESEQ Script/DESeq_results_LCFShrinkResults-apeglm.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults33vs33_normal <- read_delim("../../33 vs 33/My DESEQ Script/DESeq_results_LCFShrinkResults-normal.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults33vs33_ashr <- read_delim("../../33 vs 33/My DESEQ Script/DESeq_results_LCFShrinkResults-ashr.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults37vs37_apeglm <- read_delim("../../37 vs 37/My DESEQ Script/DESeq_results_LCFShrinkResults-apeglm.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults37vs37_normal <- read_delim("../../37 vs 37/My DESEQ Script/DESeq_results_LCFShrinkResults-normal.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults37vs37_ashr <- read_delim("../../37 vs 37/My DESEQ Script/DESeq_results_LCFShrinkResults-ashr.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults41vs41_apeglm <- read_delim("../../41 vs 41/My DESEQ Script/DESeq_results_LCFShrinkResults-apeglm.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults41vs41_normal <- read_delim("../../41 vs 41/My DESEQ Script/DESeq_results_LCFShrinkResults-normal.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LCFShrinkResults41vs41_ashr <- read_delim("../../41 vs 41/My DESEQ Script/DESeq_results_LCFShrinkResults-ashr.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 ```
 
-#Creating Vocano Plots for apeglm dataset
+#25C Volcano Plots
+
+##Creating Vocano Plots for apeglm dataset
 ```{r}
-EnhancedVolcano(LCFShrinkResults_apeglm, #TODO Can I use Padj instead of Pvalue?
-                lab = LCFShrinkResults_apeglm$locus, #TODO Do I want to do a prior screen to eliminate the majority of the non reg genes?
+apeglmVPlot25vs25 <- EnhancedVolcano(LCFShrinkResults25vs25_apeglm, 
+                lab = '', # LCFShrinkResults25vs25_apeglm$locus,
                 x = 'log2FoldChange',
-                y = 'pvalue',
-                xlim = c(-5, 8)) #TODO Can I change/adj the legend? Also, what are the lables?
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./apeglm Volcano Plot 25vs25.png",width = 11, height = 9, res = 300, units = "in")
+
+apeglmVPlot25vs25
+
+par(mfrow = c(1,1)) # Good practice to immediatly reset plot sizing
+
+dev.off()
+```
+
+##Creating Vocano Plots for normal dataset
+```{r}
+NormalVPlot25vs25 <- EnhancedVolcano(LCFShrinkResults25vs25_normal, 
+                lab = '', # LCFShrinkResults25vs25_normal$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./Normal Volcano Plot 25vs25.png",width = 11, height = 9, res = 300, units = "in")
+
+NormalVPlot25vs25
+
+par(mfrow = c(1,1)) # Good practice to immediatly reset plot sizing
+
+dev.off()
+```
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+ashrVPlot25vs25 <- EnhancedVolcano(LCFShrinkResults25vs25_ashr, 
+                lab = '', # LCFShrinkResults25vs25_ashr$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./AshR Volcano Plot 25vs25.png",width = 11, height = 9, res = 300, units = "in")
+
+ashrVPlot25vs25
+
+par(mfrow = c(1,1)) # Good practice to immediatly reset plot sizing
+
+dev.off()
+```
+
+#29C Volcano Plots
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+apeglmVPlot29vs29 <- EnhancedVolcano(LCFShrinkResults29vs29_apeglm, 
+                lab = '', # LCFShrinkResults29vs29_apeglm$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./apeglm Volcano Plot 29vs29.png",width = 11, height = 9, res = 300, units = "in")
+
+apeglmVPlot29vs29
+
+par(mfrow = c(1,1)) # Good practice to immediatly reset plot sizing
+
+dev.off()
+```
+
+##Creating Vocano Plots for normal dataset
+```{r}
+NormalVPlot29vs29 <- EnhancedVolcano(LCFShrinkResults29vs29_normal, 
+                lab = '', # LCFShrinkResults29vs29_normal$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./Normal Volcano Plot 29vs29.png",width = 11, height = 9, res = 300, units = "in")
+
+NormalVPlot29vs29
+
+par(mfrow = c(1,1)) # Good practice to immediatly reset plot sizing
+
+dev.off()
+```
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+ashrVPlot29vs29 <- EnhancedVolcano(LCFShrinkResults29vs29_ashr, 
+                lab = '', # LCFShrinkResults29vs29_ashr$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./AshR Volcano Plot 29vs29.png",width = 11, height = 9, res = 300, units = "in")
+
+ashrVPlot29vs29
+
+par(mfrow = c(1,1))
+
+dev.off()
+```
+
+#33C Volcano Plots
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+apeglmVPlot33vs33 <- EnhancedVolcano(LCFShrinkResults33vs33_apeglm, 
+                lab = '', # LCFShrinkResults33vs33_apeglm$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./apeglm Volcano Plot 33vs33.png",width = 11, height = 9, res = 300, units = "in")
+
+apeglmVPlot33vs33
+
+par(mfrow = c(1,1))
+
+dev.off()
+```
+
+##Creating Vocano Plots for normal dataset
+```{r}
+NormalVPlot33vs33 <- EnhancedVolcano(LCFShrinkResults33vs33_normal, 
+                lab = '', # LCFShrinkResults33vs33_normal$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./Normal Volcano Plot 33vs33.png",width = 11, height = 9, res = 300, units = "in")
+
+NormalVPlot33vs33
+
+par(mfrow = c(1,1))
+
+dev.off()
+```
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+ashrVPlot33vs33 <- EnhancedVolcano(LCFShrinkResults33vs33_ashr, 
+                lab = '', # LCFShrinkResults33vs33_ashr$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./AshR Volcano Plot 33vs33.png",width = 11, height = 9, res = 300, units = "in")
+
+ashrVPlot33vs33
+
+par(mfrow = c(1,1))
+
+dev.off()
 ```
 
 
+#37C Volcano Plots
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+apeglmVPlot37vs37 <- EnhancedVolcano(LCFShrinkResults37vs37_apeglm, 
+                lab = '', # LCFShrinkResults37vs37_apeglm$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./apeglm Volcano Plot 37vs37.png",width = 11, height = 9, res = 300, units = "in")
+
+apeglmVPlot37vs37
+
+par(mfrow = c(1,1))
+
+dev.off()
+
+
+```
+
+##Creating Vocano Plots for normal dataset
+```{r}
+NormalVPlot37vs37 <- EnhancedVolcano(LCFShrinkResults37vs37_normal, 
+                lab = '', # LCFShrinkResults37vs37_normal$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./Normal Volcano Plot 37vs37.png",width = 11, height = 9, res = 300, units = "in")
+
+NormalVPlot37vs37
+
+par(mfrow = c(1,1)) 
+
+dev.off()
+```
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+ashrVPlot37vs37 <- EnhancedVolcano(LCFShrinkResults37vs37_ashr, 
+                lab = '', # LCFShrinkResults37vs37_ashr$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./AshR Volcano Plot 37vs37.png",width = 11, height = 9, res = 300, units = "in")
+
+ashrVPlot37vs37
+
+par(mfrow = c(1,1))
+
+dev.off()
+```
+
+
+#41C Volcano Plots
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+apeglmVPlot41vs41 <- EnhancedVolcano(LCFShrinkResults41vs41_apeglm, 
+                lab = '', # LCFShrinkResults41vs41_apeglm$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./apeglm Volcano Plot 41vs41.png",width = 11, height = 9, res = 300, units = "in")
+
+apeglmVPlot41vs41
+
+par(mfrow = c(1,1))
+
+dev.off()
+
+```
+
+##Creating Vocano Plots for normal dataset
+```{r}
+NormalVPlot41vs41 <- EnhancedVolcano(LCFShrinkResults41vs41_normal, 
+                lab = '', # LCFShrinkResults41vs41_normal$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./Normal Volcano Plot 41vs41.png",width = 11, height = 9, res = 300, units = "in")
+
+NormalVPlot41vs41
+
+par(mfrow = c(1,1))
+
+dev.off()
+```
+
+##Creating Vocano Plots for apeglm dataset
+```{r}
+ashrVPlot41vs41 <- EnhancedVolcano(LCFShrinkResults41vs41_ashr, 
+                lab = '', # LCFShrinkResults41vs41_ashr$locus,
+                x = 'log2FoldChange',
+                y = 'padj',
+                xlim = c(-5, 8),
+                xlab = bquote(~Log[2]~ 'Fold Change'),#TODO What are the lables?
+                ylab = bquote(~-Log[10]~ 'adjusted' ~italic(P))
+                )
+
+##Save Volcano Plot
+
+dev.off()
+png(filename = "./AshR Volcano Plot 41vs41.png",width = 11, height = 9, res = 300, units = "in")
+
+ashrVPlot41vs41
+
+par(mfrow = c(1,1)) 
+
+dev.off()
+```

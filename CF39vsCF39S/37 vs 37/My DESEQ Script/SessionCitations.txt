@@ -1,6 +1,6 @@
 
-  Love, M.I., Huber, W., Anders, S. Moderated estimation of fold change and dispersion for RNA-seq data
-  with DESeq2 Genome Biology 15(12):550 (2014)
+  Love, M.I., Huber, W., Anders, S. Moderated estimation of fold change and dispersion for RNA-seq data with
+  DESeq2 Genome Biology 15(12):550 (2014)
 
 A BibTeX entry for LaTeX users is
 
@@ -50,7 +50,7 @@ A BibTeX entry for LaTeX users is
 
 To cite package 'stringi' in publications use:
 
-  Gagolewski M. and others (2019). R package stringi: Character string processing facilities.
+  Gagolewski M. and others (2020). R package stringi: Character string processing facilities.
   http://www.gagolewski.com/software/stringi/.
 
 A BibTeX entry for LaTeX users is
@@ -58,7 +58,7 @@ A BibTeX entry for LaTeX users is
   @Manual{,
     title = {R package stringi: Character string processing facilities},
     author = {Marek Gagolewski},
-    year = {2019},
+    year = {2020},
     url = {http://www.gagolewski.com/software/stringi/},
   }
 

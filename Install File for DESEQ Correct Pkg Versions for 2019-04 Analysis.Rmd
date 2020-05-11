@@ -111,9 +111,6 @@ withr::with_libpaths(new = PackRatLibLocations, code = install_version("pkgconfi
 #withr::with_libpaths(new = PackRatLibLocations, code = install_version("FormatR", version = "1.6", upgrade = "never"))
 #withr::with_libpaths(new = PackRatLibLocations, code = install_version("hms", version = "0.4.2", upgrade = "never"))
 #withr::with_libpaths(new = PackRatLibLocations, code = install_version("lambda.r", version = "1.2.3", upgrade = "never"))
-
-
-
 ```
 
 

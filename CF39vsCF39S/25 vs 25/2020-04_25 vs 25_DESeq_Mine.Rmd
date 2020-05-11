@@ -192,14 +192,14 @@ rownames(d2) <- NULL
 ResNorm_Alt <- cbind(ID, d2)
 colnames(ResNorm_Alt) <- c("locus", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
 ResNorm_Alt
-write.table(ResLFC_Alt,file = "DESeq_results_LCFShrinkResults-normal.txt", sep = "\t", row.names = FALSE)
+write.table(ResNorm_Alt,file = "DESeq_results_LCFShrinkResults-normal.txt", sep = "\t", row.names = FALSE)
 
 #If you use this data cite ashy package
 ResAsh <- lfcShrink(DataDFDESeqRes, coef = "condition_CF39S_vs_CF39C", type = "ashr")
 ResAsh
 
 d2 <- ResAsh
-ID <- rownames(ResLFC)
+ID <- rownames(ResAsh)
 rownames(d2) <- NULL
 ResAsh_Alt <- cbind(ID, d2)
 colnames(ResAsh_Alt) <- c("locus", "baseMean", "log2FoldChange", "lfcSE", "pvalue", "padj")

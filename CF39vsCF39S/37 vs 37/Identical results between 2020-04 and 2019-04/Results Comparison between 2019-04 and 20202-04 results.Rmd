@@ -9,6 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
 ```{r}
 #Set working directory and Library Directory
 #PC Path
@@ -31,7 +37,7 @@ TDESEQList_37vs37OLD <- read_delim("./2019-04_37vs37_DESeqNew_results.txt", "\t"
 colnames(TDESEQList_37vs37OLD) <- c("ID_37_Old", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
 TDESEQList_37vs37OLD <- TDESEQList_37vs37OLD[((TDESEQList_37vs37OLD$padj <PAdjValue)& (!is.na(TDESEQList_37vs37OLD$padj))), ]
 
-TDESEQList_37vs37New <- read_delim("./2020-04_37vs37_DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+TDESEQList_37vs37New <- read_delim("./2020-05_37vs37_DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 colnames(TDESEQList_37vs37New) <- c("ID_37_New", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
 TDESEQList_37vs37New <- TDESEQList_37vs37New[((TDESEQList_37vs37New$padj <PAdjValue)& (!is.na(TDESEQList_37vs37New$padj))), ]
 ```
@@ -62,9 +68,6 @@ write.table(x = Analysis_SameGenes, file="./Analysis_SameGenes.txt", sep="\t", r
 write.table(x = OldAnalysis_DiffGenesToNewAnalysis, file="./OldAnalysis_DiffGenesToNewAnalysis.txt", sep="\t", row.names=FALSE, col.names=colnames(OldAnalysis_DiffGenesToNewAnalysis), quote=F)
 
 write.table(x = NewAnalysis_DiffGenesToOldAnalysis, file="./NewAnalysis_DiffGenesToOldAnalysis.txt", sep="\t", row.names=FALSE, col.names=colnames(NewAnalysis_DiffGenesToOldAnalysis), quote=F)
-
-Difference <- OldAnalysis_DiffGenesToNewAnalysis[(((NewAnalysis_DiffGenesToOldAnalysis$baseMean %in% OldAnalysis_DiffGenesToNewAnalysis$baseMean))|| ((OldAnalysis_DiffGenesToNewAnalysis$baseMean %in% NewAnalysis_DiffGenesToOldAnalysis$baseMean))),] #TODO Remove once troubleshooting done
-
 ```
 
 Obtain Numbers for compairisons
