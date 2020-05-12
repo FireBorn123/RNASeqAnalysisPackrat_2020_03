@@ -16,19 +16,6 @@ remove(list = ls())
 ```
 
 
-Libraries to install:
-```{r, eval=FALSE}
-install.packages('VennDiagram')
-```
-
-
-Libraries to open:
-```{r}
-library(readr)
-library(VennDiagram)
-```
-
-
 ```{r}
 #Set Library Directory
 #PC Path
@@ -44,24 +31,72 @@ setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAn
 #sink(file = "./RSessionRawRun.txt") 
 ```
 
+
+Libraries to install:
+```{r, eval=FALSE}
+install.packages('VennDiagram')
+```
+
+
+Libraries to open:
+```{r}
+library(readr)
+library(VennDiagram)
+```
+
+
 #Opening Preprocessed Datasets
 
 ```{r}
 TDESEQList_25vs25 <- read_delim("../25 vs 25/DE_Reg_Genes_Analysis/TDESEQ25vs25.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
-colnames(TDESEQList_25vs25) <- c("locus", "baseMean", "log2FoldChange_25C", "lfcSE", "stat", "pvalue_25C", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+colnames(TDESEQList_25vs25) <- c("locus", "baseMean", "log2FoldChange_25C", "lfcSE", "stat", "pvalue_25C", "padj_25C", "gene_name", "gene_discription", "raw_locus")
 
 TDESEQList_29vs29 <- read_delim("../29 vs 29/DE_Reg_Genes_Analysis/TDESEQ29vs29.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
-colnames(TDESEQList_29vs29) <- c("locus", "baseMean", "log2FoldChange_29C", "lfcSE", "stat", "pvalue_29C", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+colnames(TDESEQList_29vs29) <- c("locus", "baseMean", "log2FoldChange_29C", "lfcSE", "stat", "pvalue_29C", "padj_29C", "gene_name", "gene_discription", "raw_locus")
 
 TDESEQList_33vs33 <- read_delim("../33 vs 33/DE_Reg_Genes_Analysis/TDESEQ33vs33.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
-colnames(TDESEQList_33vs33) <- c("locus", "baseMean", "log2FoldChange_33C", "lfcSE", "stat", "pvalue_33C", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+colnames(TDESEQList_33vs33) <- c("locus", "baseMean", "log2FoldChange_33C", "lfcSE", "stat", "pvalue_33C", "padj_33C", "gene_name", "gene_discription", "raw_locus")
 
 TDESEQList_37vs37 <- read_delim("../37 vs 37/DE_Reg_Genes_Analysis/TDESEQ37vs37.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
-colnames(TDESEQList_37vs37) <- c("locus", "baseMean", "log2FoldChange_37C", "lfcSE", "stat", "pvalue_37C", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+colnames(TDESEQList_37vs37) <- c("locus", "baseMean", "log2FoldChange_37C", "lfcSE", "stat", "pvalue_37C", "padj_37C", "gene_name", "gene_discription", "raw_locus")
 
 TDESEQList_41vs41 <- read_delim("../41 vs 41/DE_Reg_Genes_Analysis/TDESEQ41vs41.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
-colnames(TDESEQList_41vs41) <- c("locus", "baseMean", "log2FoldChange_41C", "lfcSE", "stat", "pvalue_41C", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+colnames(TDESEQList_41vs41) <- c("locus", "baseMean", "log2FoldChange_41C", "lfcSE", "stat", "pvalue_41C", "padj_41C", "gene_name", "gene_discription", "raw_locus")
 ```
+
+
+#Convert Log2Fold Change to Fold Change
+```{r}
+TDESEQList_25vs25$FoldChange_25 <- ifelse(((TDESEQList_25vs25$log2FoldChange_25C) >= 0), (2^TDESEQList_25vs25$log2FoldChange_25C), (-1/(2^TDESEQList_25vs25$log2FoldChange_25C)))
+
+ColOrder25 <- c("locus", "baseMean", "log2FoldChange_25C", "FoldChange_25", "lfcSE", "stat", "pvalue_25C", "padj_25C", "gene_name", "gene_discription", "raw_locus")
+TDESEQList_25vs25 <- TDESEQList_25vs25[, ColOrder25]
+
+
+TDESEQList_29vs29$FoldChange_29 <- ifelse(((TDESEQList_29vs29$log2FoldChange_29C) >= 0), (2^TDESEQList_29vs29$log2FoldChange_29C), (-1/(2^TDESEQList_29vs29$log2FoldChange_29C)))
+
+ColOrder29 <- c("locus", "baseMean", "log2FoldChange_29C", "FoldChange_29", "lfcSE", "stat", "pvalue_29C", "padj_29C", "gene_name", "gene_discription", "raw_locus")
+TDESEQList_29vs29 <- TDESEQList_29vs29[, ColOrder29]
+
+
+TDESEQList_33vs33$FoldChange_33 <- ifelse(((TDESEQList_33vs33$log2FoldChange_33C) >= 0), (2^TDESEQList_33vs33$log2FoldChange_33C), (-1/(2^TDESEQList_33vs33$log2FoldChange_33C)))
+
+ColOrder33 <- c("locus", "baseMean", "log2FoldChange_33C", "FoldChange_33", "lfcSE", "stat", "pvalue_33C", "padj_33C", "gene_name", "gene_discription", "raw_locus")
+TDESEQList_33vs33 <- TDESEQList_33vs33[, ColOrder33]
+
+
+TDESEQList_37vs37$FoldChange_37 <- ifelse(((TDESEQList_37vs37$log2FoldChange_37C) >= 0), (2^TDESEQList_37vs37$log2FoldChange_37C), (-1/(2^TDESEQList_37vs37$log2FoldChange_37C)))
+
+ColOrder37 <- c("locus", "baseMean", "log2FoldChange_37C", "FoldChange_37", "lfcSE", "stat", "pvalue_37C", "padj_37C", "gene_name", "gene_discription", "raw_locus")
+TDESEQList_37vs37 <- TDESEQList_37vs37[, ColOrder37]
+
+
+TDESEQList_41vs41$FoldChange_41 <- ifelse(((TDESEQList_41vs41$log2FoldChange_41C) >= 0), (2^TDESEQList_41vs41$log2FoldChange_41C), (-1/(2^TDESEQList_41vs41$log2FoldChange_41C)))
+
+ColOrder41 <- c("locus", "baseMean", "log2FoldChange_41C", "FoldChange_41", "lfcSE", "stat", "pvalue_41C", "padj_41C", "gene_name", "gene_discription", "raw_locus")
+TDESEQList_41vs41 <- TDESEQList_41vs41[, ColOrder41]
+```
+
 
 #Saving correct format for each table
 ```{r}
@@ -84,18 +119,18 @@ P designation is temperature pure (so for instance CF3925vsCF39S25 is P25 or CF3
 ```{r}
 P25vsP29_SameGenes<- TDESEQList_25vs25[(TDESEQList_25vs25$locus %in% TDESEQList_29vs29$locus), ]
 
-P25_DiffGenesToP29 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_25vs25$padj))), ]
+P25_DiffGenesToP29 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_25vs25$padj_25C))), ]
 
-P29_DiffGenesToP25 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_29vs29$padj))),]
+P29_DiffGenesToP25 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_29vs29$padj_29C))),]
 ```
 
 ##Identify trends from P25 to P33
 ```{r}
 P25vsP33_SameGenes<- TDESEQList_25vs25[(TDESEQList_25vs25$locus %in% TDESEQList_33vs33$locus), ]
 
-P25_DiffGenesToP33 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_25vs25$padj))), ]
+P25_DiffGenesToP33 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_25vs25$padj_25C))), ]
 
-P33_DiffGenesToP25 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_33vs33$padj))),]
+P33_DiffGenesToP25 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_33vs33$padj_33C))),]
 ```
 
 
@@ -103,72 +138,72 @@ P33_DiffGenesToP25 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQLi
 ```{r}
 P25vsP37_SameGenes<- TDESEQList_25vs25[(TDESEQList_25vs25$locus %in% TDESEQList_37vs37$locus), ]
 
-P25_DiffGenesToP37 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_25vs25$padj))), ]
+P25_DiffGenesToP37 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_25vs25$padj_25C))), ]
 
-P37_DiffGenesToP25 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_37vs37$padj))),]
+P37_DiffGenesToP25 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_37vs37$padj_37C))),]
 ```
 
 ##Identify trends from P25 to P41
 ```{r}
 P25vsP41_SameGenes<- TDESEQList_25vs25[(TDESEQList_25vs25$locus %in% TDESEQList_41vs41$locus), ]
 
-P25_DiffGenesToP41 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_25vs25$padj))), ]
+P25_DiffGenesToP41 <- TDESEQList_25vs25[!((TDESEQList_25vs25$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_25vs25$padj_25C))), ]
 
-P41_DiffGenesToP25 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_41vs41$padj))),]
+P41_DiffGenesToP25 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_25vs25$locus)& (!is.na(TDESEQList_41vs41$padj_41C))),]
 ```
 
 ##Identify trends from P29 to P33
 ```{r}
 P29vsP33_SameGenes<- TDESEQList_29vs29[(TDESEQList_29vs29$locus %in% TDESEQList_33vs33$locus), ]
 
-P29_DiffGenesToP33 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_29vs29$padj))), ]
+P29_DiffGenesToP33 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_29vs29$padj_29C))), ]
 
-P33_DiffGenesToP29 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_33vs33$padj))),]
+P33_DiffGenesToP29 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_33vs33$padj_33C))),]
 ```
 
 ##Identify trends from P29 to P37
 ```{r}
 P29vsP37_SameGenes<- TDESEQList_29vs29[(TDESEQList_29vs29$locus %in% TDESEQList_37vs37$locus), ]
 
-P29_DiffGenesToP37 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_29vs29$padj))), ]
+P29_DiffGenesToP37 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_29vs29$padj_29C))), ]
 
-P37_DiffGenesToP29 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_37vs37$padj))),]
+P37_DiffGenesToP29 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_37vs37$padj_37C))),]
 ```
 
 ##Identify trends from P29 to P41
 ```{r}
 P29vsP41_SameGenes<- TDESEQList_29vs29[(TDESEQList_29vs29$locus %in% TDESEQList_41vs41$locus), ]
 
-P29_DiffGenesToP41 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_29vs29$padj))), ]
+P29_DiffGenesToP41 <- TDESEQList_29vs29[!((TDESEQList_29vs29$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_29vs29$padj_29C))), ]
 
-P41_DiffGenesToP29 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_41vs41$padj))),]
+P41_DiffGenesToP29 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_29vs29$locus)& (!is.na(TDESEQList_41vs41$padj_41C))),]
 ```
 
 ##Identify trends from P33 to P37
 ```{r}
 P33vsP37_SameGenes<- TDESEQList_33vs33[(TDESEQList_33vs33$locus %in% TDESEQList_37vs37$locus), ]
 
-P33_DiffGenesToP37 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_33vs33$padj))), ]
+P33_DiffGenesToP37 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_33vs33$padj_33C))), ]
 
-P37_DiffGenesToP33 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_37vs37$padj))),]
+P37_DiffGenesToP33 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_37vs37$padj_37C))),]
 ```
 
 ##Identify trends from P33 to P41
 ```{r}
 P33vsP41_SameGenes<- TDESEQList_33vs33[(TDESEQList_33vs33$locus %in% TDESEQList_41vs41$locus), ]
 
-P33_DiffGenesToP41 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_33vs33$padj))), ]
+P33_DiffGenesToP41 <- TDESEQList_33vs33[!((TDESEQList_33vs33$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_33vs33$padj_33C))), ]
 
-P41_DiffGenesToP33 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_41vs41$padj))),]
+P41_DiffGenesToP33 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_33vs33$locus)& (!is.na(TDESEQList_41vs41$padj_41C))),]
 ```
 
 ##Identify trends from P37 to P41
 ```{r}
 P37vsP41_SameGenes<- TDESEQList_37vs37[(TDESEQList_37vs37$locus %in% TDESEQList_41vs41$locus), ]
 
-P37_DiffGenesToP41 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_37vs37$padj))), ]
+P37_DiffGenesToP41 <- TDESEQList_37vs37[!((TDESEQList_37vs37$locus %in% TDESEQList_41vs41$locus)& (!is.na(TDESEQList_37vs37$padj_37C))), ]
 
-P41_DiffGenesToP37 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_41vs41$padj))),]
+P41_DiffGenesToP37 <- TDESEQList_41vs41[!((TDESEQList_41vs41$locus %in% TDESEQList_37vs37$locus)& (!is.na(TDESEQList_41vs41$padj_41C))),]
 ```
 
 #Combine full files
@@ -186,7 +221,7 @@ Combined_List <- merge(Combined_List, y = TDESEQList_41vs41, by.x= "locus", by.y
 #Reformat Files
 ##Shrink All
 ```{r}
-ColToRemove <- c("baseMean", "lfcSE", "stat", "padj_Temp", "gene_name", "gene_discription", "raw_locus")
+ColToRemove <- c("baseMean", "lfcSE", "stat", "gene_name", "gene_discription", "raw_locus")
 
 TDESEQList_25vs25_Shrunk <- TDESEQList_25vs25[, !names(TDESEQList_25vs25) %in% ColToRemove, drop = F]
 TDESEQList_29vs29_Shrunk <- TDESEQList_29vs29[, !names(TDESEQList_29vs29) %in% ColToRemove, drop = F]
@@ -210,6 +245,21 @@ Combined_List_Shrunk <- merge(Combined_List_Shrunk, LocusGeneAssociation, by = "
 write.table(x = Combined_List_Shrunk, file="./Combined List Analysis Shrunk.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk), quote=F)
 ```
 
+#Remove Igbot/Igtop form analysis
+#Remove igtop/igbot from analysis
+#Remove Unwanted Columns
+```{r}
+ColToRemove <- c("baseMean", "lfcSE", "stat", "gene", "product", "locusNumber")
+
+Combined_List_Shrunk2_Full <- Combined_List_Shrunk[, !names(Combined_List_Shrunk) %in% ColToRemove, drop = F]
+Combined_List_Shrunk2TailListSense <- Combined_List_Shrunk2_Full[((grep((glob2rx('*_sense')), Combined_List_Shrunk2_Full$locus))), ]
+Combined_List_Shrunk2TailListAntiSense <- Combined_List_Shrunk2_Full[((grep((glob2rx('*_antis')), Combined_List_Shrunk2_Full$locus))), ]
+Combined_List_Shrunk2TailListMerged <- rbind(Combined_List_Shrunk2TailListSense, Combined_List_Shrunk2TailListAntiSense)
+Combined_List_Shrunk2 <- Combined_List_Shrunk2TailListMerged[order(Combined_List_Shrunk2TailListMerged$locus), ]
+Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, LocusGeneAssociation, by = "locus")
+
+write.table(x = Combined_List_Shrunk2, file="./Combined List Analysis Shrunk2.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk2), quote=F)
+```
 
 
 #Session Info

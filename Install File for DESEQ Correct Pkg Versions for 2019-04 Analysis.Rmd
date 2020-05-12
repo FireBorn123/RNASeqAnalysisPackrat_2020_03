@@ -158,6 +158,8 @@ biocLite("IRanges", version = "2.14.12", suppressUpdates = TRUE)
 #biocLite("S4Vectors", version = "0.18.3", suppressUpdates = TRUE)
 biocLite("S4Vectors", version = "0.19.11", suppressUpdates = TRUE)
 biocLite("BiocGenerics", version = "0.26.0", suppressUpdates = TRUE)
+biocLite("ComplexHeatmap", version)
+```
 
 ```
 
