@@ -439,3 +439,21 @@ par(mfrow = c(1,1))
 
 dev.off()
 ```
+
+#Session Info
+```{r}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+
+#References
+
+The citation function can be used to  who you should be citing.
+
+```{r}
+#TODO
+```
+

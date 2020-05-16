@@ -125,3 +125,19 @@ Combined_List_Shrunk2 <- merge(Combined_List_Shrunk2, LocusGeneAssociation, by =
 
 write.table(x = Combined_List_Shrunk2, file="./Combined List OtherTempsvs41 Analysis Shrunk2.txt", sep="\t", row.names=FALSE, col.names=colnames(Combined_List_Shrunk2), quote=F)
 ```
+
+#Session Info
+```{r}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+#References
+
+The citation function can be used to  who you should be citing.
+
+```{r}
+#TODO
+```
