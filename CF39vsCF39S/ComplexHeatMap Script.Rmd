@@ -1,0 +1,243 @@
+---
+title: "ComplexHeatMap Test Script"
+author: "Trevor Randall"
+date: "12/05/2020"
+output: html_document
+---
+
+Analysis from: https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+
+```{r}
+``{r}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+``` 
+```
+
+```{r, eval=FALSE}
+
+install.packages("dendextend")
+
+install.packages("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/caTools_1.17.1.3.tar.gz", repos = NULL, type="source")
+install.packages("seriation")
+
+```
+
+#Libraries required
+```{r}
+library(readr)
+library(ComplexHeatmap)
+library(circlize)
+library(cluster)
+#library(dendextend)
+#library(seriation)
+```
+
+PTA = Pure Temperature Analysis
+#Dataset
+```{r}
+Combined_List_Analysis_Shrunk2 <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Combined List Analysis Shrunk2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+FoldChangeData <- data.frame(Combined_List_Analysis_Shrunk2$locus, Combined_List_Analysis_Shrunk2$FoldChange_25, Combined_List_Analysis_Shrunk2$FoldChange_29, Combined_List_Analysis_Shrunk2$FoldChange_33, Combined_List_Analysis_Shrunk2$FoldChange_37, Combined_List_Analysis_Shrunk2$FoldChange_41)
+
+NamesOfColumns <- c("locus", "FoldChange_25", "FoldChange_29", "FoldChange_33", "FoldChange_37", "FoldChange_41")
+colnames(FoldChangeData) <- NamesOfColumns
+rownames(FoldChangeData) <- FoldChangeData$locus
+FoldChangeData <- FoldChangeData[,-1]
+
+#FoldChangeDataWithNAMat <- data.matrix(FoldChangeData)
+#na_index = sample(c(TRUE, FALSE), nrow(FoldChangeDataWithNAMat)*ncol(FoldChangeDataWithNAMat), replace = TRUE, prob = c(1, 9))
+#FoldChangeDataWithNAMat[na_index] = NA
+
+FoldChangeDataNoNA <- FoldChangeData
+FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
+FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
+```
+
+```{r}
+mat <- FoldChangeDataNoNAMat
+colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
+ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
+```
+
+
+#Not Coming up with biologically meaningful results
+```{r, eval = FALSE}
+for (i in 1:5) mat[i, i]
+robust_dist <- function(x, y) {
+    qx = quantile(x, c(0.1, 0.9))
+    qy = quantile(y, c(0.1, 0.9))
+    l = x > qx[1] & x < qx[2] & y > qy[1] & y < qy[2]
+    x = x[l]
+    y = y[l]
+    sqrt(sum((x - y)^2))}
+```
+
+
+#Possible clustering options that i could see
+
+        clustering_distance_rows = "pearson", #Pre-defined distance method (1 - pearson) #Seems to look the most split up along with the single distancing
+        clustering_distance_rows = "spearman",
+        clustering_distance_rows = "kendall",
+        clustering_distance_rows = function(mat) dist(mat), #A function that calculates distance between martix points
+        clustering_distance_rows = function(x, y) 1 - cor(x, y), #A function that calculates pairwise distance between martix points
+        clustering_distance_rows = robust_dist, #NO apparent biological sense
+        clustering_method_rows = "single",
+        clustering_method_rows = "complete",
+        cluster_rows = diana(mat), #Cluster used here
+        cluster_rows = function(mat) as.dendrogram(diana(mat)),
+        
+##TODO Look into Seration package to improve pattern visibility
+
+#Coloration of row dendrigram
+```{r}
+#dendextend used below
+#row_dend = as.dendrogram(hclust(dist(mat)))
+#row_dend = as.dendrogram(hclust(dist(mat), method = "single"))
+row_dend = as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete")
+row_dend = color_branches(row_dend, k = 10) # `color_branches()` returns a dendrogram object
+
+split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
+
+```
+
+  cluster_rows = function(mat) color_branches(as.dendrogram(diana(mat)), k = 10), #Same as above dendrogram
+  cluster_rows = function(mat) color_branches(as.dendrogram(diana(mat)), k = 10), #Looks good
+  cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "euclidean")), method = "complete"), k = 10) #Looks good
+  cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 10) #Looks very logical
+  cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete"), k = 10) #Looks good
+
+
+#Seration
+```{r}
+#o = seriate(max(mat)- mat, method = "BEA_TSP") #Cannot convert to dendrogram
+#o = seriate(dist(mat), method = "TSP") #Cannot convert to dendrogram
+o = seriate(dist(mat), method = "OLO_complete")
+```
+
+o = seriate(dist(mat), method = "GW") #Looks okay
+        cluster_rows = color_branches(as.dendrogram(o[[1]]), k = 15),
+        row_order = get_order(o),
+        split = 15,
+        
+o = seriate(dist(mat), method = "OLO") #Looks okay
+        cluster_rows = color_branches(as.dendrogram(o[[1]]), k = 15),
+        row_order = get_order(o),
+        split = 15,
+
+
+o = seriate(dist(mat), method = "OLO_complete") #Looks okay
+        cluster_rows = color_branches(as.dendrogram(o[[1]]), k = 15),
+        row_order = get_order(o),
+        split = 15,
+
+
+o = seriate(dist(mat), method = "HC_complete") #Looks good
+        cluster_rows = color_branches(as.dendrogram(o[[1]]), k = 15),
+        row_order = get_order(o),
+        split = 15,
+
+```{r}
+HeatmapTest <- Heatmap(
+        matrix = mat, 
+        #clustering_distance_rows = function(mat) dist(mat),
+        #clustering_method_rows = "single",
+        cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 20), #Makes sense, see above
+        row_split = 12,
+        row_gap = unit(1.75, 'mm'),
+        border = FALSE,
+        
+        cell_fun = function(j, i, x, y, width, height, fill) {
+          if(mat[i, j] < 0 || mat[i, j] > 0)
+            grid.text(sprintf("%.1f", mat[i, j]), x, y, gp = gpar(fontsize = 4))},
+        
+        col = colorSetRedBlue, 
+        column_dend_reorder = FALSE, 
+        column_order = ColOrder, 
+        row_title = "Transcribed Gene Loci", 
+        column_title = "Conditions tested (CF39S vs CF39)", 
+        column_title_side = "bottom",
+        row_dend_width = unit(6, "cm"),
+        row_names_gp = gpar(fontsize = 4.5)
+        , raster_quality = 10
+        )
+
+HeatmapTest
+```
+
+
+#Not certain What this is showing...
+```{r}
+cor_mat = cor(mat)
+od = hclust(dist(cor_mat))$order
+cor_mat = cor_mat[od, od]
+nm = rownames(cor_mat)
+col_fun = circlize::colorRamp2(c(-1, 0, 1), c("green", "white", "red"))
+# `col = col_fun` here is used to generate the legend
+OddHeatMap <- Heatmap(cor_mat, name = "correlation", col = col_fun, rect_gp = gpar(type = "none"), 
+    cell_fun = function(j, i, x, y, width, height, fill) {
+        grid.rect(x = x, y = y, width = width, height = height, 
+            gp = gpar(col = "grey", fill = NA))
+        if(i == j) {
+            grid.text(nm[i], x = x, y = y)
+        } else if(i > j) {
+            grid.circle(x = x, y = y, r = abs(cor_mat[i, j])/2 * min(unit.c(width, height)), 
+                gp = gpar(fill = col_fun(cor_mat[i, j]), col = NA))
+        } else {
+            grid.text(sprintf("%.1f", cor_mat[i, j]), x, y, gp = gpar(fontsize = 10))
+        }
+    }, cluster_rows = FALSE, cluster_columns = FALSE,
+    show_row_names = FALSE, show_column_names = FALSE)
+
+OddHeatMap
+```
+
+
+```{r}
+pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled.pdf", width = 8, height = 20)
+HeatmapTest
+dev.off()
+```
+
+
+#Session Info
+```{r, eval = FALSE}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+#References
+
+The citation function can be used to  who you should be citing.
+
+```{r, eval = FALSE}
+sink(file = "./ReferenceInfo.txt")
+citation("readr")
+citation("ComplexHeatmap")
+citation("circlize")
+citation("cluster")
+sink(file = NULL)
+```
