@@ -105,6 +105,7 @@ withr::with_libpaths(new = PackRatLibLocations, code = install_version("gridExtr
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("futile.logger", version = "1.4.3", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("futile.options", version = "1.0.1", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("pkgconfig", version = "2.0.2", upgrade = "never"))
+withr::with_libpaths(new = PackRatLibLocations, code = install_version("dendextend", version = "1.13.4", upgrade = "never"))
 
 
 #Ignore if same results
@@ -158,7 +159,6 @@ biocLite("IRanges", version = "2.14.12", suppressUpdates = TRUE)
 #biocLite("S4Vectors", version = "0.18.3", suppressUpdates = TRUE)
 biocLite("S4Vectors", version = "0.19.11", suppressUpdates = TRUE)
 biocLite("BiocGenerics", version = "0.26.0", suppressUpdates = TRUE)
-biocLite("ComplexHeatmap", version)
 ```
 
 ```
@@ -173,9 +173,15 @@ withr::with_libpaths(new = PackRatLibLocations, code = install_version("ggrepel"
 
 #Install GenomeInfoDbData from source Package
 ```{r}
+library(devtools)
+
 install.packages("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Source Packages/GenomeInfoDbData_1.2.0.tar.gz", repos = NULL, type="source")
 
 install.packages('E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Source Packages/EnhancedVolcano_1.6.0.zip', repos = NULL)
+
+install.packages("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/Source Packages/caTools_1.17.1.3.tar.gz", repos = NULL, type="source")
+
+install_github("jokergoo/ComplexHeatmap@ea8dcf77", force = TRUE) #Install Version 2.5.2, ea8dcf77 is the commit ID
 ```
 
 
