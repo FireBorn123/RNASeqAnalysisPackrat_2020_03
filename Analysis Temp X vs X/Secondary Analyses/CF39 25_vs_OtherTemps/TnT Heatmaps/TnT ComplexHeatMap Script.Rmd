@@ -122,11 +122,17 @@ HeatmapTest <- Heatmap(
         row_gap = unit(1.75, 'mm'),
         border = FALSE, 
         
-        show_row_names = FALSE,
-        #row_labels = TnT_List_Analysis_Shrunk2$locus,
-        right_annotation = rowAnnotation(Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus, location = unit(2, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
-                                         Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(5, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-                                         Col3 = anno_text(EmptyColumn, location = unit(5, "mm"), gp = gpar(fontsize = RowLabelTextCell))),
+        show_row_names = TRUE,
+        row_labels = TnT_List_Analysis_Shrunk2$PAO1_ID,
+        
+        
+       # row_names_max_width = unit(50, "mm"), #Does not appear to be doing anything
+        right_annotation = rowAnnotation(
+                                        Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus, location = unit(2, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
+                                        Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(7, "mm"), gp = gpar(fontsize = RowLabelTextCell))#,
+                                        #Col3 = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, location = unit(9, "mm"), gp = gpar(fontsize = RowLabelTextCell))#,
+                                        ),
+        
         
         row_title = "Transcribed Gene Loci", 
         row_names_gp = gpar(fontsize = RowLabelTextCell),
@@ -153,7 +159,7 @@ HeatmapTest <- Heatmap(
         height = unit(10, 'cm')
         , raster_quality = 10
         )
-#draw(HeatmapTest, heatmap_legend_side = "bottom", annotation_legend_side = "left")
+#HeatmapTest <- draw(HeatmapTest, heatmap_legend_side = "bottom", annotation_legend_side = "bottom")
 
 
 HeatmapTest

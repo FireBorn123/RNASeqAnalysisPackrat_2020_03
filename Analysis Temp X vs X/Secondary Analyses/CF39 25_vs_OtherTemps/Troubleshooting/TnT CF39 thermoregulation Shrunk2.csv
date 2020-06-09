@@ -1,0 +1,11 @@
+locus,CF39 FC 25vs29,CF39 FC 25vs33,CF39 FC 25vs37,CF39 FC 25vs41,gene,product,PAO1 ID (Pseudomonas DB Protein search),Protein Description
+PROKKA_06325_sense,NA,NA,1.488370416,1.607907451,mucD_2,serine protease MucD precursor,N/A,N/A
+PROKKA_06328_antis,-2.105652506,NA,NA,NA,wspR_8,TdcA,N/A,N/A
+PROKKA_06333_sense,1.366560024,1.738802882,1.421003191,2.478870309,n/a,YfdX protein,N/A,N/A
+PROKKA_06334_sense,1.320418416,NA,NA,2.21533843,n/a,YfdX protein,N/A,N/A
+PROKKA_06338_sense,1.6138994,NA,NA,NA,clpB_5,ClpB protein,PA0459 like protein,N/A
+PROKKA_06339_antis,NA,3.359076905,NA,NA,n/a,molecular chaperone,N/A,N/A
+PROKKA_06339_sense,1.557287018,1.712704704,NA,NA,n/a,molecular chaperone,N/A,N/A
+PROKKA_06340_sense,1.847775948,2.140210451,2.338665471,3.877744448,n/a,putative helicase,N/A,N/A
+PROKKA_06342_sense,NA,NA,1.384923723,NA,n/a,hypothetical protein,N/A,N/A
+PROKKA_06345_sense,NA,NA,1.43250211,1.658365519,n/a,integrase core domain-containing protein,N/A,N/A
