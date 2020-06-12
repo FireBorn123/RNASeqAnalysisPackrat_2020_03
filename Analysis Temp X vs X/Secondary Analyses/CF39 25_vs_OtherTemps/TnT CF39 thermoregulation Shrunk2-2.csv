@@ -1,0 +1,23 @@
+locus,CF39 FC 25vs29,CF39 FC 25vs33,CF39 FC 25vs37,CF39 FC 25vs41,gene,product,PAO1 ID (Pseudomonas DB Protein search),Protein Description
+PROKKA_06325_sense,NA,NA,1.488370416,1.607907451,mucD_2,serine protease MucD precursor,N/A,N/A
+PROKKA_06326_sense,NA,NA,NA,NA,htpX_2,heat shock protein htpX,N/A,N/A
+PROKKA_06327_sense,NA,NA,NA,NA,n/a,putative membrane protein,N/A,N/A
+PROKKA_06328_antis,-2.105652506,NA,NA,NA,wspR_8 (TdcA),TdcA,N/A,N/A
+PROKKA_06329_sense,NA,NA,NA,NA,kefB_4,glutathione-regulated potassium-efflux system protein KefB,N/A,N/A
+PROKKA_06330_sense,NA,NA,NA,NA,trxA_4,thioredoxin,N/A,N/A
+PROKKA_06331_sense,NA,NA,NA,NA,n/a,hypothetical protein,N/A,N/A
+PROKKA_06332_sense,NA,NA,NA,NA,n/a,hypothetical protein,PA5409 (PI: 38.6%),hypothetical protein
+PROKKA_06333_sense,1.366560024,1.738802882,1.421003191,2.478870309,n/a,YfdX protein,N/A,N/A
+PROKKA_06334_sense,1.320418416,NA,NA,2.21533843,n/a,YfdX protein,N/A,N/A
+PROKKA_06335_sense,NA,NA,NA,NA,n/a,molecular chaperone,PA3126 (PI: 35.8%),heat-shock protein IbpA
+PROKKA_06336_sense,NA,NA,NA,NA,ftsH_3,cell division protein FtsH,PA4751 (PI: 45.7%),cell division protein FtsH
+PROKKA_06337_sense,NA,NA,NA,NA,n/a,hypothetical protein,N/A,N/A
+PROKKA_06338_sense,1.6138994,NA,NA,NA,clpB_5,ClpB protein,PA0459 like protein,N/A
+PROKKA_06339_antis,NA,3.359076905,NA,NA,n/a,molecular chaperone,N/A,N/A
+PROKKA_06339_sense,1.557287018,1.712704704,NA,NA,n/a,molecular chaperone,N/A,N/A
+PROKKA_06340_sense,1.847775948,2.140210451,2.338665471,3.877744448,n/a,putative helicase,N/A,N/A
+PROKKA_06341_sense,NA,NA,NA,NA,n/a,transposase is3 is911 family protein,PA0983 (PI: 29.5%),conserved hypothetical protein
+PROKKA_06342_sense,NA,NA,1.384923723,NA,n/a,hypothetical protein,N/A,N/A
+PROKKA_06343_sense,NA,NA,NA,NA,n/a,"transposition protein, TnsD-like protein",N/A,N/A
+PROKKA_06344_sense,NA,NA,NA,NA,tnsC,"transporter, AcrB/AcrD/AcrF family",N/A,N/A
+PROKKA_06345_sense,NA,NA,1.43250211,1.658365519,n/a,integrase core domain-containing protein,N/A,N/A

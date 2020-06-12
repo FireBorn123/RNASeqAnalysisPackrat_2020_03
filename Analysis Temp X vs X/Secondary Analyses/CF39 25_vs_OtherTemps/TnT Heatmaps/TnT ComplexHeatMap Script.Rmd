@@ -47,7 +47,7 @@ library(dendextend)
 PTA = Pure Temperature Analysis
 #Dataset
 ```{r}
-TnT_List_Analysis_Shrunk2 <- read_csv("../TnT CF39 thermoregulation Shrunk2.csv")
+TnT_List_Analysis_Shrunk2 <- read_csv("../TnT CF39 thermoregulation Shrunk2-2.csv")
 rawNamesOfColumns <- c("locus", "FoldChange_25vs29", "FoldChange_25vs33", "FoldChange_25vs37", "FoldChange_25vs41", "Gene", "Product", "PAO1_ID", "Protein Description")
 colnames(TnT_List_Analysis_Shrunk2) <- rawNamesOfColumns
 
@@ -109,29 +109,24 @@ RowLabelTextCell = 9
 EmptyLableColumn = array("", nrow = 1, ncol = length(TnT_List_Analysis_Shrunk2$Gene))
 
 
-NameDataFrame = data.frame(TnT_List_Analysis_Shrunk2$locus, TnT_List_Analysis_Shrunk2$Gene)
-NameDataArray = array(data = c(TnT_List_Analysis_Shrunk2$locus, TnT_List_Analysis_Shrunk2$Gene), dim = c(10, 2))
-EmptyColumn = cbind((1:length(TnT_List_Analysis_Shrunk2$locus)), " ")
-EmptyColumn = EmptyColumn[, 2]
-
-
-HeatmapTest <- Heatmap(
+HeatmapTest<- Heatmap(
         matrix = mat, 
-        cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 5),
-        row_split = 5,
-        row_gap = unit(1.75, 'mm'),
+        #cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 5),
+        #row_split = 5,
+        #row_gap = unit(1.75, 'mm'),
         border = FALSE, 
         
-        show_row_names = TRUE,
-        row_labels = TnT_List_Analysis_Shrunk2$PAO1_ID,
+        show_row_names = FALSE,
+
         
         
        # row_names_max_width = unit(50, "mm"), #Does not appear to be doing anything
         right_annotation = rowAnnotation(
-                                        Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus, location = unit(2, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
-                                        Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(7, "mm"), gp = gpar(fontsize = RowLabelTextCell))#,
-                                        #Col3 = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, location = unit(9, "mm"), gp = gpar(fontsize = RowLabelTextCell))#,
-                                        ),
+            Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus,  gp = gpar(fontsize = RowLabelTextCell)), 
+            Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, gp = gpar(fontsize = RowLabelTextCell)),
+          	label = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, gp = gpar(fontsize = RowLabelTextCell)),
+            gap = unit(2, "mm")),
+
         
         
         row_title = "Transcribed Gene Loci", 
@@ -142,7 +137,8 @@ HeatmapTest <- Heatmap(
           if(mat[i, j] < 0 || mat[i, j] > 0)
             grid.text(sprintf("%.1f", mat[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
         
-        
+       
+        row_dend_reorder = FALSE,
         column_dend_reorder = FALSE, 
         column_order = ColOrder, 
         column_names_rot = 45,
