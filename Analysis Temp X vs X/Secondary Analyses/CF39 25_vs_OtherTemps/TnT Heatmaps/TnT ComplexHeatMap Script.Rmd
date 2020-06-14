@@ -68,6 +68,8 @@ FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 mat <- FoldChangeDataNoNAMat
 colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
 ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
+
+RowOrder = sort(rownames(mat))
 ```
 
 
@@ -107,6 +109,7 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=4))
 InCellTextSize = 7.75
 RowLabelTextCell = 9
 EmptyLableColumn = array("", nrow = 1, ncol = length(TnT_List_Analysis_Shrunk2$Gene))
+LegendName = "Legend"
 
 
 HeatmapTest<- Heatmap(
@@ -115,22 +118,22 @@ HeatmapTest<- Heatmap(
         #row_split = 5,
         #row_gap = unit(1.75, 'mm'),
         border = FALSE, 
-        
         show_row_names = FALSE,
 
         
-        
        # row_names_max_width = unit(50, "mm"), #Does not appear to be doing anything
-        right_annotation = rowAnnotation(
-            Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus,  gp = gpar(fontsize = RowLabelTextCell)), 
-            Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, gp = gpar(fontsize = RowLabelTextCell)),
-          	label = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, gp = gpar(fontsize = RowLabelTextCell)),
-            gap = unit(2, "mm")),
+       right_annotation = rowAnnotation(
+            Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
+            Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(1.5, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+          	Col3 = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+            gap = unit(6, "mm")),
 
         
         
-        row_title = "Transcribed Gene Loci", 
+        row_title = "Transcribed Gene Loci",
+        row_order = RowOrder,
         row_names_gp = gpar(fontsize = RowLabelTextCell),
+        row_dend_reorder = FALSE,
         
         
         cell_fun = function(j, i, x, y, width, height, fill) {
@@ -138,19 +141,19 @@ HeatmapTest<- Heatmap(
             grid.text(sprintf("%.1f", mat[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
         
        
-        row_dend_reorder = FALSE,
         column_dend_reorder = FALSE, 
         column_order = ColOrder, 
-        column_names_rot = 45,
+        column_names_rot = 90,
         
         
         column_title = "Conditions tested (CF39S vs CF39)", 
         column_title_side = "bottom",
         
         
-        row_dend_width = unit(3.1, "cm"),
+        #row_dend_width = unit(3.1, "cm"),
 
-        
+        heatmap_legend_param = list(title = LegendName),
+       
         col = colorSetRedBlue,
         height = unit(10, 'cm')
         , raster_quality = 10
@@ -165,7 +168,7 @@ HeatmapTest
 
 
 ```{r}
-pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled.pdf", width = 8, height = 20)
+pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_TnT_FullSpread.pdf", width = 9, height = 12)
 HeatmapTest
 dev.off()
 ```
