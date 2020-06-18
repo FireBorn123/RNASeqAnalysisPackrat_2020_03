@@ -28,8 +28,8 @@ A BibTeX entry for LaTeX users is
     year = {2016},
   }
 
-This free open-source software implements academic research by the authors and co-workers. If you use it, please support the
-project by citing the appropriate journal articles.
+This free open-source software implements academic research by the authors and co-workers. If you use it, please support the project by
+citing the appropriate journal articles.
 
 
 The methods within the code package can be cited as:
@@ -48,14 +48,14 @@ A BibTeX entry for LaTeX users is
     year = {2014},
   }
 
-This free open-source software implements academic research by the authors and co-workers. If you use it, please support the
-project by citing the appropriate journal articles.
+This free open-source software implements academic research by the authors and co-workers. If you use it, please support the project by
+citing the appropriate journal articles.
 
 
 To cite the R package 'cluster' in publications use:
 
-  Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik, K.(2018).  cluster: Cluster Analysis Basics and Extensions. R
-  package version 2.0.7-1.
+  Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik, K.(2018).  cluster: Cluster Analysis Basics and Extensions. R package
+  version 2.0.7-1.
 
 A BibTeX entry for LaTeX users is
 

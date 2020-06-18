@@ -1,0 +1,301 @@
+locus,locusNumber,PAO1 Locus (Nucleotide  from Pseudomonas DB),Pseudomonas.db Gene ID in PAO1 (Pseudomonas aeruginosa PAO1 (Reference)) (Nucleotide from Pseudomonas DB),PAO1 Locus (Protein from Pseudomonas DB),Pseudomonas.db Gene ID in PAO1 (Pseudomonas aeruginosa PAO1 (Reference)) (Protein from Pseudomonas DB)
+PROKKA_00079_sense,PROKKA_00079,PA0074,ppkA,PA0074,serine/threonine protein kinase PpkA
+PROKKA_00087_sense,PROKKA_00087,PA0082,tssA1,PA0082,TssA1
+PROKKA_00088_sense,PROKKA_00088,PA0083,tssB1,PA0083,TssB1
+PROKKA_00089_sense,PROKKA_00089,PA0084,tssC1,PA0084,TssC1
+PROKKA_00090_sense,PROKKA_00090,PA0085,hcp1,PA0085,Hcp1
+PROKKA_00095_sense,PROKKA_00095,PA0090,clpV1,PA0090,ClpV1
+PROKKA_00264_sense,PROKKA_00264,PA0258,Hypothetical Protein,PA0258,hypothetical protein
+PROKKA_00284_sense,PROKKA_00284,PA0277,Conserved Hypothetical Protein,PA0277,conserved hypothetical protein
+PROKKA_00634_sense,PROKKA_00634,PA0615,Hypothetical Protein,PA0615,hypothetical protein
+PROKKA_00637_sense,PROKKA_00637,PA0618,probable bacteriophage protein,PA0618,probable bacteriophage protein
+PROKKA_00638_sense,PROKKA_00638,PA0619,probable bacteriophage protein,PA0619,probable bacteriophage protein
+PROKKA_00639_sense,PROKKA_00639,PA0620,probable bacteriophage protein,PA0620,probable bacteriophage protein
+PROKKA_00640_sense,PROKKA_00640,N/A,N/A,PA0621,conserved hypothetical protein
+PROKKA_00641_sense,PROKKA_00641,PA0622,probable bacteriophage protein,PA0622,probable bacteriophage protein
+PROKKA_00642_sense,PROKKA_00642,PA0623,probable bacteriophage protein,PA0623,probable bacteriophage protein
+PROKKA_00644_sense,PROKKA_00644,PA0625,Hypothetical Protein,PA0625,hypothetical protein
+PROKKA_00645_sense,PROKKA_00645,PA0626,Hypothetical Protein,PA0626,hypothetical protein
+PROKKA_00647_sense,PROKKA_00647,PA0628,Conserved Hypothetical Protein,PA0628,conserved hypothetical protein
+PROKKA_00684_sense,PROKKA_00684,PA4276,secE,N/A,N/A
+PROKKA_00685_antis,PROKKA_00685,PA4275,nusG,PA4275,transcription antitermination protein NusG
+PROKKA_00696_antis,PROKKA_00696,PA4267,rpsG,PA4267,30S ribosomal protein S7
+PROKKA_00697_antis,PROKKA_00697,PA4266,fusA1,PA4266,elongation factor G
+PROKKA_00699_antis,PROKKA_00699,PA4264,rpsJ,PA4264,30S ribosomal protein S10
+PROKKA_00700_antis,PROKKA_00700,PA4263,rplC,PA4263,50S ribosomal protein L3
+PROKKA_00705_antis,PROKKA_00705,PA4258,rplV,PA4258,50S ribosomal protein L22
+PROKKA_00720_antis,PROKKA_00720,PA4243,secY,PA4243,secretion protein SecY
+PROKKA_00723_sense,PROKKA_00723,PA4240,rpsK,PA4240,30S ribosomal protein S11
+PROKKA_00729_sense,PROKKA_00729,PA4234,uvrA,PA4234,excinuclease ABC subunit A
+PROKKA_00821_sense,PROKKA_00821,PA4141,Hypothetical Protein,PA4141,hypothetical protein
+PROKKA_00823_sense,PROKKA_00823,PA4139,Hypothetical Protein,PA4139,hypothetical protein
+PROKKA_00833_sense,PROKKA_00833,N/A,N/A,N/A,N/A
+PROKKA_00834_sense,PROKKA_00834,N/A,N/A,N/A,N/A
+PROKKA_00838_antis,PROKKA_00838,N/A,N/A,PA0611 (PI: 45.0%),transcriptional regulator PrtR
+PROKKA_00852_sense,PROKKA_00852,N/A,N/A,N/A,N/A
+PROKKA_00853_sense,PROKKA_00853,N/A,N/A,"PA0629 (PC: 99%, PI:  49.8%)",conserved hypothetical protein
+PROKKA_00854_sense,PROKKA_00854,N/A,N/A,N/A,N/A
+PROKKA_00855_sense,PROKKA_00855,N/A,N/A,N/A,N/A
+PROKKA_00856_sense,PROKKA_00856,N/A,N/A,N/A,N/A
+PROKKA_00857_sense,PROKKA_00857,N/A,N/A,N/A,N/A
+PROKKA_00858_sense,PROKKA_00858,N/A,N/A,N/A,N/A
+PROKKA_00859_sense,PROKKA_00859,N/A,N/A,N/A,N/A
+PROKKA_00860_sense,PROKKA_00860,N/A,N/A,N/A,N/A
+PROKKA_00861_sense,PROKKA_00861,N/A,N/A,N/A,N/A
+PROKKA_00862_sense,PROKKA_00862,N/A,N/A,N/A,N/A
+PROKKA_00863_sense,PROKKA_00863,N/A,N/A,N/A,N/A
+PROKKA_00864_sense,PROKKA_00864,N/A,N/A,N/A,N/A
+PROKKA_00865_sense,PROKKA_00865,N/A,N/A,N/A,N/A
+PROKKA_00866_sense,PROKKA_00866,N/A,N/A,N/A,N/A
+PROKKA_00867_sense,PROKKA_00867,N/A,N/A,N/A,N/A
+PROKKA_00868_sense,PROKKA_00868,N/A,N/A,N/A,N/A
+PROKKA_00869_sense,PROKKA_00869,N/A,N/A,N/A,N/A
+PROKKA_00870_sense,PROKKA_00870,N/A,N/A,N/A,N/A
+PROKKA_00872_sense,PROKKA_00872,N/A,N/A,N/A,N/A
+PROKKA_00873_sense,PROKKA_00873,N/A,N/A,N/A,N/A
+PROKKA_00874_sense,PROKKA_00874,N/A,N/A,N/A,N/A
+PROKKA_00876_sense,PROKKA_00876,N/A,N/A,N/A,N/A
+PROKKA_00879_sense,PROKKA_00879,N/A,N/A,N/A,N/A
+PROKKA_00882_sense,PROKKA_00882,N/A,N/A,PA0647 (PI: 50%),hypothetical protein
+PROKKA_01281_sense,PROKKA_01281,PA3740,Hypothetical Protein,PA3740,hypothetical protein
+PROKKA_01285_sense,PROKKA_01285,N/A,Intergenic region,N/A,N/A
+PROKKA_01291_sense,PROKKA_01291,PA3732,Uncharistic Protein,PA3732,Uncharacterized protein
+PROKKA_01301_sense,PROKKA_01301,PA3722,Hypothetical Protein,PA3722,hypothetical protein
+PROKKA_01423_sense,PROKKA_01423,PA3601,Conserved Hypothetical Protein,PA3601,conserved hypothetical protein
+PROKKA_01448_antis,PROKKA_01448,N/A,Intergenic region,N/A,N/A
+PROKKA_01500_sense,PROKKA_01500,PA3531,bfrB,PA3531,bacterioferritin
+PROKKA_01505_sense,PROKKA_01505,PA3526,motY,PA3526,MotY
+PROKKA_01662_sense,PROKKA_01662,PA3353,flgZ,PA3353,FlgZ
+PROKKA_01664_sense,PROKKA_01664,PA3351,flgM,PA3351,FlgM
+PROKKA_01665_sense,PROKKA_01665,PA3350,Hypothetical Protein,PA3350,hypothetical protein
+PROKKA_01665_antis,PROKKA_01665,PA3350,Hypothetical Protein,PA3350,hypothetical protein
+PROKKA_01666_sense,PROKKA_01666,PA3349,Probable Chemotaxis Protein,PA3349,probable chemotaxis protein
+PROKKA_01667_sense,PROKKA_01667,PA3348,cheR1,PA3348,CheR1
+PROKKA_01675_sense,PROKKA_01675,PA3340,Hypothetical Protein,PA3340,"hypothetical protein (PI: 50%  to PA3115, Motility protein FimV)"
+PROKKA_01711_antis,PROKKA_01711,PA3305,phrS (overlap with PROKKA_01712),N/A,"No protein associated with, maybe RNA?"
+PROKKA_01712_antis,PROKKA_01712,PA3305,phrS (overlap with PROKKA_01711),N/A,N/A
+PROKKA_01754_sense,PROKKA_01754,PA3266,capB (really PROKKA_01755?),N/A,"No protein associated with, maybe RNA?"
+PROKKA_01767_antis,PROKKA_01767,PA3258,Hypothetical Protein,PA3258,hypothetical protein
+PROKKA_01772_antis,PROKKA_01772,PA3253,Probable Permease of ABC Transporter,PA3253,probable permease of ABC transporter
+PROKKA_01780_sense,PROKKA_01780,PA3245,minE,PA3245,cell division topological specificity factor MinE
+PROKKA_01878_antis,PROKKA_01878,PA3141,wbpM,PA3141,nucleotide sugar epimerase/dehydratase WbpM
+PROKKA_01933_antis,PROKKA_01933,PA3094,Probable Transcriptional Regulator,PA3094,probable transcriptional regulator
+PROKKA_01935_sense,PROKKA_01935,PA3092,fadH1,PA3092,"2,4-dienoyl-CoA reductase FadH1"
+PROKKA_01964_sense,PROKKA_01964,PA3064,pelA,PA3064,PelA
+PROKKA_01965_sense,PROKKA_01965,PA3063,pelB,PA3063,PelB
+PROKKA_01967_sense,PROKKA_01967,PA3061,pelD,PA3061,PelD
+PROKKA_01968_sense,PROKKA_01968,PA3060,pelE,PA3060,PelE
+PROKKA_01970_sense,PROKKA_01970,PA3058,pelG,PA3058,PelG
+PROKKA_02065_sense,PROKKA_02065,PA2967,fabG,PA2967,3-oxoacyl-[acyl-carrier-protein] reductase
+PROKKA_02106_antis,PROKKA_02106,N/A,N/A,N/A,N/A
+PROKKA_02236_sense,PROKKA_02236,PA2867,Probable Chemotaxis Protein,PA2867,probable chemotaxis transducer
+PROKKA_02384_antis,PROKKA_02384,PA2743,infC,PA2743,translation initiation factor IF-3
+PROKKA_02393_sense,PROKKA_02393,N/A,N/A,N/A,N/A
+PROKKA_02402_antis,PROKKA_02402,PA2725,Probable Chaperone,PA2725,probable chaperone
+PROKKA_02474_sense,PROKKA_02474,PA2654,tylpQ,PA2654,TlpQ
+PROKKA_02566_antis,PROKKA_02566,N/A,N/A,N/A,N/A
+PROKKA_02567_sense,PROKKA_02567,N/A,N/A,N/A,N/A
+PROKKA_02568_antis,PROKKA_02568,N/A,N/A,PA2510 (PI: 35.7%),transcriptional regulator CatR
+PROKKA_02570_sense,PROKKA_02570,N/A,N/A,PA3965 (PI: 45.7%),probable transcriptional regulator
+PROKKA_02574_antis,PROKKA_02574,"PA3809 (PI: 75.9%, PC: 66.1%)",fdx2,PA3809 (PI: 63.4%),ferredoxin [2Fe-2S]
+PROKKA_02576_antis,PROKKA_02576,N/A,N/A,PA3920 (PI: 46.6%), CopA1
+PROKKA_02580_antis,PROKKA_02580,N/A,N/A,PA2520 (PI: 33.2%),Resistance-Nodulation-Cell Division (RND) divalent metal cation efflux transporter CzcA
+PROKKA_02610_antis,PROKKA_02610,N/A,N/A,N/A,N/A
+PROKKA_02612_antis,PROKKA_02612,N/A,N/A,N/A,N/A
+PROKKA_02613_antis,PROKKA_02613,N/A,N/A,N/A,N/A
+PROKKA_02618_antis,PROKKA_02618,N/A,N/A,N/A,N/A
+PROKKA_02718_antis,PROKKA_02718,N/A,N/A,N/A,N/A
+PROKKA_02737_antis,PROKKA_02737,N/A,N/A,N/A,N/A
+PROKKA_02868_sense,PROKKA_02868,PA2463,Hypothetical Protein,PA2463,hypothetical protein
+PROKKA_02869_sense,PROKKA_02869,PA2462,Hypothetical Protein,PA2462,hypothetical protein
+PROKKA_02871_sense,PROKKA_02871,"PA2462 (PI: 97.7%, PC: 60.6%)",Hypothetical Protein,PA2462,hypothetical protein
+PROKKA_03123_sense,PROKKA_03123,N/A,N/A,N/A,N/A
+PROKKA_03125_sense,PROKKA_03125,N/A,N/A,N/A,N/A
+PROKKA_03451_sense,PROKKA_03451,PA1967,Hypothetical Protein,PA1967,hypothetical protein
+PROKKA_03503_sense,PROKKA_03503,PA1913,Hypothetical Protein,PA1913,hypothetical protein
+PROKKA_03522_sense,PROKKA_03522,PA1895,Hypothetical Protein,PA1895,hypothetical protein
+PROKKA_03575_sense,PROKKA_03575,PA1845,tsi1,PA1845,Tsi1
+PROKKA_03624_antis,PROKKA_03624,PA1799,parR,PA1799,"two-component response regulator, ParR"
+PROKKA_03625_antis,PROKKA_03625,PA1798,parS,PA1798,"two-component sensor, ParS"
+PROKKA_03626_antis,PROKKA_03626,PA1797,Hypothetical Protein,PA1797,hypothetical protein
+PROKKA_03630_sense,PROKKA_03630,PA1796.3,tRNA-Leu,N/A,tRNA
+PROKKA_03655_sense,PROKKA_03655,PA1775,cmpX,PA1775,"conserved cytoplasmic membrane protein, CmpX protein"
+PROKKA_03704_sense,PROKKA_03704,PA1727,mucR,PA1727,MucR
+PROKKA_03753_sense,PROKKA_03753,PA1679,Hypothetical Protein,PA1679,hypothetical protein
+PROKKA_03826_sense,PROKKA_03826,PA1608,Probable Chemotaxis Protein,PA1608,probable chemotaxis transducer
+PROKKA_03876_sense,PROKKA_03876,PA1561,aer,PA1561,aerotaxis receptor Aer
+PROKKA_03892_antis,PROKKA_03892,PA1546,hemN,PA1546,oxygen-independent coproporphyrinogen III oxidase
+PROKKA_03893_sense,PROKKA_03893,PA1545,Hypothetical Protein,PA1545,hypothetical protein
+PROKKA_03972_sense,PROKKA_03972,PA1324,P9,N/A,RNA? No protein associated with tag
+PROKKA_04085_sense,PROKKA_04085,PA1441,putative flagellar hook-length control protein FliK,PA1441,putative flagellar hook-length control protein FliK
+PROKKA_04103_sense,PROKKA_04103,PA1423,bldA,PA1423,BdlA
+PROKKA_04242_sense,PROKKA_04242,PA1183,dctA,PA1183,C4-dicarboxylate transport protein
+PROKKA_04298_sense,PROKKA_04298,PA1132,Hypothetical Protein,PA1132,hypothetical protein
+PROKKA_04336_sense,PROKKA_04336,N/A,N/A,PA1096,hypothetical protein
+PROKKA_04337_sense,PROKKA_04337,"PA1095 (PI: 75.0%, PC: 73.5%)",Hypothetical Protein,PA1095,hypothetical protein
+PROKKA_04339_sense,PROKKA_04339,"PA1094 (PI: 71.3%, PC: 31.8%)",fliD,PA1094 (PI: 43.0%),flagellar capping protein FliD
+PROKKA_04340_sense,PROKKA_04340,N/A,N/A,PA1093 (PI: 41.5%),hypothetical protein
+PROKKA_04341_sense,PROKKA_04341,"PA1092 (PI: 83.3, PC: 34.9%)",fliC,PA1092 (PI: 63.0%),flagellin type B
+PROKKA_04356_sense,PROKKA_04356,"PA1087 (PI: 74.1%, PC: 100%)",flgL,PA1087 (PI: 67.6%),flagellar hook-associated protein type 3 FlgL
+PROKKA_04357_sense,PROKKA_04357,"PA1086 (PI: 86.7%, PC: 100%)",flgK,PA1086 (PI: 87.4%),flagellar hook-associated protein 1 FlgK
+PROKKA_04358_sense,PROKKA_04358,PA1085,flgJ,PA1085,flagellar protein FlgJ
+PROKKA_04362_sense,PROKKA_04362,PA1081,flgF,PA1081,flagellar basal-body rod protein FlgF 
+PROKKA_04363_sense,PROKKA_04363,PA1080,flgE,PA1080,flagellar hook protein FlgE
+PROKKA_04364_sense,PROKKA_04364,PA1079,flgD,PA1079,flagellar basal-body rod modification protein FlgD
+PROKKA_04365_sense,PROKKA_04365,PA1078,flgC,PA1078,flagellar basal-body rod protein FlgC
+PROKKA_04448_sense,PROKKA_04448,PA1001,phnA,PA1001,anthranilate synthase component I
+PROKKA_04456_sense,PROKKA_04456,PA0993,cupC2,PA0993,chaperone CupC2
+PROKKA_04462_antis,PROKKA_04462,PA0976.1,tRNA-Lys,N/A,tRNA
+PROKKA_04487_antis,PROKKA_04487,PA0952,Hypothetical Protein,PA0952,hypothetical protein
+PROKKA_04488_sense,PROKKA_04488,N/A,Intergenic region,N/A,N/A
+PROKKA_04529_antis,PROKKA_04529,PA0913,mgtE,PA0913,MgtE
+PROKKA_04648_sense,PROKKA_04648,N/A,N/A,N/A,N/A
+PROKKA_04674_sense,PROKKA_04674,PA0807,ampDh3,PA0807,AmpDh3
+PROKKA_04784_antis,PROKKA_04784,N/A,N/A,PA3849 (PI: 31.5%),conserved hypothetical protein
+PROKKA_04784_sense,PROKKA_04784,N/A,N/A,PA3849 (PI: 31.5%),conserved hypothetical protein
+PROKKA_04785_antis,PROKKA_04785,N/A,N/A,N/A,N/A
+PROKKA_04785_sense,PROKKA_04785,N/A,N/A,N/A,N/A
+PROKKA_04884_sense,PROKKA_04884,PA4309,pctA,PA4309 (PI: 93.2%),chemotactic transducer PctA
+PROKKA_04890_sense,PROKKA_04890,PA4315,mvaT,PA4315,"transcriptional regulator MvaT, P16 subunit"
+PROKKA_04901_sense,PROKKA_04901,PA4326,Hypothetical Protein,PA4326,hypothetical protein
+PROKKA_04963_antis,PROKKA_04963,PA4385,groEL,PA4385,GroEL Protein
+PROKKA_04965_sense,PROKKA_04965,N/A,Intergenic region,N/A,RNA? No protein associated with tag
+PROKKA_05072_sense,PROKKA_05072,PA4489,magD,PA4489,MagD
+PROKKA_05073_sense,PROKKA_05073,PA4490,magC,PA4490,MagC
+PROKKA_05103_sense,PROKKA_05103,PA4520,Probable Chemotaxis Protein,PA4520,probable chemotaxis transducer
+PROKKA_05110_antis,PROKKA_05110,N/A,N/A,N/A,N/A
+PROKKA_05111_antis,PROKKA_05111,N/A,N/A,PA4525 (PI: 66.7%),type 4 fimbrial precursor PilA
+PROKKA_05128_sense,PROKKA_05128,N/A,N/A,PA5563 (PI: 25.1%),chromosome partitioning protein Soj
+PROKKA_05129_sense,PROKKA_05129,N/A,N/A,N/A,N/A
+PROKKA_05130_sense,PROKKA_05130,N/A,N/A,PA2226 (PI: 47.5%),QsrO
+PROKKA_05131_sense,PROKKA_05131,N/A,N/A,N/A,N/A
+PROKKA_05132_sense,PROKKA_05132,N/A,N/A,N/A,N/A
+PROKKA_05133_sense,PROKKA_05133,N/A,N/A,N/A,N/A
+PROKKA_05134_sense,PROKKA_05134,N/A,N/A,N/A,N/A
+PROKKA_05135_sense,PROKKA_05135,N/A,N/A,N/A,N/A
+PROKKA_05136_sense,PROKKA_05136,"PA4931 (PI: 79.0%, PC: 28.3%)",DdnaB,PA4931 (PI: 57.4%),replicative DNA helicase
+PROKKA_05137_sense,PROKKA_05137,N/A,N/A,N/A,N/A
+PROKKA_05139_sense,PROKKA_05139,N/A,N/A,N/A,N/A
+PROKKA_05140_sense,PROKKA_05140,N/A,N/A,N/A,N/A
+PROKKA_05141_sense,PROKKA_05141,N/A,N/A,N/A,N/A
+PROKKA_05142_sense,PROKKA_05142,N/A,N/A,N/A,N/A
+PROKKA_05143_sense,PROKKA_05143,PA3849,Conserved Hypothetical Protein,"PA3849 (Repeated above, PI: 92.2%)",conserved hypothetical protein
+PROKKA_05144_sense,PROKKA_05144,N/A,N/A,PA 3385 (PI: 60.0%),alginate and motility regulator Z
+PROKKA_05145_sense,PROKKA_05145,N/A,N/A,N/A,N/A
+PROKKA_05146_sense,PROKKA_05146,N/A,N/A,N/A,N/A
+PROKKA_05147_antis,PROKKA_05147,N/A,N/A,N/A,N/A
+PROKKA_05147_sense,PROKKA_05147,N/A,N/A,N/A,N/A
+PROKKA_05150_antis,PROKKA_05150,N/A,N/A,N/A,N/A
+PROKKA_05150_sense,PROKKA_05150,N/A,N/A,N/A,N/A
+PROKKA_05151_antis,PROKKA_05151,N/A,N/A,N/A,N/A
+PROKKA_05151_sense,PROKKA_05151,N/A,N/A,N/A,N/A
+PROKKA_05152_sense,PROKKA_05152,N/A,N/A,N/A,N/A
+PROKKA_05153_antis,PROKKA_05153,N/A,N/A,N/A,N/A
+PROKKA_05153_sense,PROKKA_05153,N/A,N/A,N/A,N/A
+PROKKA_05154_sense,PROKKA_05154,N/A,N/A,N/A,N/A
+PROKKA_05155_antis,PROKKA_05155,N/A,N/A,N/A,N/A
+PROKKA_05157_sense,PROKKA_05157,N/A,N/A,N/A,N/A
+PROKKA_05159_sense,PROKKA_05159,N/A,N/A,PA3011 (PI: 33.6%),DNA topoisomerase I
+PROKKA_05160_sense,PROKKA_05160,N/A,N/A,N/A,RNA? No protein associated with tag
+PROKKA_05162_sense,PROKKA_05162,N/A,N/A,N/A,N/A
+PROKKA_05163_sense,PROKKA_05163,N/A,N/A,PA0799 (PI: 29.5%),probable helicase
+PROKKA_05166_sense,PROKKA_05166,N/A,"Intergenic region (PI: 91.6%, PC: 27.6%)",N/A,N/A
+PROKKA_05167_sense,PROKKA_05167,N/A,N/A,PA1382 (PI: 26.5%),probable type II secretion system protein
+PROKKA_05168_sense,PROKKA_05168,N/A,N/A,N/A,N/A
+PROKKA_05170_sense,PROKKA_05170,N/A,N/A,PA3103 (PI: 35.6%), general secretion pathway protein E
+PROKKA_05171_sense,PROKKA_05171,N/A,N/A,PA3102 (PI: 25.2%),general secretion pathway protein F
+PROKKA_05172_sense,PROKKA_05172,N/A,N/A,N/A,N/A
+PROKKA_05173_sense,PROKKA_05173,N/A,N/A,PA0395 (PI: 28.5%),twitching motility protein PilT
+PROKKA_05174_sense,PROKKA_05174,N/A,N/A,N/A,N/A
+PROKKA_05176_sense,PROKKA_05176,N/A,N/A,N/A,RNA? No protein associated with tag
+PROKKA_05177_sense,PROKKA_05177,N/A,N/A,N/A,N/A
+PROKKA_05178_sense,PROKKA_05178,N/A,N/A,N/A,N/A
+PROKKA_05179_sense,PROKKA_05179,N/A,N/A,N/A,N/A
+PROKKA_05180_sense,PROKKA_05180,N/A,N/A,,RNA? No protein associated with tag
+PROKKA_05181_sense,PROKKA_05181,N/A,N/A,N/A,N/A
+PROKKA_05182_sense,PROKKA_05182,N/A,N/A,N/A,N/A
+PROKKA_05183_sense,PROKKA_05183,N/A,N/A,N/A,N/A
+PROKKA_05184_sense,PROKKA_05184,N/A,N/A,N/A,N/A
+PROKKA_05185_sense,PROKKA_05185,N/A,N/A,N/A,RNA? No protein associated with tag
+PROKKA_05186_sense,PROKKA_05186,N/A,N/A,N/A,N/A
+PROKKA_05187_sense,PROKKA_05187,N/A,N/A,N/A,N/A
+PROKKA_05188_sense,PROKKA_05188,N/A,N/A,N/A,N/A
+PROKKA_05189_sense,PROKKA_05189,N/A,N/A,N/A,N/A
+PROKKA_05190_sense,PROKKA_05190,N/A,N/A,N/A,N/A
+PROKKA_05191_sense,PROKKA_05191,N/A,N/A,N/A,N/A
+PROKKA_05192_sense,PROKKA_05192,N/A,N/A,N/A,N/A
+PROKKA_05199_sense,PROKKA_05199,N/A,N/A,N/A,RNA? No protein associated with tag
+PROKKA_05200_sense,PROKKA_05200,N/A,N/A,N/A,N/A
+PROKKA_05200_antis,PROKKA_05200,N/A,N/A,N/A,N/A
+PROKKA_05201_sense,PROKKA_05201,N/A,N/A,N/A,N/A
+PROKKA_05204_sense,PROKKA_05204,N/A,N/A,N/A,N/A
+PROKKA_05205_sense,PROKKA_05205,N/A,N/A,N/A,N/A
+PROKKA_05207_sense,PROKKA_05207,N/A,N/A,N/A,N/A
+PROKKA_05209_sense,PROKKA_05209,N/A,N/A,N/A,N/A
+PROKKA_05210_sense,PROKKA_05210,N/A,N/A,N/A,N/A
+PROKKA_05211_sense,PROKKA_05211,N/A,N/A,N/A,N/A
+PROKKA_05212_sense,PROKKA_05212,N/A,N/A,N/A,N/A
+PROKKA_05215_sense,PROKKA_05215,N/A,N/A,N/A,N/A
+PROKKA_05216_sense,PROKKA_05216,N/A,N/A,N/A,N/A
+PROKKA_05217_sense,PROKKA_05217,N/A,N/A,N/A,N/A
+PROKKA_05218_sense,PROKKA_05218,N/A,N/A,N/A,N/A
+PROKKA_05219_sense,PROKKA_05219,N/A,N/A,N/A,N/A
+PROKKA_05220_sense,PROKKA_05220,N/A,N/A,N/A,N/A
+PROKKA_05221_sense,PROKKA_05221,N/A,N/A,N/A,N/A
+PROKKA_05222_sense,PROKKA_05222,N/A,N/A,N/A,N/A
+PROKKA_05223_sense,PROKKA_05223,N/A,N/A,N/A,N/A
+PROKKA_05224_sense,PROKKA_05224,N/A,N/A,N/A,N/A
+PROKKA_05225_sense,PROKKA_05225,"PA0982 (PI: 96.8%, PC: 80.1%)",Hypothetical Protein,"PA0982 (PI: 97.1%, PC: 79.8%)",hypothetical protein
+PROKKA_05230_sense,PROKKA_05230,N/A,N/A,N/A,N/A
+PROKKA_05233_sense,PROKKA_05233,N/A,N/A,N/A,N/A
+PROKKA_05234_antis,PROKKA_05234,N/A,N/A,N/A,N/A
+PROKKA_05244_antis,PROKKA_05244,"PA0286 (PI: 73.9%, PC: 56.5%)",DesA,PA0286 (PI: 59.4%),"delta-9 fatty acid desaturase, DesA"
+PROKKA_05245_sense,PROKKA_05245,N/A,N/A,N/A,N/A
+PROKKA_05246_antis,PROKKA_05246,N/A,"Intergenic region (PI: 90.5%, PC: 31.0%)",PA5280 (PI: 24.0%),site-specific recombinase Sss
+PROKKA_05246_sense,PROKKA_05246,N/A,"Intergenic region (PI: 90.5%, PC: 31.0%)",PA5280 (PI: 24.0%),site-specific recombinase Sss
+PROKKA_05277_antis,PROKKA_05277,PA4568,rplU,PA4568,50S ribosomal protein L21
+PROKKA_05292_sense,PROKKA_05292,PA4582,Conserved Hypothetical Protein,PA4582,conserved hypothetical protein
+PROKKA_05336_sense,PROKKA_05336,PA4624,cdrB,PA4624,"cyclic diguanylate-regulated TPS partner B, CdrB"
+PROKKA_05337_sense,PROKKA_05337,"PA4625 (PI: 93.7%, PC: 89.7%)",cdrA,PA4625,"cyclic diguanylate-regulated TPS partner A, CdrA"
+PROKKA_05345_sense,PROKKA_05345,PA4633,Probable Chemotaxis Protein,PA4633,probable chemotaxis transducer
+PROKKA_05356_sense,PROKKA_05356,PA4642,Hypothetical Protein,PA4642,hypothetical protein
+PROKKA_05375_sense,PROKKA_05375,PA4661,pagL,PA4661,Lipid A 3-O-deacylase
+PROKKA_05383_antis,PROKKA_05383,PA4669,ipk,PA4669,isopentenyl monophosphate kinase
+PROKKA_05383_sense,PROKKA_05383,PA4669,ipk,PA4670,isopentenyl monophosphate kinase
+PROKKA_05384_antis,PROKKA_05384,PA4669.1,tRNA-Gln,N/A,tRNA
+PROKKA_05385_antis,PROKKA_05385,PA4671,Probable Ribosomal Protein,PA4671,probable ribosomal protein L25
+PROKKA_05398_sense,PROKKA_05398,PA4683,Hypothetical Protein,PA4683,hypothetical protein
+PROKKA_05452_antis,PROKKA_05452,PA4726.11,crcZ,N/A,RNA? No protein associated with tag
+PROKKA_05452_sense,PROKKA_05452,PA4726.11,crcZ,N/A,RNA? No protein associated with tag
+PROKKA_05467_antis,PROKKA_05467,PA4741,rpoS,PA4741,30S ribosomal protein S15 
+PROKKA_05468_antis,PROKKA_05468,N/A,Intergenic Region,N/A,RNA? No protein associated with tag
+PROKKA_05474_antis,PROKKA_05474,N/A,N/A,N/A,RNA? No protein associated with tag
+PROKKA_05578_sense,PROKKA_05578,PA4843,gcbA,PA4843,GcbA
+PROKKA_05785_antis,PROKKA_05785,PA5045,ponA,PA5045,penicillin-binding protein 1A
+PROKKA_05793_sense,PROKKA_05793,PA5053,hslV,PA5053,heat shock protein HslV
+PROKKA_05794_sense,PROKKA_05794,PA5054,hslU,PA5054,heat shock protein HslU
+PROKKA_05812_sense,PROKKA_05812,PA5072,mcpK,PA5072,McpK
+PROKKA_05877_sense,PROKKA_05877,PA5138,Hypothetical Protein,PA5138,hypothetical protein
+PROKKA_05913_sense,PROKKA_05913,PA5170,arcD,PA5170,arginine/ornithine antiporter
+PROKKA_05915_sense,PROKKA_05915,PA5172,arcB,PA5172,"ornithine carbamoyltransferase, catabolic"
+PROKKA_05921_sense,PROKKA_05921,PA5178,Conserved Hypothetical Protein,PA5178,conserved hypothetical protein
+PROKKA_06064_antis,PROKKA_06064,PA5315,rpmG,PA5315,50S ribosomal protein L33
+PROKKA_06065_antis,PROKKA_06065,PA5316,rpmB,PA5316,50S ribosomal protein L28
+PROKKA_06169_sense,PROKKA_06169,PA5413,itaA,PA5413,low specificity l-threonine aldolase
+PROKKA_06304_sense,PROKKA_06304,PA5535,Conserved Hypothetical Protein,PA5535,conserved hypothetical protein
+PROKKA_06331_antis,PROKKA_06331,N/A,N/A,N/A,N/A
+PROKKA_06408_sense,PROKKA_06408,N/A,N/A,N/A,N/A
+PROKKA_06409_sense,PROKKA_06409,N/A,N/A,N/A,N/A
+PROKKA_06410_sense,PROKKA_06410,N/A,N/A,N/A,N/A
+PROKKA_06414_sense,PROKKA_06414,N/A,N/A,N/A,N/A
+PROKKA_06415_sense,PROKKA_06415,N/A,N/A,N/A,N/A
+PROKKA_06417_sense,PROKKA_06417,N/A,N/A,N/A,N/A
+PROKKA_06418_sense,PROKKA_06418,N/A,N/A,N/A,N/A
+PROKKA_06465_antis,PROKKA_06465,N/A,N/A,N/A,N/A
+PROKKA_06520_sense,PROKKA_06520,N/A,N/A,N/A,N/A
+PROKKA_06566_sense,PROKKA_06566,N/A,N/A,N/A,N/A
+PROKKA_06664_sense,PROKKA_06664,N/A,N/A,N/A,N/A
+PROKKA_06665_sense,PROKKA_06665,N/A,N/A,N/A,N/A
+PROKKA_06747_antis,PROKKA_06747,N/A,N/A,N/A,N/A
+PROKKA_06791_antis,PROKKA_06791,N/A,N/A,N/A,N/A
+PROKKA_06868_antis,PROKKA_06868,N/A,N/A,N/A,N/A

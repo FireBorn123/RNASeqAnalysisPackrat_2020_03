@@ -49,6 +49,20 @@ PTA = Pure Temperature Analysis
 ```{r}
 Combined_List_Analysis_Shrunk2 <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Combined List Analysis Shrunk2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
+PAO1_Tags <- read_csv("../../../LocusTags and PAO1 Loci ID's.csv")
+
+Combined_List_Analysis_Shrunk2 <-merge(Combined_List_Analysis_Shrunk2, PAO1_Tags, by.x = "locus", by.y = "locus", all.x = T, all.y = T)
+ColToRemove <- c("locusNumber.x", "locusNumber.y")
+Combined_List_Analysis_Shrunk2 <- Combined_List_Analysis_Shrunk2[, !names(Combined_List_Analysis_Shrunk2) %in% ColToRemove, drop = F]
+
+FinalColumnNames <- append(colnames(Combined_List_Analysis_Shrunk2)[1:23], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
+
+colnames(Combined_List_Analysis_Shrunk2) <- FinalColumnNames
+
+```
+
+
+```{r}
 FoldChangeData <- data.frame(Combined_List_Analysis_Shrunk2$locus, Combined_List_Analysis_Shrunk2$FoldChange_25, Combined_List_Analysis_Shrunk2$FoldChange_29, Combined_List_Analysis_Shrunk2$FoldChange_33, Combined_List_Analysis_Shrunk2$FoldChange_37, Combined_List_Analysis_Shrunk2$FoldChange_41)
 
 NamesOfColumns <- c("locus", "FoldChange_25", "FoldChange_29", "FoldChange_33", "FoldChange_37", "FoldChange_41")
@@ -108,6 +122,13 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
 
 
 ```{r}
+InCellTextSize = 4
+RowLabelTextCell = 4.35
+EmptyLableColumn = array("", nrow = 1, ncol = length(TnT_List_Analysis_Shrunk2$Gene))
+LegendName = "Legend"
+
+
+
 HeatmapTest <- Heatmap(
         matrix = mat, 
         cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 20),
@@ -115,9 +136,19 @@ HeatmapTest <- Heatmap(
         row_gap = unit(1.75, 'mm'),
         border = FALSE, 
         
+        show_row_names = FALSE,
+        
+        right_annotation = rowAnnotation(
+        Col1 = anno_text(Combined_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
+        Col4 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+      	#Col3 = anno_text(Combined_List_Analysis_Shrunk2$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col2 = anno_text(Combined_List_Analysis_Shrunk2$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col5 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        gap = unit(2, "mm")),
+        
         cell_fun = function(j, i, x, y, width, height, fill) {
           if(mat[i, j] < 0 || mat[i, j] > 0)
-            grid.text(sprintf("%.1f", mat[i, j]), x, y, gp = gpar(fontsize = 4))},
+            grid.text(sprintf("%.1f", mat[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
         
         col = colorSetRedBlue,
         
@@ -126,8 +157,12 @@ HeatmapTest <- Heatmap(
         row_title = "Transcribed Gene Loci", 
         column_title = "Conditions tested (CF39S vs CF39)", 
         column_title_side = "bottom",
-        row_dend_width = unit(6, "cm"),
-        row_names_gp = gpar(fontsize = 4.5)
+        show_row_dend = FALSE,
+        #row_dend_width = unit(6, "cm"),
+        row_names_gp = gpar(fontsize = RowLabelTextCell),
+        
+        heatmap_legend_param = list(title = LegendName)
+        
         , raster_quality = 10
         )
 
@@ -139,11 +174,18 @@ HeatmapTest
 
 
 ```{r}
-pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled.pdf", width = 8, height = 20)
+pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_AddCol_NoDend_MinProt.pdf", width = 10, height = 22)
 HeatmapTest
 dev.off()
 ```
 
+
+
+#```{r}
+pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_WithAdditionalColumns_MinProt.pdf", width = 12, height = 22)
+HeatmapTest
+dev.off()
+```
 
 #Session Info
 ```{r}
