@@ -44,6 +44,9 @@ library(dendextend)
 #library(seriation)
 ```
 
+```{r}
+colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
+```
 
 
 ```{r}
@@ -70,38 +73,29 @@ colnames(FoldChangeData) <- NamesOfColumns
 rownames(FoldChangeData) <- FoldChangeData$locus
 FoldChangeData <- FoldChangeData[,-1]
 
-#FoldChangeDataWithNAMat <- data.matrix(FoldChangeData)
-#na_index = sample(c(TRUE, FALSE), nrow(FoldChangeDataWithNAMat)*ncol(FoldChangeDataWithNAMat), replace = TRUE, prob = c(1, 9))
-#FoldChangeDataWithNAMat[na_index] = NA
-
 FoldChangeDataNoNA <- FoldChangeData
 FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
 FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 ```
 
 ```{r}
-mat <- FoldChangeDataNoNAMat
-colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
-ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
+NoNAMat <- FoldChangeDataNoNAMat
+ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(NoNAMat))))
 ```
 
 
 #Coloration of row dendrigram
 ```{r}
 #dendextend used below
-#row_dend = as.dendrogram(hclust(dist(mat)))
-#row_dend = as.dendrogram(hclust(dist(mat), method = "single"))
-row_dend = as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete")
+row_dend = as.dendrogram(hclust(dist(NoNAMat, method = "maximum")), method = "complete")
 row_dend = color_branches(row_dend, k = 10) # `color_branches()` returns a dendrogram object
 
-split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
+split = data.frame(cutree(hclust(dist(NoNAMat, method = "maximum")), h=2))
 
 ```
 
 ```{r}
 HeatmapCustomized <-function(InCellTextSize = 4, RowLabelTextCell = 4.35, LegendName = "Legend", DataSet, YDendPresent = FALSE, NumberOfClusters = 20, RowSplitNumber = 12, RowGapSpace = unit(1.75, 'mm'), ShowLocus = TRUE, ShowNucleotidePAO1Locus = TRUE, ShowProteinPAO1Locus = TRUE, ShowGeneCol = TRUE, ShowNucleotidePAO1ID = TRUE, ShowCellValues = TRUE){
-
-
   
 Heatmap(
         matrix = DataSet, 
@@ -153,7 +147,7 @@ Heatmap(
 
 
 ```{r}
-FinalHeatmap = HeatmapCustomized(DataSet = mat, 
+FinalHeatmap = HeatmapCustomized(DataSet = NoNAMat, 
                                  LegendName = "Legend", 
                                  YDendPresent = FALSE, 
                                  NumberOfClusters = 20, 
@@ -164,10 +158,10 @@ FinalHeatmap = HeatmapCustomized(DataSet = mat,
                                  
                                  #Must have one of the following 5 options as true
                                  ShowLocus = TRUE, 
-                                 ShowNucleotidePAO1Locus = TRUE, 
-                                 ShowProteinPAO1Locus = TRUE,
-                                 ShowGeneCol = TRUE, 
-                                 ShowNucleotidePAO1ID = TRUE,
+                                 ShowNucleotidePAO1Locus = F, 
+                                 ShowProteinPAO1Locus = F,
+                                 ShowGeneCol = F, 
+                                 ShowNucleotidePAO1ID = F,
                                  
                                  InCellTextSize = 4,
                                  RowLabelTextCell = 4.35
