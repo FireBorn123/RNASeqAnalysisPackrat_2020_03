@@ -1,0 +1,177 @@
+---
+title: "FragmentedComplexHeatMap"
+author: "Trevor Randall"
+date: "13/08/2020"
+output: html_document
+---
+
+Analysis from: https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+
+```{r}
+#Set Library Directory
+#PC Path
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Small ComplexHeatmaps")
+#Laptop Path
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
+#sink(file = "./RSessionRawRun.txt") 
+``` 
+
+
+#Libraries required
+```{r}
+library(readr)
+library(ComplexHeatmap)
+library(circlize)
+library(cluster)
+library(dendextend)
+#library(seriation)
+```
+
+
+
+```{r}
+Combined_List_Analysis_Shrunk2 <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Combined List Analysis Shrunk2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+PAO1_Tags <- read_csv("../../../LocusTags and PAO1 Loci ID's.csv")
+
+Combined_List_Analysis_Shrunk2 <-merge(Combined_List_Analysis_Shrunk2, PAO1_Tags, by.x = "locus", by.y = "locus", all.x = T, all.y = T)
+ColToRemove <- c("locusNumber.x", "locusNumber.y")
+Combined_List_Analysis_Shrunk2 <- Combined_List_Analysis_Shrunk2[, !names(Combined_List_Analysis_Shrunk2) %in% ColToRemove, drop = F]
+
+FinalColumnNames <- append(colnames(Combined_List_Analysis_Shrunk2)[1:23], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
+
+colnames(Combined_List_Analysis_Shrunk2) <- FinalColumnNames
+
+```
+
+
+```{r}
+FoldChangeData <- data.frame(Combined_List_Analysis_Shrunk2$locus, Combined_List_Analysis_Shrunk2$FoldChange_25, Combined_List_Analysis_Shrunk2$FoldChange_29, Combined_List_Analysis_Shrunk2$FoldChange_33, Combined_List_Analysis_Shrunk2$FoldChange_37, Combined_List_Analysis_Shrunk2$FoldChange_41)
+
+NamesOfColumns <- c("locus", "FoldChange_25", "FoldChange_29", "FoldChange_33", "FoldChange_37", "FoldChange_41")
+colnames(FoldChangeData) <- NamesOfColumns
+rownames(FoldChangeData) <- FoldChangeData$locus
+FoldChangeData <- FoldChangeData[,-1]
+
+#FoldChangeDataWithNAMat <- data.matrix(FoldChangeData)
+#na_index = sample(c(TRUE, FALSE), nrow(FoldChangeDataWithNAMat)*ncol(FoldChangeDataWithNAMat), replace = TRUE, prob = c(1, 9))
+#FoldChangeDataWithNAMat[na_index] = NA
+
+FoldChangeDataNoNA <- FoldChangeData
+FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
+FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
+```
+
+```{r}
+mat <- FoldChangeDataNoNAMat
+colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
+ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
+```
+
+
+#Coloration of row dendrigram
+```{r}
+#dendextend used below
+#row_dend = as.dendrogram(hclust(dist(mat)))
+#row_dend = as.dendrogram(hclust(dist(mat), method = "single"))
+row_dend = as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete")
+row_dend = color_branches(row_dend, k = 10) # `color_branches()` returns a dendrogram object
+
+split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
+
+```
+
+```{r}
+HeatmapCustomized <-function(InCellTextSize = 4, RowLabelTextCell = 4.35, LegendName = "Legend", DataSet, YDendPresent = FALSE, NumberOfClusters = 20, RowSplitNumber = 12, RowGapSpace = unit(1.75, 'mm'), ShowLocus = TRUE, ShowNucleotidePAO1Locus = TRUE, ShowProteinPAO1Locus = TRUE, ShowGeneCol = TRUE, ShowNucleotidePAO1ID = TRUE, ShowCellValues = TRUE){
+
+
+  
+Heatmap(
+        matrix = DataSet, 
+        cluster_rows = color_branches(as.dendrogram(hclust(dist(DataSet, method = "canberra")), method = "complete"), k = NumberOfClusters),
+        row_split = RowSplitNumber,
+        row_gap = RowGapSpace,
+        border = FALSE, 
+        
+        show_row_names = FALSE,
+        
+        right_annotation = rowAnnotation(
+          Col1 = if(ShowLocus == TRUE){
+            anno_text(Combined_List_Analysis_Shrunk2$locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
+          } else {NULL},
+        Col4 = if(ShowNucleotidePAO1Locus == TRUE) {
+          anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1Locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
+          } else {NULL},
+      	Col3 = if(ShowProteinPAO1Locus){
+      	  anno_text(Combined_List_Analysis_Shrunk2$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))
+      	  } else {NULL},
+        Col2 = if(ShowGeneCol == TRUE){
+          anno_text(Combined_List_Analysis_Shrunk2$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))} else {NULL}, 
+        Col5 = if(ShowNucleotidePAO1ID == TRUE){
+          anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))} else {NULL},
+        gap = unit(3, "mm")),
+        
+       # if(ShowCellValues == TRUE){
+        cell_fun = function(j, i, x, y, width, height, fill) {
+          if(DataSet[i, j] < 0 || DataSet[i, j] > 0)
+            grid.text(sprintf("%.1f", DataSet[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
+        
+        col = colorSetRedBlue,
+        
+        column_dend_reorder = YDendPresent, 
+        column_order = ColOrder, 
+        row_title = "Transcribed Gene Loci", 
+        column_title = "Conditions tested (CF39S vs CF39)", 
+        column_title_side = "bottom",
+        show_row_dend = YDendPresent,
+        #row_dend_width = unit(6, "cm"),
+        row_names_gp = gpar(fontsize = RowLabelTextCell),
+        
+        heatmap_legend_param = list(title = LegendName)
+        
+        , raster_quality = 10
+)
+}
+```
+
+
+```{r}
+FinalHeatmap = HeatmapCustomized(DataSet = mat, 
+                                 LegendName = "Legend", 
+                                 YDendPresent = FALSE, 
+                                 NumberOfClusters = 20, 
+                                 RowSplitNumber = 12,
+                                 RowGapSpace = unit(1.75, 'mm'),
+                                 
+                                 ShowCellValues = TRUE,
+                                 
+                                 #Must have one of the following 5 options as true
+                                 ShowLocus = TRUE, 
+                                 ShowNucleotidePAO1Locus = TRUE, 
+                                 ShowProteinPAO1Locus = TRUE,
+                                 ShowGeneCol = TRUE, 
+                                 ShowNucleotidePAO1ID = TRUE,
+                                 
+                                 InCellTextSize = 4,
+                                 RowLabelTextCell = 4.35
+                                )
+FinalHeatmap
+```
+
