@@ -53,101 +53,92 @@ colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white"
 Combined_List_Analysis_Shrunk2 <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Combined List Analysis Shrunk2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
 PAO1_Tags <- read_csv("../../../LocusTags and PAO1 Loci ID's.csv")
-
-Combined_List_Analysis_Shrunk2 <-merge(Combined_List_Analysis_Shrunk2, PAO1_Tags, by.x = "locus", by.y = "locus", all.x = T, all.y = T)
-ColToRemove <- c("locusNumber.x", "locusNumber.y")
-Combined_List_Analysis_Shrunk2 <- Combined_List_Analysis_Shrunk2[, !names(Combined_List_Analysis_Shrunk2) %in% ColToRemove, drop = F]
-
-FinalColumnNames <- append(colnames(Combined_List_Analysis_Shrunk2)[1:23], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
-
-colnames(Combined_List_Analysis_Shrunk2) <- FinalColumnNames
-
-```
-
-
-```{r}
-FoldChangeData <- data.frame(Combined_List_Analysis_Shrunk2$locus, Combined_List_Analysis_Shrunk2$FoldChange_25, Combined_List_Analysis_Shrunk2$FoldChange_29, Combined_List_Analysis_Shrunk2$FoldChange_33, Combined_List_Analysis_Shrunk2$FoldChange_37, Combined_List_Analysis_Shrunk2$FoldChange_41)
-
-NamesOfColumns <- c("locus", "FoldChange_25", "FoldChange_29", "FoldChange_33", "FoldChange_37", "FoldChange_41")
-colnames(FoldChangeData) <- NamesOfColumns
-rownames(FoldChangeData) <- FoldChangeData$locus
-FoldChangeData <- FoldChangeData[,-1]
-
-FoldChangeDataNoNA <- FoldChangeData
-FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
-FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 ```
 
 ```{r}
-NoNAMat <- FoldChangeDataNoNAMat
-ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(NoNAMat))))
-```
-
-
-#Coloration of row dendrigram
-```{r}
-#dendextend used below
-row_dend = as.dendrogram(hclust(dist(NoNAMat, method = "maximum")), method = "complete")
-row_dend = color_branches(row_dend, k = 10) # `color_branches()` returns a dendrogram object
-
-split = data.frame(cutree(hclust(dist(NoNAMat, method = "maximum")), h=2))
-
-```
-
-```{r}
-HeatmapCustomized <-function(InCellTextSize = 4, RowLabelTextCell = 4.35, LegendName = "Legend", DataSet, YDendPresent = FALSE, NumberOfClusters = 20, RowSplitNumber = 12, RowGapSpace = unit(1.75, 'mm'), ShowLocus = TRUE, ShowNucleotidePAO1Locus = TRUE, ShowProteinPAO1Locus = TRUE, ShowGeneCol = TRUE, ShowNucleotidePAO1ID = TRUE, ShowCellValues = TRUE){
+HeatmapCustomized <-function(InCellTextSize = 4, RowLabelTextCell = 4.35, LegendName = "Legend", DataSet, YDendPresent = FALSE, NumberOfClusters = 20, RowSplitNumber = 12, RowGapSpace = unit(1.75, 'mm'), ShowLocus = TRUE, ShowNucleotidePAO1Locus = TRUE, ShowProteinPAO1Locus = TRUE, ShowGeneCol = TRUE, ShowNucleotidePAO1ID = TRUE, ShowCellValues = TRUE, HeatMapGradColorSet = colorSetRedBlue){
   
+  
+  DatasetAlt <-merge(DataSet, PAO1_Tags, by.x = "locus", by.y = "locus", all.x = T, all.y = T)
+  ColToRemove <- c("locusNumber.x", "locusNumber.y")
+  DatasetAlt <- DatasetAlt[, !names(DatasetAlt) %in% ColToRemove, drop = F]
+  
+  FinalColumnNames <- append(colnames(DatasetAlt)[1:23], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
+  
+  colnames(DatasetAlt) <- FinalColumnNames
+  
+  
+  FoldChangeData <- data.frame(DatasetAlt$locus, DatasetAlt$FoldChange_25, DatasetAlt$FoldChange_29, DatasetAlt$FoldChange_33, DatasetAlt$FoldChange_37, DatasetAlt$FoldChange_41)
+  
+  NamesOfColumns <- c("locus", "FoldChange_25", "FoldChange_29", "FoldChange_33", "FoldChange_37", "FoldChange_41")
+  colnames(FoldChangeData) <- NamesOfColumns
+  rownames(FoldChangeData) <- FoldChangeData$locus
+  FoldChangeData <- FoldChangeData[,-1]
+  
+  FoldChangeDataNoNA <- FoldChangeData
+  FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
+  FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
+  
+  NoNAMat <- FoldChangeDataNoNAMat
+  ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(NoNAMat))))
+  
+  #dendextend used below
+  row_dend = as.dendrogram(hclust(dist(NoNAMat, method = "maximum")), method = "complete")
+  row_dend = color_branches(row_dend, k = 10) # `color_branches()` returns a dendrogram object
+  
+  split = data.frame(cutree(hclust(dist(NoNAMat, method = "maximum")), h=2))
+
 Heatmap(
-        matrix = DataSet, 
-        cluster_rows = color_branches(as.dendrogram(hclust(dist(DataSet, method = "canberra")), method = "complete"), k = NumberOfClusters),
+        matrix = NoNAMat, 
+        cluster_rows = color_branches(as.dendrogram(hclust(dist(NoNAMat, method = "canberra")), method = "complete"), k = NumberOfClusters),
         row_split = RowSplitNumber,
         row_gap = RowGapSpace,
-        border = FALSE, 
-        
+        border = FALSE,
+
         show_row_names = FALSE,
-        
-        right_annotation = rowAnnotation(
-          Col1 = if(ShowLocus == TRUE){
-            anno_text(Combined_List_Analysis_Shrunk2$locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
-          } else {NULL},
-        Col4 = if(ShowNucleotidePAO1Locus == TRUE) {
-          anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1Locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
-          } else {NULL},
-      	Col3 = if(ShowProteinPAO1Locus){
-      	  anno_text(Combined_List_Analysis_Shrunk2$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))
-      	  } else {NULL},
-        Col2 = if(ShowGeneCol == TRUE){
-          anno_text(Combined_List_Analysis_Shrunk2$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))} else {NULL}, 
-        Col5 = if(ShowNucleotidePAO1ID == TRUE){
-          anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))} else {NULL},
-        gap = unit(3, "mm")),
-        
-       # if(ShowCellValues == TRUE){
+
+      #   right_annotation = rowAnnotation(
+      #     Col1 = if(ShowLocus == TRUE){
+      #       anno_text(NoNAMat$locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
+      #     } else {NULL},
+      #   Col4 = if(ShowNucleotidePAO1Locus == TRUE) {
+      #     anno_text(NoNAMat$NucleotidePAO1Locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
+      #     } else {NULL},
+      # 	Col3 = if(ShowProteinPAO1Locus){
+      # 	  anno_text(NoNAMat$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))
+      # 	  } else {NULL},
+      #   Col2 = if(ShowGeneCol == TRUE){
+      #     anno_text(NoNAMat$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))} else {NULL},
+      #   Col5 = if(ShowNucleotidePAO1ID == TRUE){
+      #     anno_text(NoNAMat$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell))} else {NULL},
+      #   gap = unit(3, "mm")),
+
+       # # if(ShowCellValues == TRUE){
         cell_fun = function(j, i, x, y, width, height, fill) {
-          if(DataSet[i, j] < 0 || DataSet[i, j] > 0)
-            grid.text(sprintf("%.1f", DataSet[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
-        
-        col = colorSetRedBlue,
-        
-        column_dend_reorder = YDendPresent, 
-        column_order = ColOrder, 
-        row_title = "Transcribed Gene Loci", 
-        column_title = "Conditions tested (CF39S vs CF39)", 
+          if(NoNAMat[i, j] < 0 || NoNAMat[i, j] > 0)
+            grid.text(sprintf("%.1f", NoNAMat[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
+      #   
+        col = HeatMapGradColorSet,
+
+        column_dend_reorder = YDendPresent,
+        column_order = ColOrder,
+        row_title = "Transcribed Gene Loci",
+        column_title = "Conditions tested (CF39S vs CF39)",
         column_title_side = "bottom",
         show_row_dend = YDendPresent,
         #row_dend_width = unit(6, "cm"),
         row_names_gp = gpar(fontsize = RowLabelTextCell),
+
+      heatmap_legend_param = list(title = LegendName)
         
-        heatmap_legend_param = list(title = LegendName)
-        
-        , raster_quality = 10
+       ,  raster_quality = 10
 )
 }
 ```
 
 
 ```{r}
-FinalHeatmap = HeatmapCustomized(DataSet = NoNAMat, 
+FinalHeatmap = HeatmapCustomized(DataSet = Combined_List_Analysis_Shrunk2, 
                                  LegendName = "Legend", 
                                  YDendPresent = FALSE, 
                                  NumberOfClusters = 20, 
