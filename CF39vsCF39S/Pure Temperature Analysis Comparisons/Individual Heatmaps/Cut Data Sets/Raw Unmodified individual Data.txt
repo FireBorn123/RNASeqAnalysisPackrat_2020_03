@@ -1,1 +1,0 @@
-ProteinName	Fold Change_25C	Fold Change_29C	Fold Change_33C	Fold Change_37C	Fold Change_41C				FlgM	NA	NA	NA	NA	-1.488069123				FlgA	NA	NA	NA	-0.888027492	NA				FliD	NA	NA	NA	NA	-1.476626464				FlaG	NA	NA	NA	NA	-2.736945595				FliC	NA	NA	NA	-0.86624781	-3.635563049				FlgL	NA	NA	NA	NA	-1.28793165				FlgE	NA	NA	NA	NA	-1.350040649				

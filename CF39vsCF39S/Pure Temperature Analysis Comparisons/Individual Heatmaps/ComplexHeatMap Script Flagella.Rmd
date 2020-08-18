@@ -52,7 +52,9 @@ DataSetsToUse <- c("FoldChange_25", "FoldChange_29")
 
 PAO1_Tags <- read_csv("../../../../LocusTags and PAO1 Loci ID's.csv")
 
-LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Full Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+# LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Full Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Partial Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
 DataSet <- LoadedFlagellarData
 
@@ -60,7 +62,7 @@ DataSet <-merge(DataSet, y = PAO1_Tags, by = "locus")
 ColToRemove <- c("locusNumber.x", "locusNumber.y")
 DataSet <- DataSet[, !names(DataSet) %in% ColToRemove, drop = F]
 
-FinalColumnNames <- append(colnames(DataSet)[1:7], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
+FinalColumnNames <- append(colnames(DataSet)[1:8], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
 
 colnames(DataSet) <- FinalColumnNames
 
@@ -96,12 +98,6 @@ FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 mat <- FoldChangeDataNoNAMat
 ```
 
-```{r}
-mat2[, FoldChange_25C] <-
-
-
-```
-
 
 ```{r}
 colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
@@ -124,16 +120,13 @@ ColumnLabelText = 9
 ColTitleSize = 10
 RowTitleSize = 11
   
-  
 LegendName = "    Gene \nExpression\n"
-
-
 
 HeatmapTest <- Heatmap(
         matrix = mat, 
-        # cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 2),
-        # row_split = 3,
-        # row_gap = unit(1.2, 'mm'),
+        cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 2),
+        row_split = 3,
+        row_gap = unit(1.2, 'mm'),
         border = FALSE, 
         
         row_title_gp = gpar(fontsize = RowTitleSize),
@@ -144,6 +137,7 @@ HeatmapTest <- Heatmap(
         show_row_names = FALSE,
         
         right_annotation = rowAnnotation(
+        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         Col1 = anno_text(DataSet$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
         #Col4 = anno_text(DataSet$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
       	Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
@@ -171,7 +165,6 @@ HeatmapTest <- Heatmap(
         , raster_quality = 10
         )
 
-
 HeatmapTest
 ```
 
@@ -185,7 +178,7 @@ dev.off()
 ```
 
 ```{r}
-png("Flagella_Numeric_1.png", width = 20, height = 15, res = 300, units = "cm")
+png("Flagella_Clustered_1.png", width = 20, height = 13, res = 300, units = "cm")
 HeatmapTest
 dev.off()
 ```

@@ -25,7 +25,7 @@ remove(list = ls())
 
 #Set working directory
 #PC Path
-setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/ComplexHeatmap and Clustering")
+setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Heat Maps")
 #Laptop Path
 #Set Library Directory
 #.libPaths(c(""))
@@ -47,104 +47,103 @@ library(dendextend)
 PTA = Pure Temperature Analysis
 #Dataset
 ```{r}
-Combined_List_Analysis_Shrunk2 <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Combined List Analysis Shrunk2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+#Names of Columns = "FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C"
+DataSetsToUse <- c("FoldChange_25", "FoldChange_29")
 
-PAO1_Tags <- read_csv("../../../LocusTags and PAO1 Loci ID's.csv")
+PAO1_Tags <- read_csv("../../../../LocusTags and PAO1 Loci ID's.csv")
 
-Combined_List_Analysis_Shrunk2 <-merge(Combined_List_Analysis_Shrunk2, PAO1_Tags, by.x = "locus", by.y = "locus", all.x = T, all.y = T)
+LoadedHeatShockData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Heat Shock Genes Full Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+DataSet <- LoadedHeatShockData
+
+DataSet <-merge(DataSet, y = PAO1_Tags, by = "locus")
 ColToRemove <- c("locusNumber.x", "locusNumber.y")
-Combined_List_Analysis_Shrunk2 <- Combined_List_Analysis_Shrunk2[, !names(Combined_List_Analysis_Shrunk2) %in% ColToRemove, drop = F]
+DataSet <- DataSet[, !names(DataSet) %in% ColToRemove, drop = F]
 
-FinalColumnNames <- append(colnames(Combined_List_Analysis_Shrunk2)[1:23], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
+FinalColumnNames <- append(colnames(DataSet)[1:7], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
 
-colnames(Combined_List_Analysis_Shrunk2) <- FinalColumnNames
-
+colnames(DataSet) <- FinalColumnNames
 ```
 
 
 ```{r}
-FoldChangeData <- data.frame(Combined_List_Analysis_Shrunk2$locus, Combined_List_Analysis_Shrunk2$FoldChange_25, Combined_List_Analysis_Shrunk2$FoldChange_29, Combined_List_Analysis_Shrunk2$FoldChange_33, Combined_List_Analysis_Shrunk2$FoldChange_37, Combined_List_Analysis_Shrunk2$FoldChange_41)
+FoldChangeData <- data.frame(DataSet$locus, DataSet$FoldChange_25C, DataSet$FoldChange_29C, DataSet$FoldChange_33C, DataSet$FoldChange_37C, DataSet$FoldChange_41C)
 
 NamesOfColumns <- c("locus", "FoldChange_25", "FoldChange_29", "FoldChange_33", "FoldChange_37", "FoldChange_41")
 colnames(FoldChangeData) <- NamesOfColumns
 rownames(FoldChangeData) <- FoldChangeData$locus
 FoldChangeData <- FoldChangeData[,-1]
-
-#FoldChangeDataWithNAMat <- data.matrix(FoldChangeData)
-#na_index = sample(c(TRUE, FALSE), nrow(FoldChangeDataWithNAMat)*ncol(FoldChangeDataWithNAMat), replace = TRUE, prob = c(1, 9))
-#FoldChangeDataWithNAMat[na_index] = NA
-
-FoldChangeDataNoNA <- FoldChangeData
-FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
-FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 ```
 
+#Remove Columns
+Names of Columns = "FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C"
 ```{r}
+# FoldChangeData2 <- subset(FoldChangeData, select = -"FoldChange_25C")
+
+
+colnames(FoldChangeData)
+
+FoldChangeData2 <- FoldChangeData[, !names(FoldChangeData) %in% DataSetsToUse, drop = T]
+
+```
+
+
+```{r}
+FoldChangeDataNoNA <- FoldChangeData2
+FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
+FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 mat <- FoldChangeDataNoNAMat
+```
+
+
+```{r}
 colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
 ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
 ```
 
-
-
-#Possible clustering options that i could see
-
-        clustering_distance_rows = "pearson", #Pre-defined distance method (1 - pearson) #Seems to look the most split up along with the single distancing
-        clustering_distance_rows = "spearman",
-        clustering_distance_rows = "kendall",
-        clustering_distance_rows = function(mat) dist(mat), #A function that calculates distance between martix points
-        clustering_distance_rows = function(x, y) 1 - cor(x, y), #A function that calculates pairwise distance between martix points
-        clustering_method_rows = "single",
-        clustering_method_rows = "complete",
-        cluster_rows = diana(mat), #Cluster used here
-        cluster_rows = function(mat) as.dendrogram(diana(mat)),
-        
-##TODO Look into Seration package to improve pattern visibility
-
 #Coloration of row dendrigram
 ```{r}
-#dendextend used below
-#row_dend = as.dendrogram(hclust(dist(mat)))
-#row_dend = as.dendrogram(hclust(dist(mat), method = "single"))
 row_dend = as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete")
-row_dend = color_branches(row_dend, k = 10) # `color_branches()` returns a dendrogram object
+row_dend = color_branches(row_dend, k = 2) # `color_branches()` returns a dendrogram object
 
 split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
 
 ```
 
-  cluster_rows = function(mat) color_branches(as.dendrogram(diana(mat)), k = 10), #Same as above dendrogram
-  cluster_rows = function(mat) color_branches(as.dendrogram(diana(mat)), k = 10), #Looks good
-  cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "euclidean")), method = "complete"), k = 10) #Looks good
-  cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 10) #Looks very logical
-  cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete"), k = 10) #Looks good
-
-
-
 ```{r}
-InCellTextSize = 4
-RowLabelTextCell = 4.35
-EmptyLableColumn = array("", nrow = 1, ncol = length(TnT_List_Analysis_Shrunk2$Gene))
-LegendName = "Legend"
+InCellTextSize = 9
+RowLabelTextCell = 9
+ColumnLabelText = 9
+ColTitleSize = 10
+RowTitleSize = 11
+  
+  
+LegendName = "    Gene \nExpression\n"
 
 
 
 HeatmapTest <- Heatmap(
         matrix = mat, 
-        cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 20),
-        row_split = 12,
-        row_gap = unit(1.75, 'mm'),
+        # cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 2),
+        # row_split = 2,
+        # row_gap = unit(1.2, 'mm'),
         border = FALSE, 
         
+        row_title_gp = gpar(fontsize = RowTitleSize),
+        column_title_gp = gpar(fontsize = ColTitleSize),
+        column_names_gp = gpar(fontsize = ColumnLabelText),
+        row_order = DataSet$locus,
+        row_dend_reorder = FALSE,
         show_row_names = FALSE,
         
         right_annotation = rowAnnotation(
-        Col1 = anno_text(Combined_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
-        Col4 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-      	#Col3 = anno_text(Combined_List_Analysis_Shrunk2$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-        Col2 = anno_text(Combined_List_Analysis_Shrunk2$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-        Col5 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-        gap = unit(2, "mm")),
+        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col1 = anno_text(DataSet$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
+        #Col4 = anno_text(DataSet$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+      	#Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        #Col2 = anno_text(DataSet$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        #Col5 = anno_text(DataSet$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        gap = unit(6, "mm")),
         
         cell_fun = function(j, i, x, y, width, height, fill) {
           if(mat[i, j] < 0 || mat[i, j] > 0)
@@ -154,16 +153,17 @@ HeatmapTest <- Heatmap(
         
         column_dend_reorder = FALSE, 
         column_order = ColOrder, 
-        row_title = "Transcribed Gene Loci", 
+        row_title = " Transcribed \nGene Loci", 
         column_title = "Conditions tested (CF39S vs CF39)", 
         column_title_side = "bottom",
         show_row_dend = FALSE,
         #row_dend_width = unit(6, "cm"),
         row_names_gp = gpar(fontsize = RowLabelTextCell),
         
-        heatmap_legend_param = list(title = LegendName)
+        heatmap_legend_param = list(title = LegendName),
+        heatmap_height = 6,
         
-        , raster_quality = 10
+        raster_quality = 10
         )
 
 
@@ -173,23 +173,23 @@ HeatmapTest
 
 
 
-```{r}
+```{r, eval=FALSE}
 pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_AddCol_NoDend_MinProt.pdf", width = 10, height = 22)
 HeatmapTest
 dev.off()
 ```
 
-
-
-#```{r}
-pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_WithAdditionalColumns_MinProt.pdf", width = 12, height = 22)
+```{r}
+png("HeatShock_Numbered_1.png", width = 16, height = 8.5, res = 300, units = "cm")
 HeatmapTest
 dev.off()
 ```
 
+```
+
 #Session Info
 ```{r}
-sink(file = "./SessionInfo.txt")
+sink(file = "./HeatShockSessionInfo.txt")
 sessionInfo()
 sink(file = NULL)
 ```
@@ -200,7 +200,7 @@ sink(file = NULL)
 The citation function can be used to  who you should be citing.
 
 ```{r}
-sink(file = "./ReferenceInfo.txt")
+sink(file = "./HeatShockFlagellaReferenceInfo.txt")
 citation("readr")
 citation("ComplexHeatmap")
 citation("circlize")
