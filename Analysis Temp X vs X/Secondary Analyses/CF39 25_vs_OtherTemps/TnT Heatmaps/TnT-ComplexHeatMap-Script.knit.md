@@ -7,18 +7,18 @@ output: html_document
 
 Analysis from: https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 
 #Clear Global Environment
-```{r}
+
+```r
 remove(list = ls())
 ```
 
 
-```{r}
+
+```r
 #Set Library Directory
 #PC Path
 .libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
@@ -31,23 +31,116 @@ setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAn
 #.libPaths(c(""))
 #setwd("")
 #sink(file = "./RSessionRawRun.txt") 
-``` 
+```
 
 
 #Libraries required
-```{r}
+
+```r
 library(readr)
 library(ComplexHeatmap)
+```
+
+```
+## Loading required package: grid
+```
+
+```
+## ========================================
+## ComplexHeatmap version 2.5.3
+## Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
+## Github page: https://github.com/jokergoo/ComplexHeatmap
+## Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
+## 
+## If you use it in published research, please cite:
+## Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional 
+##   genomic data. Bioinformatics 2016.
+## 
+## This message can be suppressed by:
+##   suppressPackageStartupMessages(library(ComplexHeatmap))
+## ========================================
+```
+
+```r
 library(circlize)
+```
+
+```
+## Warning: package 'circlize' was built under R version 3.5.3
+```
+
+```
+## ========================================
+## circlize version 0.4.8
+## CRAN page: https://cran.r-project.org/package=circlize
+## Github page: https://github.com/jokergoo/circlize
+## Documentation: http://jokergoo.github.io/circlize_book/book/
+## 
+## If you use it in published research, please cite:
+## Gu, Z. circlize implements and enhances circular visualization 
+##   in R. Bioinformatics 2014.
+## ========================================
+```
+
+```r
 library(cluster)
 library(dendextend)
+```
+
+```
+## 
+## ---------------------
+## Welcome to dendextend version 1.13.4
+## Type citation('dendextend') for how to cite the package.
+## 
+## Type browseVignettes(package = 'dendextend') for the package vignette.
+## The github page is: https://github.com/talgalili/dendextend/
+## 
+## Suggestions and bug-reports can be submitted at: https://github.com/talgalili/dendextend/issues
+## Or contact: <tal.galili@gmail.com>
+## 
+## 	To suppress this message use:  suppressPackageStartupMessages(library(dendextend))
+## ---------------------
+```
+
+```
+## 
+## Attaching package: 'dendextend'
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     cutree
+```
+
+```r
 #library(seriation)
 ```
 
 PTA = Pure Temperature Analysis
 #Dataset
-```{r}
+
+```r
 TnT_List_Analysis_Shrunk2 <- read_csv("../TnT CF39 thermoregulation Shrunk2-2.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   locus = col_character(),
+##   `CF39 FC 25vs29` = col_double(),
+##   `CF39 FC 25vs33` = col_double(),
+##   `CF39 FC 25vs37` = col_double(),
+##   `CF39 FC 25vs41` = col_double(),
+##   gene = col_character(),
+##   product = col_character(),
+##   `PAO1 ID (Pseudomonas DB Protein search)` = col_character(),
+##   `Protein Description` = col_character()
+## )
+```
+
+```r
 rawNamesOfColumns <- c("locus", "FoldChange_25vs29", "FoldChange_25vs33", "FoldChange_25vs37", "FoldChange_25vs41", "Gene", "Product", "PAO1_ID", "Protein Description")
 colnames(TnT_List_Analysis_Shrunk2) <- rawNamesOfColumns
 
@@ -64,11 +157,19 @@ FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
 FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
 ```
 
-```{r}
+
+```r
 mat <- FoldChangeDataNoNAMat
 colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
 ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
+```
 
+```
+## Warning in order(as.numeric(gsub("FoldChange_", "", colnames(mat)))): NAs
+## introduced by coercion
+```
+
+```r
 RowOrder = sort(rownames(mat))
 ```
 
@@ -89,12 +190,12 @@ RowOrder = sort(rownames(mat))
 ##TODO Look into Seration package to improve pattern visibility
 
 #Coloration of row dendrigram
-```{r}
+
+```r
 row_dend = as.dendrogram(hclust(dist(mat, method = "maximum")), method = "complete")
 row_dend = color_branches(row_dend, k = 4) # `color_branches()` returns a dendrogram object
 
 split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=4))
-
 ```
 
   cluster_rows = function(mat) color_branches(as.dendrogram(diana(mat)), k = 10), #Same as above dendrogram
@@ -105,100 +206,10 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=4))
 
 
 
-```{r}
-InCellTextSize = 7
-RowLabelTextCell = 7
-ColumnLabelText = 8
-LegendName = "Expression"
-
-
-HeatmapTest<- Heatmap(
-        matrix = mat, 
-        #cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 5),
-        #row_split = 5,
-        #row_gap = unit(1.75, 'mm'),
-        border = FALSE, 
-        show_row_names = FALSE,
-
-        
-       # row_names_max_width = unit(50, "mm"), #Does not appear to be doing anything
-       right_annotation = rowAnnotation(
-            Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
-            Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(1.5, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-          	# Col3 = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-            gap = unit(6, "mm")),
-
-        
-        
-        row_title = "Transcribed Gene Loci",
-        row_order = RowOrder,
-        row_names_gp = gpar(fontsize = RowLabelTextCell),
-        row_dend_reorder = FALSE,
-        
-        
-        cell_fun = function(j, i, x, y, width, height, fill) {
-          if(mat[i, j] < 0 || mat[i, j] > 0)
-            grid.text(sprintf("%.1f", mat[i, j]), x, y, gp = gpar(fontsize = InCellTextSize))},
-        
-       
-        column_dend_reorder = FALSE, 
-        column_order = ColOrder, 
-        column_names_rot = 90,
-        column_names_gp = gpar(fontsize = ColumnLabelText),
-        
-        
-        column_title = "Conditions tested (CF39S vs CF39)",
-        column_title_gp = gpar(fontsize = RowLabelTextCell),
-        column_title_side = "bottom",
-        
-        
-        #row_dend_width = unit(3.1, "cm"),
-
-        heatmap_legend_param = list(title = LegendName),
-       
-        col = colorSetRedBlue,
-        # height = unit(12, 'cm'),
-       raster_quality = 10
-        )
-#HeatmapTest <- draw(HeatmapTest, heatmap_legend_side = "bottom", annotation_legend_side = "bottom")
-
-
-HeatmapTest
-```
 
 
 
 
-```{r}
-pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_TnT_FullSpread.pdf", width = 9, height = 12)
-HeatmapTest
-dev.off()
-```
-
-```{r}
-png("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_TnT_FullSpread.png", width = 12, height = 12, units = "cm", res = 300)
-HeatmapTest
-dev.off()
-```
 
 
-#Session Info
-```{r}
-sink(file = "./SessionInfo.txt")
-sessionInfo()
-sink(file = NULL)
-```
 
-
-#References
-
-The citation function can be used to  who you should be citing.
-
-```{r}
-sink(file = "./ReferenceInfo.txt")
-citation("readr")
-citation("ComplexHeatmap")
-citation("circlize")
-citation("cluster")
-sink(file = NULL)
-```

@@ -1,0 +1,1 @@
+ProteinName	Fold Change_25C	Fold Change_29C	Fold Change_33C	Fold Change_37C	Fold Change_41C				TssA1	NA	-1.091349665	NA	0.920066607	1.203304411				TssC1	NA	-0.914202928	NA	1.114432209	1.009496842				Hcp1	NA	NA	NA	NA	1.31729236				ClpV1	NA	NA	NA	NA	1.032672586													

@@ -97,10 +97,9 @@ Heatmap(
 
         show_row_names = FALSE,
 
-      #   right_annotation = rowAnnotation(
-      #     Col1 = if(ShowLocus == TRUE){
-      #       anno_text(NoNAMat$locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
-      #     } else {NULL},
+        right_annotation = rowAnnotation(
+          Col1 = if(ShowLocus == TRUE){
+            anno_text(FoldChangeData$locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))}),
       #   Col4 = if(ShowNucleotidePAO1Locus == TRUE) {
       #     anno_text(NoNAMat$NucleotidePAO1Locus, location = unit(0.5, "mm"), gp = gpar(fontsize = RowLabelTextCell))
       #     } else {NULL},
@@ -149,10 +148,10 @@ FinalHeatmap = HeatmapCustomized(DataSet = Combined_List_Analysis_Shrunk2,
                                  
                                  #Must have one of the following 5 options as true
                                  ShowLocus = TRUE, 
-                                 ShowNucleotidePAO1Locus = F, 
-                                 ShowProteinPAO1Locus = F,
-                                 ShowGeneCol = F, 
-                                 ShowNucleotidePAO1ID = F,
+                                 ShowNucleotidePAO1Locus = FALSE, 
+                                 ShowProteinPAO1Locus = FALSE,
+                                 ShowGeneCol = FALSE, 
+                                 ShowNucleotidePAO1ID = FALSE,
                                  
                                  InCellTextSize = 4,
                                  RowLabelTextCell = 4.35
