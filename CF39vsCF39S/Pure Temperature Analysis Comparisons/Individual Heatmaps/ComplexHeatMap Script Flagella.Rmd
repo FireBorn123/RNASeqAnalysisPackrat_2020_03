@@ -161,7 +161,11 @@ HeatmapTest
 dev.off()
 ```
 
-
+```{r}
+png("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_AddCol_NoDend_MinProt.png", width = 10, height = 22, res = )
+HeatmapTest
+dev.off()
+```
 
 ```
 

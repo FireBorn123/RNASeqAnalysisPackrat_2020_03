@@ -106,10 +106,10 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=4))
 
 
 ```{r}
-InCellTextSize = 7
-RowLabelTextCell = 7
-ColumnLabelText = 8
-LegendName = "Expression"
+InCellTextSize = 8
+RowLabelTextCell = 10
+ColumnLabelText = 10
+LegendName = "    Gene \nExpression\n"
 
 
 HeatmapTest<- Heatmap(
@@ -176,7 +176,7 @@ dev.off()
 ```
 
 ```{r}
-png("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_TnT_FullSpread.png", width = 12, height = 12, units = "cm", res = 300)
+png("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_TnT_FullSpread.png", width = 15, height = 12, units = "cm", res = 300)
 HeatmapTest
 dev.off()
 ```
