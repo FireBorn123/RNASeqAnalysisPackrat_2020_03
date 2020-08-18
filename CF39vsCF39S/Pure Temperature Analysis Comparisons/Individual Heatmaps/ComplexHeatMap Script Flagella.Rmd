@@ -47,6 +47,9 @@ library(dendextend)
 PTA = Pure Temperature Analysis
 #Dataset
 ```{r}
+#Names of Columns = "FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C"
+DataSetsToUse <- c("FoldChange_25", "FoldChange_29")
+
 PAO1_Tags <- read_csv("../../../../LocusTags and PAO1 Loci ID's.csv")
 
 LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Full Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
@@ -63,12 +66,6 @@ colnames(DataSet) <- FinalColumnNames
 
 ```
 
-<!-- Names of Columns = "FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C" -->
-<!-- ```{r} -->
-<!-- DataSet$FoldChange_25C <- NULL -->
-<!-- DataSet$FoldChange_29C <- NULL -->
-<!-- ``` -->
-
 
 ```{r}
 FoldChangeData <- data.frame(DataSet$locus, DataSet$FoldChange_25, DataSet$FoldChange_29, DataSet$FoldChange_33, DataSet$FoldChange_37, DataSet$FoldChange_41)
@@ -79,15 +76,34 @@ rownames(FoldChangeData) <- FoldChangeData$locus
 FoldChangeData <- FoldChangeData[,-1]
 ```
 
+#Remove Columns
+Names of Columns = "FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C"
+```{r}
+# FoldChangeData2 <- subset(FoldChangeData, select = -"FoldChange_25C")
+
+
+colnames(FoldChangeData)
+
+FoldChangeData2 <- FoldChangeData[, !names(FoldChangeData) %in% DataSetsToUse, drop = T]
+
+```
+
 
 ```{r}
-FoldChangeDataNoNA <- FoldChangeData
+FoldChangeDataNoNA <- FoldChangeData2
 FoldChangeDataNoNA[is.na(FoldChangeDataNoNA)] <- 0
 FoldChangeDataNoNAMat <- data.matrix(FoldChangeDataNoNA)
+mat <- FoldChangeDataNoNAMat
 ```
 
 ```{r}
-mat <- FoldChangeDataNoNAMat
+mat2[, FoldChange_25C] <-
+
+
+```
+
+
+```{r}
 colorSetRedBlue <- colorRamp2(c(-10, 0, 10), c(rgb(0, 114/255, 178/255), "white", rgb(213/255, 94/255, 0))) #First color is Blue and second is Vermillion from the Nature Colorblind palette
 ColOrder = order(as.numeric(gsub("FoldChange_", "", colnames(mat))))
 ```
@@ -102,9 +118,13 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
 ```
 
 ```{r}
-InCellTextSize = 7
-RowLabelTextCell = 7
-ColumnLabelText = 8
+InCellTextSize = 9
+RowLabelTextCell = 9
+ColumnLabelText = 9
+ColTitleSize = 10
+RowTitleSize = 11
+  
+  
 LegendName = "    Gene \nExpression\n"
 
 
@@ -116,7 +136,10 @@ HeatmapTest <- Heatmap(
         # row_gap = unit(1.2, 'mm'),
         border = FALSE, 
         
-        row_order = DataSet$locus,       
+        row_title_gp = gpar(fontsize = RowTitleSize),
+        column_title_gp = gpar(fontsize = ColTitleSize),
+        column_names_gp = gpar(fontsize = ColumnLabelText),
+        row_order = DataSet$locus,
         row_dend_reorder = FALSE,
         show_row_names = FALSE,
         
@@ -155,14 +178,14 @@ HeatmapTest
 
 
 
-```{r}
+```{r, eval=FALSE}
 pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_AddCol_NoDend_MinProt.pdf", width = 10, height = 22)
 HeatmapTest
 dev.off()
 ```
 
 ```{r}
-png("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_AddCol_NoDend_MinProt.png", width = 10, height = 22, res = )
+png("Flagella_Numeric_1.png", width = 20, height = 15, res = 300, units = "cm")
 HeatmapTest
 dev.off()
 ```
@@ -171,7 +194,7 @@ dev.off()
 
 #Session Info
 ```{r}
-sink(file = "./SessionInfo.txt")
+sink(file = "./FlagellaSessionInfo.txt")
 sessionInfo()
 sink(file = NULL)
 ```
@@ -182,7 +205,7 @@ sink(file = NULL)
 The citation function can be used to  who you should be citing.
 
 ```{r}
-sink(file = "./ReferenceInfo.txt")
+sink(file = "./FlagellaReferenceInfo.txt")
 citation("readr")
 citation("ComplexHeatmap")
 citation("circlize")
