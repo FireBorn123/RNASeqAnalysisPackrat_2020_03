@@ -124,9 +124,9 @@ LegendName = "    Gene \nExpression\n"
 
 HeatmapTest <- Heatmap(
         matrix = mat, 
-        # cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 2),
-        # row_split = 2,
-        # row_gap = unit(1.2, 'mm'),
+        cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 2),
+        row_split = 2,
+        row_gap = unit(1.4, 'mm'),
         border = FALSE, 
         
         row_title_gp = gpar(fontsize = RowTitleSize),
@@ -142,7 +142,7 @@ HeatmapTest <- Heatmap(
         #Col4 = anno_text(DataSet$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
       	#Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         #Col2 = anno_text(DataSet$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-        #Col5 = anno_text(DataSet$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col5 = anno_text(DataSet$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         gap = unit(6, "mm")),
         
         cell_fun = function(j, i, x, y, width, height, fill) {
@@ -180,7 +180,7 @@ dev.off()
 ```
 
 ```{r}
-png("HeatShock_Numbered_1.png", width = 16, height = 8.5, res = 300, units = "cm")
+png("HeatShock_Clustered_1.png", width = 20, height = 8.5, res = 300, units = "cm")
 HeatmapTest
 dev.off()
 ```

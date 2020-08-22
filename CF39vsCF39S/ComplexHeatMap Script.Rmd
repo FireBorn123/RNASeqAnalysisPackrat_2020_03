@@ -122,9 +122,8 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
 
 
 ```{r}
-InCellTextSize = 4
-RowLabelTextCell = 4.35
-EmptyLableColumn = array("", nrow = 1, ncol = length(TnT_List_Analysis_Shrunk2$Gene))
+InCellTextSize = 5
+RowLabelTextCell = 5
 LegendName = "Legend"
 
 
@@ -139,11 +138,11 @@ HeatmapTest <- Heatmap(
         show_row_names = FALSE,
         
         right_annotation = rowAnnotation(
-        Col1 = anno_text(Combined_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
-        Col4 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-      	#Col3 = anno_text(Combined_List_Analysis_Shrunk2$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col1 = anno_text(Combined_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         Col2 = anno_text(Combined_List_Analysis_Shrunk2$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-        Col5 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col4 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+      	# Col3 = anno_text(Combined_List_Analysis_Shrunk2$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        # Col5 = anno_text(Combined_List_Analysis_Shrunk2$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         gap = unit(2, "mm")),
         
         cell_fun = function(j, i, x, y, width, height, fill) {
@@ -173,12 +172,23 @@ HeatmapTest
 
 
 
-```{r}
+```{r, eval=FALSE}
 pdf("heatmap_Canberra(mat)AsDend_colored_split_CellLabled_AddCol_NoDend_MinProt.pdf", width = 10, height = 22)
 HeatmapTest
 dev.off()
 ```
 
+```{r, eval=TRUE}
+pdf("FullHeatMap-Lables-NoDend.pdf", width = 6, height = 30)
+HeatmapTest
+dev.off()
+```
+
+```{r, eval = FALSE}
+png("FullHeatMap-MinLables-NoDend.png", width = 10, height = 22, units = "in", res = 300)
+HeatmapTest
+dev.off()
+```
 
 
 #```{r}
