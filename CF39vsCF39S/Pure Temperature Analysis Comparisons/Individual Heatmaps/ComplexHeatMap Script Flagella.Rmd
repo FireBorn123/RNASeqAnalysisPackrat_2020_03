@@ -48,7 +48,7 @@ PTA = Pure Temperature Analysis
 #Dataset
 ```{r}
 #Names of Columns = "FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C"
-DataSetsToUse <- c("FoldChange_25", "FoldChange_29")
+DataSetsToUse <- c("FoldChange_25C", "FoldChange_29C", "FoldChange_33C", "FoldChange_37C", "FoldChange_41C")
 
 PAO1_Tags <- read_csv("../../../../LocusTags and PAO1 Loci ID's.csv")
 
@@ -137,10 +137,10 @@ HeatmapTest <- Heatmap(
         show_row_names = FALSE,
         
         right_annotation = rowAnnotation(
-        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-        Col1 = anno_text(DataSet$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
+        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell, fontface = 3)),
+        # Col1 = anno_text(DataSet$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
         #Col4 = anno_text(DataSet$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-      	Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+      	# Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         #Col2 = anno_text(DataSet$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
        # Col5 = anno_text(DataSet$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         gap = unit(6, "mm")),
@@ -178,7 +178,7 @@ dev.off()
 ```
 
 ```{r}
-png("Flagella_Clustered_1.png", width = 20, height = 13, res = 300, units = "cm")
+png("Flagella_Clustered_2.png", width = 15, height = 11, res = 300, units = "cm")
 HeatmapTest
 dev.off()
 ```

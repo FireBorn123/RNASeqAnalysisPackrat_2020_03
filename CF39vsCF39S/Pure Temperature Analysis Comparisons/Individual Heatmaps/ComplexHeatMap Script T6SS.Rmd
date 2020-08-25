@@ -137,7 +137,7 @@ HeatmapTest <- Heatmap(
         show_row_names = FALSE,
         
         right_annotation = rowAnnotation(
-        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell, fontface = "italic")),
         Col1 = anno_text(DataSet$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
         #Col4 = anno_text(DataSet$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
       	Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
@@ -180,7 +180,7 @@ dev.off()
 ```
 
 ```{r}
-png("T6SS_Numbered_1.png", width = 20, height = 6.5, res = 300, units = "cm")
+png("T6SS_Numbered_1.png", width = 20, height = 7, res = 300, units = "cm")
 # png("T6SS_Clustered_1.png", width = 20, height = 6.5, res = 300, units = "cm")
 HeatmapTest
 dev.off()

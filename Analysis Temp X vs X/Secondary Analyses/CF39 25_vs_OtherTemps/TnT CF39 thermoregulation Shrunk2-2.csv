@@ -2,7 +2,7 @@ locus,CF39 FC 25vs29,CF39 FC 25vs33,CF39 FC 25vs37,CF39 FC 25vs41,gene,product,P
 PROKKA_06325_sense,NA,NA,1.488370416,1.607907451,mucD_2,serine protease MucD precursor,N/A,N/A
 PROKKA_06326_sense,NA,NA,NA,NA,htpX_2,heat shock protein htpX,N/A,N/A
 PROKKA_06327_sense,NA,NA,NA,NA,n/a,putative membrane protein,N/A,N/A
-PROKKA_06328_antis,-2.105652506,NA,NA,NA,wspR_8 (TdcA),TdcA,N/A,N/A
+PROKKA_06328_antis,-2.105652506,NA,NA,NA,tdcA,TdcA,N/A,N/A
 PROKKA_06329_sense,NA,NA,NA,NA,kefB_4,glutathione-regulated potassium-efflux system protein KefB,N/A,N/A
 PROKKA_06330_sense,NA,NA,NA,NA,trxA_4,thioredoxin,N/A,N/A
 PROKKA_06331_sense,NA,NA,NA,NA,n/a,hypothetical protein,N/A,N/A

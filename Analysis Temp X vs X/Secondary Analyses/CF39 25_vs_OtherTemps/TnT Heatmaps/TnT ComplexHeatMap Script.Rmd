@@ -124,7 +124,7 @@ HeatmapTest<- Heatmap(
        # row_names_max_width = unit(50, "mm"), #Does not appear to be doing anything
        right_annotation = rowAnnotation(
             Col1 = anno_text(TnT_List_Analysis_Shrunk2$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
-            Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(1.5, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+            Col2 = anno_text(TnT_List_Analysis_Shrunk2$Gene, location = unit(0.0, "mm"), gp = gpar(fontsize = RowLabelTextCell, fontface = "italic")),
           	# Col3 = anno_text(TnT_List_Analysis_Shrunk2$PAO1_ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
             gap = unit(6, "mm")),
 
