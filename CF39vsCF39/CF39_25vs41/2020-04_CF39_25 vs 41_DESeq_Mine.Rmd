@@ -60,8 +60,8 @@ library("DESeq2")
 ```
 
 #Actual Dataset
-## Loading and formatting the Silver Dataset
-Load in the data from the file called SilverShockedReadCountsTable.csv. This file should be located in the working directory.
+## Loading and formatting the CF39 25 vs 41C Dataset
+Load in the data from the file called "CF39 25vs41 Counts Table.csv". This file should be located along the specified path.
 
 ```{r}
 #Load data data from my computer
@@ -105,7 +105,7 @@ head(TestSet)#TODO Should you have a DGEList going into a DESeq analysis?
 This should leave a read count table in the correct format to be read into a R list called a DGEList. 
 
 ```{r}
-# A method of using equal length names to name the groups in the treatment. Essentially the colnames command is extracting the pre-exsisting column names from the Shocked_silver dataframe, substring is extracting the first 2 characters of the column names, as specified by the characters inclusive between character 1 and 2 (so SC and ST), and finally these characters are being turned into factors.
+# A method of using equal length names to name the groups in the treatment. Essentially the colnames command is extracting the pre-exsisting column names from the TestSet dataframe, substring is extracting the first 2 characters of the column names, as specified by the characters inclusive between character 1 and 2 (so SC and ST), and finally these characters are being turned into factors.
 TreatmentNames <- substring(colnames(x = TestSet), first =  1, last = 5)
 TreatmentNames <- unique(TreatmentNames)
 Treatment <- factor(substring(colnames(x = TestSet), first =  1, last = 5)) 

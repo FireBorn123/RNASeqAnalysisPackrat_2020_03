@@ -52,8 +52,8 @@ library("DESeq2")
 ```
 
 #Actual Dataset
-## Loading and formatting the Silver Dataset
-Load in the data from the file called SilverShockedReadCountsTable.csv. This file should be located in the working directory.
+## Loading and formatting the CF39 vs CF39S 37 C Dataset
+Load in the data from the file called "37 vs 37 Counts Table.csv". This file should be located along the specified path.
 
 ```{r}
 #Load data data from my computer
