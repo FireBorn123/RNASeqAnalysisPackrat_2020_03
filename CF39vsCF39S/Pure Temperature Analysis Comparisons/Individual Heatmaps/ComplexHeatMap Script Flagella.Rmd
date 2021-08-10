@@ -54,7 +54,7 @@ PAO1_Tags <- read_csv("../../../../LocusTags and PAO1 Loci ID's.csv")
 
 # LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Full Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
-LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Partial Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+LoadedFlagellarData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Flagella Genes Partial Dataset-2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
 DataSet <- LoadedFlagellarData
 

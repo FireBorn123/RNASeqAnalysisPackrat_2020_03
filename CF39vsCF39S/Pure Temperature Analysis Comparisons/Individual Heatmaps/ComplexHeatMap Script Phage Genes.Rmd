@@ -52,7 +52,7 @@ DataSetsToUse <- c()
 
 PAO1_Tags <- read_csv("../../../../LocusTags and PAO1 Loci ID's.csv")
 
-LoadedHeatShockData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Phage Genes Full Dataset.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+LoadedHeatShockData <- read_delim("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/Pure Temperature Analysis Comparisons/Individual Heatmaps/Cut Data Sets/Phage Genes Full Dataset - 2.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 
 DataSet <- LoadedHeatShockData
 
@@ -60,7 +60,7 @@ DataSet <-merge(DataSet, y = PAO1_Tags, by = "locus")
 ColToRemove <- c("locusNumber.x", "locusNumber.y")
 DataSet <- DataSet[, !names(DataSet) %in% ColToRemove, drop = F]
 
-FinalColumnNames <- append(colnames(DataSet)[1:6], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
+FinalColumnNames <- append(colnames(DataSet)[1:7], c("NucleotidePAO1Locus", "NucleotidePAO1ID", "ProteinPAO1Locus", "ProteinPAO1ID"))
 
 colnames(DataSet) <- FinalColumnNames
 ```
@@ -113,7 +113,7 @@ split = data.frame(cutree(hclust(dist(mat, method = "maximum")), h=2))
 ```{r}
 InCellTextSize = 9
 RowLabelTextCell = 8
-ColumnLabelText = 8
+ColumnLabelText = 8.25
 ColTitleSize = 10
 RowTitleSize = 11
   
@@ -125,7 +125,7 @@ LegendName = "    Gene \nExpression\n"
 HeatmapTest <- Heatmap(
         matrix = mat, 
         cluster_rows = color_branches(as.dendrogram(hclust(dist(mat, method = "canberra")), method = "complete"), k = 2),
-        row_split = 2,
+        # row_split = 2,
         # row_gap = unit(1.2, 'mm'),
         border = FALSE, 
         
@@ -138,8 +138,9 @@ HeatmapTest <- Heatmap(
         
         right_annotation = rowAnnotation(
         Col1 = anno_text(DataSet$locus, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell)), 
+        Col6 = anno_text(DataSet$SuspectedProtein, location = unit(0.75, "mm"), gp = gpar(fontsize = RowLabelTextCell, fontface = 3)),
         #Col4 = anno_text(DataSet$NucleotidePAO1Locus, location = unit(1, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
-      	Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
+      	# Col3 = anno_text(DataSet$ProteinPAO1Locus, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         #Col2 = anno_text(DataSet$gene, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
        Col5 = anno_text(DataSet$NucleotidePAO1ID, location = unit(0, "mm"), gp = gpar(fontsize = RowLabelTextCell)),
         gap = unit(6, "mm")),
