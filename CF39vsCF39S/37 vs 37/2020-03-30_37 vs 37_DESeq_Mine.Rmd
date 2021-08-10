@@ -91,7 +91,7 @@ dim(TestSet)
 # How to rename table columns, using the ColNamesLable string Variable
 colnames(TestSet) <- ColNameLables 
 
-head(TestSet)#TODO Should you have a DGEList going into a DESeq analysis?
+head(TestSet)
 ```
 
 This should leave a read count table in the correct format to be read into a R list called a DGEList. 
@@ -138,11 +138,9 @@ We want to keep rows that have 10 or more reads in them
 keep <- rowSums(counts(DataDFDESeq)) >= 10
 DataDFDESeq <- DataDFDESeq[keep,]
 
-#DataDFDESeq$condition <- factor(DataDFDESeq$condition, levels = c(TreatmentNames)) #TODO Do I need this step?
-
 DataDFDESeq$condition <- relevel(DataDFDESeq$condition, ref = "CF39C")
 
-DataDFDESeq$condition <- droplevels(DataDFDESeq$condition) #TODO Do I need this?
+DataDFDESeq$condition <- droplevels(DataDFDESeq$condition) 
 
 ```
 
