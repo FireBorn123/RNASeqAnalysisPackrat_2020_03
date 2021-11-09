@@ -5,8 +5,6 @@ date: "25/03/2020"
 output: html_document
 ---
 
-
-
 #Clear Global Environment
 ```{r}
 remove(list = ls())
@@ -14,8 +12,8 @@ remove(list = ls())
 
 #Set Lib install location for Desktop
 ```{r, eval = TRUE}
-.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
-PackRatLibLocations <- file.path("L:/RStudios/RPackRat_2019_04_DESEQLibs")
+.libPaths(c("I:/RStudios/RPackRatLibLocations", "I:/RStudios/RPackRat_2019_04_DESEQLibs"))
+PackRatLibLocations <- file.path("I:/RStudios/RPackRat_2019_04_DESEQLibs")
 ```
 
 #Set Lib install location for Laptop
@@ -38,6 +36,7 @@ library("yaml", lib.loc = PackRatLibLocations)
 ```{r}
 #Installation of CRAN Packages
 install.packages("devtools")
+install.packages("yaml")
 library(devtools)
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("foreach", version = "1.4.4", upgrade = "never"))
 withr::with_libpaths(new = PackRatLibLocations, code = install_version("bit64", version = "0.9-7", upgrade = "never"))

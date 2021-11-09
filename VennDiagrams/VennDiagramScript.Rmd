@@ -1,0 +1,65 @@
+---
+title: "VennDiagramScript"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Clear Global Environment (Code Block 2)
+```{r}
+remove(list = ls())
+```
+
+## Set Library Directory (Code Block 3)
+```{r}
+#PC Path
+.libPaths(c("I:/RStudios/RPackRatLibLocations", "I:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
+#Set working directory
+#PC Path
+setwd("D:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/VennDiagrams")
+``` 
+
+## Load Libraries (Code Block 4)
+```{r}
+library("VennDiagram")
+```
+
+## Venn Diagram info (Code Block 5)
+```{r}
+Number1 = 493
+Title1 = "29vs37"
+Number2 = 378
+Title2 = "28vs37"
+CrossNumber = 60
+FilePathToSaveTo = "./VennDiagram-WurtzelVs29-37.png"
+
+```
+
+
+## Generate Venn Diagram (Code Block 6)
+```{r}
+dev.off()
+
+grid.newpage()
+
+VD1 <- draw.pairwise.venn(area1 = Number1, 
+                          area2 = Number2,
+                          cross.area = CrossNumber, 
+                          category = c(Title1, Title2), 
+                          lty = rep("blank", 2), 
+                          fill = c("light blue", "pink"), 
+                          alpha = rep(0.5, 2), 
+                          cat.pos = c(-135, 135), 
+                          cat.dist = rep(0.05, 2))
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD1), top="CF39 29vs37 vs Wurtzel datasets")
+
+dev.copy(png, filename = FilePathToSaveTo, width=8, height=8, units="in",res=600)
+dev.off()
+```
+

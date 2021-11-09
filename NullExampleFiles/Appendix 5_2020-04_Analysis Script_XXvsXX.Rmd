@@ -1,0 +1,101 @@
+---
+title: "Isolating DE Genes from Expression analysis"
+author: "Trevor Randall"
+date: "February 27, 2019"
+output:
+  word_document: default
+  html_document: default
+---
+## Set up initial Rmd Environment (Code Block 1)
+```{r setup, include=TRUE, eval=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Clear Global Environment (Code Block 2)
+```{r}
+remove(list = ls())
+```
+
+## Libraries to install  (Code Block 3)
+```{r, eval=FALSE}
+install.packages('VennDiagram')
+```
+
+## Accessing the Library and loading the read count table into the local environment (Code Block 4)
+
+```{r, include=TRUE, eval=FALSE}
+#Set working directory
+#PC Path
+#Set Library Directory
+.libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+#Set working directory
+#PC Path
+setwd("<Directory location>/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/25 vs 25/DE_Reg_Genes_Analysis/")
+```
+
+## Libraries to open (Code Block 5)
+```{r, eval=FALSE}
+library(readr)
+#library(VennDiagram)
+```
+
+## Ensure column namin  g of imported dataset is correct(Code Block 6)
+```{r, eval=FALSE}
+ColNameLablesDESeqTrevor <- c("locus", "baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj")
+```
+
+
+## Opening Datasets (Code Block 7)
+
+```{r, eval=FALSE}
+TDESeq_25vs25 <- read_delim("../My DESEQ Script/DESeqNew_results.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+colnames(TDESeq_25vs25) <- ColNameLablesDESeqTrevor
+
+LocusGeneAssociation <- read_csv("../../SourceRNASEQCountsForDESEQ/Locus_GeneNamesAndPredictedFunction.csv")
+```
+
+## Add Gene info to the files based on locus (Code Block 8)
+```{r, eval=FALSE}
+TDESeq_25vs25 <-merge(TDESeq_25vs25, LocusGeneAssociation, by ="locus")
+```
+
+## Paramemers for Screening (Code Block 9)
+```{r, eval=FALSE}
+#PAdjusted value to subset from data set
+PAdjValue = 0.05
+
+#False discovery rate to screen for
+FDRValue = 0.05
+```
+
+#Data Screening (Code Block 10)
+
+Obtain DE Genes from the DESeq data that was parsed using the algorithem that Trevor set up:
+
+```{r, eval=FALSE}
+TDESEQ25vs25 <- TDESeq_25vs25[((TDESeq_25vs25$padj <PAdjValue)& (!is.na(TDESeq_25vs25$padj))), ]
+
+write.table(x = TDESEQ25vs25, file="./TDESEQ25vs25.txt", sep="\t", row.names=FALSE, col.names=colnames(TDESEQ25vs25), quote=F)
+```
+
+
+## Session Info  (Code Block 11)
+```{r, eval=FALSE}
+sink(file = "./SessionInfo.txt")
+sessionInfo()
+sink(file = NULL)
+```
+
+
+## Citations (Code Block 12)
+```{r, eval=FALSE}
+sink(file = "./SessionCitations.txt")
+
+citation("VennDiagram")
+citation("readr")
+citation("gridExtra")
+
+sink(file = NULL)
+```
+
+Venn Diagram Page: https://rstudio-pubs-static.s3.amazonaws.com/13301_6641d73cfac741a59c0a851feb99e98b.html?fbclid=IwAR1h2pL9V1tblTk4z9E1JX9udrel2ILE_WKKp2M8Kjd6HB0ZC6wwctFu61Y
