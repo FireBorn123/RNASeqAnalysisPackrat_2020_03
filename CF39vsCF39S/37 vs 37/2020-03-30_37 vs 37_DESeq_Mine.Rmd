@@ -37,12 +37,16 @@ Since the remainder of the analysis does not differ in between Linux and Windows
 
 ```{r, include=TRUE}
 #Set Library Directory
+#PC Path
 .libPaths(c("L:/RStudios/RPackRatLibLocations", "L:/RStudios/RPackRat_2019_04_DESEQLibs"))
+
 #Set working directory
 #PC Path
 setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAnlyPkrat_2020_03/CF39vsCF39S/37 vs 37/My DESEQ Script")
 #Laptop Path
-#setwd("C:/Users/Trevor/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeq Expression Profiles 1/RNASeq Data Files Analysis/CF39 vs CF39S/37 vs 37/My DESEQ Script")
+#Set Library Directory
+#.libPaths(c(""))
+#setwd("")
 #sink(file = "./RSessionRawRun.txt") 
 ```
 
@@ -75,7 +79,7 @@ head(TestSet)
 str(TestSet) 
 ```
 
-Note that the data object Exp37_vs_37 has 7 columns. Further note that the first of the 7 columns is the locus. The locus contains 4 repeating loci before moving on to the next set of loci (so four PA14_00010, then four PA14_00020, ect...). This is not good as it indicates that the 4 designations for each of the tags was lost when the read counts table were extracted. However, because Xpression does not reorder the counts, this is easily fixed, as the 4 missing tags to differentiate each locus are "Intergenic_sense", "Intergenic_antisense", "Genic_sense", and "Genic_antisense". These were re added in excel prior to exporting as a csv file to get the source file for R.
+Note that the data object Exp37_vs_37 has 7 columns. Further note that the first of the 7 columns is the locus. Further note that the first of the 7 columns is the locus. The locus contains 4 repeating loci, appended with a designation to indicate if the loci is for the "Intergenic_sense", "Intergenic_antisense", "Genic_sense", and "Genic_antisense". These were re-added in excel prior to exporting as a csv file to get the source file for R.
 
 Finally, remove the unwanted Designation column, and replace the column numbers with the locus names. 
 
@@ -97,7 +101,7 @@ head(TestSet)
 This should leave a read count table in the correct format to be read into a R list called a DGEList. 
 
 ```{r}
-# A method of using equal length names to name the groups in the treatment. Essentially the colnames command is extracting the pre-exsisting column names from the Shocked_silver dataframe, substring is extracting the first 2 characters of the column names, as specified by the characters inclusive between character 1 and 2 (so SC and ST), and finally these characters are being turned into factors.
+# A method of using equal length names to name the groups in the treatment. Essentially the colnames command is extracting the pre-exsisting column names from the TestSet dataframe, substring is extracting the first 2 characters of the column names, as specified by the characters inclusive between character 1 and 2 (so SC and ST), and finally these characters are being turned into factors.
 TreatmentNames <- substring(colnames(x = TestSet), first =  1, last = 5)
 TreatmentNames <- unique(TreatmentNames)
 Treatment <- factor(substring(colnames(x = TestSet), first =  1, last = 5)) 

@@ -1,0 +1,80 @@
+---
+title: "VennDiagramRNASeqComparisons"
+output: word_document
+---
+
+## RMarkDown Setup
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+## 
+```{r, include=TRUE}
+#Set Library Directory
+#PC Path
+.libPaths(c("I:/RStudios/RPackRatLibLocations", "I:/RStudios/RPackRat_2019_04_DESEQLibs"))
+```
+
+## 
+```{r}
+library("colorfulVennPlot")
+library("RColorBrewer")
+library("VennDiagram")
+```
+
+## Define Colors
+```{r}
+#display.brewer.pal(11, 'RdBu')
+myCol <- brewer.pal(8, "RdBu")
+```
+
+
+```{r}
+VD1 <- draw.pairwise.venn(area1 = 41, 
+                          area2 = 68,
+                          cross.area = 38, 
+                          category = c("TEdgeR25vs25", "JDESEQ25vs25"), 
+                          lty = rep("blank", 2), 
+                          fill = c("#56B4E9", "#0173B3", "#019E73"), alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+```
+
+
+## 
+```{r}
+ComparisonData <- c(41, 68, 38)
+
+plot.new()
+plotVenn2d(ComparisonData, radius=resizeCircles(41, 68, 38), labels = c('A', 'B'),
+Colors = c("#56B4E9", "#0173B3", "#019E73"),
+Title = NULL, shrink = 1, rot=0, resizePlot = 0.5,
+reverseLabelOrdering=TRUE, 
+grid.text("X",0.25,0.5),
+grid.text("Y",0.75,0.5))
+```
+
+```{r}
+plot.new()
+plotVenn2d(rep("",3), radius=resizeCircles(41, 68, 38), Title=NULL,
+resizePlot=0.7, labels=c("",""))
+```
+
+
+```{r}
+venn.plot <- draw.pairwise.venn(100, 70, 30, c("First", "Second"));
+VD1 <- draw.pairwise.venn(area1 = 100, area2 = 70,cross.area = 30, category = c("TEdgeR25vs25", "JDESEQ25vs25"), lty = rep("blank", 2), fill = myCol , alpha = rep(0.5, 2), cat.pos = c(-135, 135), cat.dist = rep(0.05, 2))
+
+
+#Add a title
+require(gridExtra)
+grid.arrange(gTree(children=VD1), top="TEdgeR to JDESeq VennDiagram 25 vs 25")
+
+dev.copy(png, filename = './VennTEdgeRvsJDESeq.png', width=8, height=8, units="in",res=300)
+dev.off()
+
+```
+

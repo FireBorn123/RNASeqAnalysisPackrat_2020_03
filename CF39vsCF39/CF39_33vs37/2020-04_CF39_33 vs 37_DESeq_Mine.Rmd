@@ -79,7 +79,7 @@ head(TestSet)
 str(TestSet) 
 ```
 
-Note that the data object Exp33_vs_37 has 7 columns. Further note that the first of the 7 columns is the locus. The locus contains 4 repeating loci before moving on to the next set of loci (so four PA14_00010, then four PA14_00020, ect...). This is not good as it indicates that the 4 designations for each of the tags was lost when the read counts table were extracted. However, because Xpression does not reorder the counts, this is easily fixed, as the 4 missing tags to differentiate each locus are "Intergenic_sense", "Intergenic_antisense", "Genic_sense", and "Genic_antisense". These were re added in excel prior to exporting as a csv file to get the source file for R.
+Note that the data object Exp33_vs_37 has 7 columns. Further note that the first of the 7 columns is the locus. Further note that the first of the 7 columns is the locus. The locus contains 4 repeating loci, appended with a designation to indicate if the loci is for the "Intergenic_sense", "Intergenic_antisense", "Genic_sense", and "Genic_antisense". These were re-added in excel prior to exporting as a csv file to get the source file for R.
 
 Finally, remove the unwanted Designation column, and replace the column numbers with the locus names. 
 

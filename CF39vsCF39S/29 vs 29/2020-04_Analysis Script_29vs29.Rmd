@@ -9,7 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Libraries to install:
+#Clear Global Environment
+```{r}
+remove(list = ls())
+```
+
+#Libraries to install:
 ```{r, eval=FALSE}
 install.packages('VennDiagram')
 ```
@@ -37,7 +42,7 @@ setwd("E:/Dropbox/Dropbox/Harrison Lab - Trevor Randall/RNASeq Analysis/RNASeqAn
 Libraries to open:
 ```{r}
 library(readr)
-library(VennDiagram)
+#library(VennDiagram)
 ```
 
 
